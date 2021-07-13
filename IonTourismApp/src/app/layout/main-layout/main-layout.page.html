@@ -1,0 +1,20 @@
+<ion-split-pane contentId="content" when="false" > 
+  <ion-menu menuId="menuContent" #splitpane type="push" (ionWillOpen)="openMenu()" (ionWillClose)="closeMenu()">
+    <ion-header>
+      <ion-toolbar >
+        <ion-title>Menú</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="content-menu">
+      <ion-list class="ion-no-padding" lines="none" >
+        <ion-menu-toggle autoHide="false" *ngFor="let p of appPages"> 
+          <ion-item routerDirection="root" [routerLink]="[p.url]" color="blueberry">
+            <ion-icon class="icon-menu" src={{p.icon}}></ion-icon>
+            <ion-label class="font-menu" style="padding-left: 10px;"> {{ p.title }}</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet main id="content" #content></ion-router-outlet>
+</ion-split-pane>
