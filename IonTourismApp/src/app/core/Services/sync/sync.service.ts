@@ -42,7 +42,7 @@ export interface IPrinpalResponse {
   providedIn: 'root'
 })
 export class SyncService {
-  protected urlApi:string;
+  protected urlApi:string ="https://testappservicewf.azurewebsites.net/api/tourism";
   constructor(private http:WebapiService, private general:GeneralService,private zone: NgZone) { }
 
   private errorHandler = <T>(
@@ -58,12 +58,13 @@ export class SyncService {
     throw e;
   };
 
-  async subirData() {
-    const dataSync = "";
+  async descargarDatos() {
+    const dataSync = '{"StoredParams":[{"Name":"IdMunicipio", "Value":"1"}],"StoredProcedureName":"ObtenerSitiosTuristicos"}';
     const sasUriBlob = this.urlApi + ""; 
     let header = new HttpHeaders();
     header = header.set("Content-Type", "application/json; charset=UTF-8"); 
-    return this.http.post<IResponse>(
+    debugger;
+    let data = await this.http.post<any>(
       {
         Uri:sasUriBlob,
         controller:"",
@@ -72,6 +73,7 @@ export class SyncService {
         headers:header
       }
     )
+    return data;
 }
 
 }
