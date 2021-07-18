@@ -14,10 +14,12 @@ const routes: Routes = [
   {
     path: 'maps',
     loadChildren: () => import('./modules/maps/maps.module').then( m => m.MapsPageModule)
-  },  {
+  },
+  {
     path: 'maps',
     loadChildren: () => import('./modules/maps/maps.module').then( m => m.MapsPageModule)
   },
+
 
 
 

@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { MapsPageRoutingModule } from './maps-routing.module';
 
 import { MapsPage } from './maps.page';
+import { IonAccordionModule } from 'src/app/shared/customcontrols/ion-accordion/ion-accordion.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MapsPageRoutingModule
+    MapsPageRoutingModule,
+    IonAccordionModule
   ],
   declarations: [MapsPage]
 })

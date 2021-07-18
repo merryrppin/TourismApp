@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>
-      Home
+      Sitios Turísticos
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -12,5 +12,10 @@
 <ion-content padding>
   <div id="map_canvas"></div>
   <div id="banner_info">
+    <ion-list *ngFor="let item of datosMunicipio">
+      <ion-accordion title="{{item.NombreMunicipio}}" openIcon="arrow-up-outline" closeIcon="arrow-down" classTitle="border-header" class="accordion">
+          <div class="ion-text-justify">{{item.ValorESP}}</div>
+      </ion-accordion>
+    </ion-list>
   </div>
 </ion-content>
