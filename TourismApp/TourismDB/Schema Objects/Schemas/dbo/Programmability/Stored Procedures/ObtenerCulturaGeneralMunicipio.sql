@@ -6,4 +6,5 @@ AS BEGIN
 	INNER JOIN tblMunicipioCulturaGeneral AS mcg ON m.IdMunicipio = mcg.IdMunicipio
 	INNER JOIN tblCulturaGeneral AS cg ON mcg.IdCulturaGeneral = cg.IdCulturaGeneral
 	WHERE m.IdMunicipio = @IdMunicipio
+	ORDER BY mcg.Orden
 END

@@ -26,3 +26,12 @@ INSERT INTO [dbo].[tblMunicipioCulturaGeneral]([IdMunicipioCulturaGeneral], [IdM
 Su nombre se dio en honor al prócer de la patria Atanasio Girardot; no se le quiso bautizar Girardot pues en el departamento de Cundinamarca ya existía un municipio con ese nombre, por lo que se modificó a Girardota. También se llamó Hato Grande en alguna época con la esperanza de formar una ciudad.', 1);
 
 SET IDENTITY_INSERT [dbo].[tblMunicipioCulturaGeneral] OFF
+
+--[dbo].[tblInfoSitioTuristico]
+SET IDENTITY_INSERT [dbo].[tblInfoSitioTuristico] ON
+
+INSERT INTO [dbo].[tblInfoSitioTuristico]([IdInfoSitioTuristico],[IdSitioTuristico],[DescripcionESP],[Imagen]) VALUES
+(1, 1, 'Es un espacio propicio para el encuentro e interacción   cultural, religiosa y social.​​', NULL),
+(2, 3, 'Comfama, contribuye al desarrollo social y a la generación de oportunidades para la población afiliada a través de programas y alianzas sociales, con la prestación directa de servicios sociales al trabajador afiliado y a su familia a precios inferiores al costo del mercado.', 'https://www.girardota.gov.co/MiMunicipio/PublishingImages/Paginas/Sitios-de-Interes/parque%20principal%20de%20girardota.jpg');
+
+SET IDENTITY_INSERT [dbo].[tblInfoSitioTuristico] OFF
