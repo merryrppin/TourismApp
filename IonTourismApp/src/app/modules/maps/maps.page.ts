@@ -12,8 +12,6 @@ import {
 
 import { Platform, LoadingController, ToastController } from "@ionic/angular";
 import { SitioTuristico } from "src/app/data/models/sitioturistico";
-import {SyncService} from '../../core/Services/sync/sync.service';
-import { GeneralService } from "src/app/core/Services/General/general.service";
 
 @Component({
   selector: 'app-maps',
@@ -30,9 +28,7 @@ export class MapsPage {
   constructor(
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    private platform: Platform,
-    private syncService: SyncService,
-    private generalService:GeneralService
+    private platform: Platform
   ) { }
 
   async ngOnInit() {
@@ -40,8 +36,8 @@ export class MapsPage {
     // deviceready, debemos detectar cuando este evento se
     // ejecute para en ese momento cargar nuestro mapa sin problema alguno
     await this.platform.ready();
-    await this.loadMap();
-
+    this.loadMap();
+    await this.localizar();
   }
 
   loadMap() {
@@ -66,15 +62,16 @@ export class MapsPage {
 
   async localizar() {
     // Limpiamos todos los elementos de nuestro mapa
-    const loading = await this.generalService.presentLoading({
-      message: "por favor espere...",
-      keyboardClose: false
-    })
     this.map.clear();
-  
+    this.loading = await this.loadingCtrl.create({
+      message: "Espera por favor..."
+    });
+
+    // Presentamos el componente creado en el paso anterior
+    await this.loading.present();
+
     this.cargarSitiosTuristicos(this.map);
     this.loading.dismiss();
-
   }
 
   // Función que muestra un Toast en la parte inferior
@@ -89,10 +86,9 @@ export class MapsPage {
     toast.present();
   }
 
-  async cargarSitiosTuristicos(map:GoogleMap) {
-    let data = await this.syncService.descargarDatos();
-    let jsonRows :string = data.value[0].rows;
-    let jsonColumns :string = data.value[0].columns;    
+  cargarSitiosTuristicos(map:GoogleMap) {
+    let jsonRows :string = '[["1","Parque Principal Girardota","1","6.374737600","-75.449925400"],["2","Placa Deportiva Barrio el Paraíso","1","6.374281500","-75.446336800"],["3","Comfama Girardota","1","6.377480300","-75.450563900"]]';
+    let jsonColumns :string = '["IdSitioTuristico","NombreSitioTuristicoESP","IdMunicipio","Latitud","Longitud"]';    
     let aSitiosTuristicos:SitioTuristico[] = this.arrayMap(jsonRows, jsonColumns);
     this.dibujarSitiosTuristicos(map, aSitiosTuristicos);
   }
