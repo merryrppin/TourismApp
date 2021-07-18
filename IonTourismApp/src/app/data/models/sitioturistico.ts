@@ -8,4 +8,7 @@ export class SitioTuristico{
 	Altitud :number;
 	IconoMarcador :string;
 	Activo :boolean;
+	DescripcionESP :string;
+	DescripcionENG :string;
+	Imagen :string;
 }
