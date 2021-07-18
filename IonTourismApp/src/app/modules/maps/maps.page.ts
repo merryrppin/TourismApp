@@ -12,6 +12,8 @@ import {
 
 import { Platform, LoadingController, ToastController } from "@ionic/angular";
 import { SitioTuristico } from "src/app/data/models/sitioturistico";
+import {SyncService} from '../../core/Services/sync/sync.service';
+import { GeneralService } from "src/app/core/Services/General/general.service";
 
 @Component({
   selector: 'app-maps',
@@ -28,7 +30,9 @@ export class MapsPage {
   constructor(
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    private platform: Platform
+    private platform: Platform,
+    private syncService: SyncService,
+    private generalService:GeneralService
   ) { }
 
   async ngOnInit() {
@@ -37,6 +41,7 @@ export class MapsPage {
     // ejecute para en ese momento cargar nuestro mapa sin problema alguno
     await this.platform.ready();
     await this.loadMap();
+
   }
 
   loadMap() {
@@ -61,61 +66,15 @@ export class MapsPage {
 
   async localizar() {
     // Limpiamos todos los elementos de nuestro mapa
+    const loading = await this.generalService.presentLoading({
+      message: "por favor espere...",
+      keyboardClose: false
+    })
     this.map.clear();
-
-    // Creamos un componente de Ionic para mostrar un mensaje
-    // mientras obtenemos esperamos que termine el proceso de
-    // obtener la ubicación
-    this.loading = await this.loadingCtrl.create({
-      message: "Espera por favor..."
-    });
-
-    // Presentamos el componente creado en el paso anterior
-    await this.loading.present();
-
-    
-
+  
     this.cargarSitiosTuristicos(this.map);
     this.loading.dismiss();
-    // Ejecutamos el método getMyLocation de nuestra propiedad de clase
-    // map
-    // para obtener nuestra ubicación actual
-    // this.map
-    //   .getMyLocation()
-    //   .then((location: MyLocation) => {
-    //     // Una vez obtenida la ubicación cerramos el mensaje de diálogo
-    //     this.loading.dismiss();
 
-    //     // Movemos la camara a nuestra ubicación con una pequeña animación
-    //     this.map.animateCamera({
-    //       target: location.latLng,
-    //       zoom: 17,
-    //       tilt: 30
-    //     });
-
-    //     // Agregamos un nuevo marcador
-    //     let marker: Marker = this.map.addMarkerSync({
-    //       title: "Estoy aquí!",
-    //       snippet: "This plugin is awesome!",
-    //       position: location.latLng,
-    //       animation: GoogleMapsAnimation.BOUNCE
-    //     });
-
-    //     // Mostramos un InfoWindow
-    //     marker.showInfoWindow();
-
-    //     // Podemos configurar un evento que se ejecute cuando
-    //     // se haya dado clic
-    //     marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-    //       this.showToast("clicked!");
-    //     });
-    //   })
-    //   .catch(error => {
-    //     // En caso de que haya un problema en obtener la
-    //     // ubicación
-    //     this.loading.dismiss();
-    //     this.showToast(error.error_message);
-    //   });
   }
 
   // Función que muestra un Toast en la parte inferior
@@ -130,9 +89,10 @@ export class MapsPage {
     toast.present();
   }
 
-  cargarSitiosTuristicos(map:GoogleMap) {
-    let jsonRows :string = '[["1","Parque Principal Girardota","1","6.374737600","-75.449925400"],["2","Placa Deportiva Barrio el Paraíso","1","6.374281500","-75.446336800"],["3","Comfama Girardota","1","6.377480300","-75.450563900"]]';
-    let jsonColumns :string = '["IdSitioTuristico","NombreSitioTuristicoESP","IdMunicipio","Latitud","Longitud"]';    
+  async cargarSitiosTuristicos(map:GoogleMap) {
+    let data = await this.syncService.descargarDatos();
+    let jsonRows :string = data.value[0].rows;
+    let jsonColumns :string = data.value[0].columns;    
     let aSitiosTuristicos:SitioTuristico[] = this.arrayMap(jsonRows, jsonColumns);
     this.dibujarSitiosTuristicos(map, aSitiosTuristicos);
   }
