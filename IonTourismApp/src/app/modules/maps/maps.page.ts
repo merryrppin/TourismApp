@@ -36,7 +36,8 @@ export class MapsPage {
     // deviceready, debemos detectar cuando este evento se
     // ejecute para en ese momento cargar nuestro mapa sin problema alguno
     await this.platform.ready();
-    await this.loadMap();
+    this.loadMap();
+    await this.localizar();
   }
 
   loadMap() {
@@ -62,10 +63,6 @@ export class MapsPage {
   async localizar() {
     // Limpiamos todos los elementos de nuestro mapa
     this.map.clear();
-
-    // Creamos un componente de Ionic para mostrar un mensaje
-    // mientras obtenemos esperamos que termine el proceso de
-    // obtener la ubicación
     this.loading = await this.loadingCtrl.create({
       message: "Espera por favor..."
     });
@@ -73,49 +70,8 @@ export class MapsPage {
     // Presentamos el componente creado en el paso anterior
     await this.loading.present();
 
-    
-
     this.cargarSitiosTuristicos(this.map);
     this.loading.dismiss();
-    // Ejecutamos el método getMyLocation de nuestra propiedad de clase
-    // map
-    // para obtener nuestra ubicación actual
-    // this.map
-    //   .getMyLocation()
-    //   .then((location: MyLocation) => {
-    //     // Una vez obtenida la ubicación cerramos el mensaje de diálogo
-    //     this.loading.dismiss();
-
-    //     // Movemos la camara a nuestra ubicación con una pequeña animación
-    //     this.map.animateCamera({
-    //       target: location.latLng,
-    //       zoom: 17,
-    //       tilt: 30
-    //     });
-
-    //     // Agregamos un nuevo marcador
-    //     let marker: Marker = this.map.addMarkerSync({
-    //       title: "Estoy aquí!",
-    //       snippet: "This plugin is awesome!",
-    //       position: location.latLng,
-    //       animation: GoogleMapsAnimation.BOUNCE
-    //     });
-
-    //     // Mostramos un InfoWindow
-    //     marker.showInfoWindow();
-
-    //     // Podemos configurar un evento que se ejecute cuando
-    //     // se haya dado clic
-    //     marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-    //       this.showToast("clicked!");
-    //     });
-    //   })
-    //   .catch(error => {
-    //     // En caso de que haya un problema en obtener la
-    //     // ubicación
-    //     this.loading.dismiss();
-    //     this.showToast(error.error_message);
-    //   });
   }
 
   // Función que muestra un Toast en la parte inferior
