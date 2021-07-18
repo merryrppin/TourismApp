@@ -1,9 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  ToastController,
-  Platform,
-  LoadingController
-} from '@ionic/angular';
+import { Component, OnInit } from "@angular/core";
+
 import {
   GoogleMaps,
   GoogleMap,
@@ -11,7 +7,10 @@ import {
   Marker,
   GoogleMapsAnimation,
   MyLocation
-} from '@ionic-native/google-maps';
+} from "@ionic-native/google-maps";
+
+import { Platform, LoadingController, ToastController } from "@ionic/angular";
+
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.page.html',
@@ -21,80 +20,103 @@ export class MapsPage {
 
   map: GoogleMap;
   loading: any;
+
   constructor(
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    private platform: Platform) { }
+    private platform: Platform
+  ) {}
 
   async ngOnInit() {
-    // Since ngOnInit() is executed before `deviceready` event,
-    // you have to wait the event.
+    // Debido ngOnInit() inicia antes del evento
+    // deviceready, debemos detectar cuando este evento se
+    // ejecute para en ese momento cargar nuestro mapa sin problema alguno
     await this.platform.ready();
     await this.loadMap();
   }
 
   loadMap() {
-    this.map = GoogleMaps.create('map_canvas', {
+    // Esta función inicializa la propiedad de clase
+    // map
+    // que va a contener el control de nuestro mapa de google
+
+    // Para crear nuestro mapa debemos enviar como parametros
+    // el id del div en donde se va a renderizar el mapa (paso anterior)
+    // y las opciones que configuran nuestro mapa
+    this.map = GoogleMaps.create("map_canvas", {
       camera: {
         target: {
-          lat: 6.315291299999999,
-          lng: -75.5656328
+          lat: -2.1537488,
+          lng: -79.8883037
         },
         zoom: 18,
         tilt: 30
       }
     });
-
   }
 
-  async onButtonClick() {
-    debugger;
+  async localizar() {
+    // Limpiamos todos los elementos de nuestro mapa
     this.map.clear();
 
+    // Creamos un componente de Ionic para mostrar un mensaje
+    // mientras obtenemos esperamos que termine el proceso de
+    // obtener la ubicación
     this.loading = await this.loadingCtrl.create({
-      message: 'Please wait...'
+      message: "Espera por favor..."
     });
+
+    // Presentamos el componente creado en el paso anterior
     await this.loading.present();
 
-    // Get the location of you
-    this.map.getMyLocation().then((location: MyLocation) => {
-      this.loading.dismiss();
-      console.log(JSON.stringify(location, null ,2));
+    // Ejecutamos el método getMyLocation de nuestra propiedad de clase
+    // map
+    // para obtener nuestra ubicación actual
+    this.map
+      .getMyLocation()
+      .then((location: MyLocation) => {
+        // Una vez obtenida la ubicación cerramos el mensaje de diálogo
+        this.loading.dismiss();
 
-      // Move the map camera to the location with animation
-      this.map.animateCamera({
-        target: location.latLng,
-        zoom: 17,
-        tilt: 30
+        // Movemos la camara a nuestra ubicación con una pequeña animación
+        this.map.animateCamera({
+          target: location.latLng,
+          zoom: 17,
+          tilt: 30
+        });
+
+        // Agregamos un nuevo marcador
+        let marker: Marker = this.map.addMarkerSync({
+          title: "Estoy aquí!",
+          snippet: "This plugin is awesome!",
+          position: location.latLng,
+          animation: GoogleMapsAnimation.BOUNCE
+        });
+
+        // Mostramos un InfoWindow
+        marker.showInfoWindow();
+
+        // Podemos configurar un evento que se ejecute cuando
+        // se haya dado clic
+        marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+          this.showToast("clicked!");
+        });
+      })
+      .catch(error => {
+        // En caso de que haya un problema en obtener la
+        // ubicación
+        this.loading.dismiss();
+        this.showToast(error.error_message);
       });
-
-      // add a marker
-      let marker: Marker = this.map.addMarkerSync({
-        title: '@ionic-native/google-maps plugin!',
-        snippet: 'This plugin is awesome!',
-        position: location.latLng,
-        animation: GoogleMapsAnimation.BOUNCE
-      });
-
-      // show the infoWindow
-      marker.showInfoWindow();
-
-      // If clicked it, display the alert
-      marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-        this.showToast('clicked!');
-      });
-    })
-    .catch(err => {
-      this.loading.dismiss();
-      this.showToast(err.error_message);
-    });
   }
 
-  async showToast(message: string) {
+  // Función que muestra un Toast en la parte inferior
+  // de la pantalla
+  async showToast(mensaje) {
     let toast = await this.toastCtrl.create({
-      message: message,
+      message: mensaje,
       duration: 2000,
-      position: 'middle'
+      position: "bottom"
     });
 
     toast.present();
