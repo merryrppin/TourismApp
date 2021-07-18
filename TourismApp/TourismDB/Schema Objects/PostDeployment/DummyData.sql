@@ -15,3 +15,14 @@ INSERT INTO [dbo].[tblSitioTuristico]([IdSitioTuristico], [NombreSitioTuristicoE
 (3, 'Comfama Girardota', 1, 6.3774803, -75.4505639, 1);
 
 SET IDENTITY_INSERT [dbo].[tblSitioTuristico] OFF
+
+
+--[dbo].[tblMunicipioCulturaGeneral]
+SET IDENTITY_INSERT [dbo].[tblMunicipioCulturaGeneral] ON
+
+INSERT INTO [dbo].[tblMunicipioCulturaGeneral]([IdMunicipioCulturaGeneral], [IdMunicipio], [IdCulturaGeneral], [Imagen], [ValorESP], [Orden]) VALUES
+(1, 1, 1, NULL, 'Girardota es un municipio de Colombia, ubicado en el Valle de Aburrá del departamento de Antioquia. Limita por el norte con los municipios de San Pedro de los Milagros y Donmatías, por el este con los municipios de Barbosa y San Vicente, por el sur con los municipios de Barbosa y Guarne, y por el oeste con el municipio de Copacabana.
+
+Su nombre se dio en honor al prócer de la patria Atanasio Girardot; no se le quiso bautizar Girardot pues en el departamento de Cundinamarca ya existía un municipio con ese nombre, por lo que se modificó a Girardota. También se llamó Hato Grande en alguna época con la esperanza de formar una ciudad.', 1);
+
+SET IDENTITY_INSERT [dbo].[tblMunicipioCulturaGeneral] OFF

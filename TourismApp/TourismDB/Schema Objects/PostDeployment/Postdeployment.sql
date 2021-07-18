@@ -24,3 +24,12 @@ INSERT INTO [dbo].[tblRangoEdad]([IdRangoEdad], [NombreRangoEdadESP], [EdadInici
 (6, 'Todas las edades', 0, 125, 6);
 
 SET IDENTITY_INSERT [dbo].[tblRangoEdad] OFF
+
+--[dbo].[tblCulturaGeneral]
+SET IDENTITY_INSERT [dbo].[tblCulturaGeneral] ON
+
+INSERT INTO [dbo].[tblCulturaGeneral]([IdCulturaGeneral], [NombreCulturaGeneralESP], [Codigo], [Activo]) VALUES
+(1, 'Descripción nombre', 'NDESC', 1),
+(2, 'Historia', 'HIST', 1);
+
+SET IDENTITY_INSERT [dbo].[tblCulturaGeneral] OFF
