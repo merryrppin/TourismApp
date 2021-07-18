@@ -61,6 +61,8 @@
     <Folder Include="Schema Objects\Schemas\dbo" />
     <Folder Include="Schema Objects\Schemas\dbo\Tables" />
     <Folder Include="Schema Objects\PostDeployment" />
+    <Folder Include="Schema Objects\Schemas\dbo\Programmability" />
+    <Folder Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblMunicipio.sql" />
@@ -75,6 +77,7 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblSitioTuristicoRangoEdad.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblEtiqueta.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblSitioturisticoEtiqueta.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\ObtenerMunicipios.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Objects\PostDeployment\Postdeployment.sql" />
