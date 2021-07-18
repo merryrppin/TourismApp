@@ -3,7 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Net;
+using TourismApp.Services.Entities.GoogleDirectionsEntities;
 using TourismApp.Services.Entities.StoredEntities;
 using static TourismApp.Services.Enums.Enums;
 
@@ -13,13 +16,14 @@ namespace TourismApp.Services
     {
         private readonly IConfiguration Configuration;
         private ManageExceptions ManageExceptions;
-        private string ConnString;
+        private string ConnString, GoogleApiKey;
 
         public AdministrationService(IConfiguration configuration)
         {
             Configuration = configuration;
             ManageExceptions = new ManageExceptions();
             ConnString = Configuration.GetValue<string>("ConnectionStrings:ConnString");
+            GoogleApiKey = Configuration.GetValue<string>("ConnectionStrings:GoogleApiKey");
         }
 
         #region Stored Procedure
@@ -88,6 +92,21 @@ namespace TourismApp.Services
                 default:
                     return SqlDbType.VarChar;
             }
+        }
+        #endregion
+
+        #region Google directions
+        public string GetDirection(OriginDirection originDirection)
+        {
+            string urlGoogleDirections = @"https://maps.googleapis.com/maps/api/directions/json?origin={0}&destination={1}&key={2}";
+            string urlGoogleDirectionsFormatted = string.Format(urlGoogleDirections, originDirection.Origin, originDirection.Destination, GoogleApiKey);
+            WebRequest request = WebRequest.Create(urlGoogleDirectionsFormatted);
+            WebResponse response = request.GetResponse();
+            Stream data = response.GetResponseStream();
+            StreamReader reader = new StreamReader(data);
+            string responseFromServer = reader.ReadToEnd();
+            response.Close();
+            return responseFromServer;
         }
         #endregion
     }
