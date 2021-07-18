@@ -12,9 +12,10 @@ import {
 
 import { Platform, LoadingController, ToastController } from "@ionic/angular";
 import { SitioTuristico } from "src/app/data/models/sitioturistico";
-import { CulturaGenralMunicipio } from "src/app/data/models/culturageneralmunicipio";
+import { CulturaGeneralMunicipio } from "src/app/data/models/culturageneralmunicipio";
 import { GeneralService } from "src/app/core/Services/General/general.service";
 import { SyncService } from "src/app/core/Services/sync/sync.service";
+import { DataAcordeon } from '../../data/models/dataacordeon';
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.page.html',
@@ -26,7 +27,8 @@ export class MapsPage {
   idMunicipio: number = 1; //Girardota
   map: GoogleMap;
   loading: any;
-  datosMunicipio:CulturaGenralMunicipio[];
+  datosMunicipio:CulturaGeneralMunicipio[];
+  datosSitioTuristico:DataAcordeon[];
 
   constructor(
     public loadingCtrl: LoadingController,
@@ -47,9 +49,15 @@ export class MapsPage {
     
   }
   async cargarDatosMunicipio(){
-    debugger;
     let data = await this.syncService.descargarDatosMunicipio();
     this.datosMunicipio = this.arrayMap(data.value[0].rows,data.value[0].columns);
+
+    let objData : DataAcordeon = new DataAcordeon();
+    objData.Nombre = this.datosMunicipio[0].NombreMunicipio;
+    objData.ValorESP = this.datosMunicipio[0].ValorESP;
+    objData.Imagen = this.datosMunicipio[0].Imagen;
+    objData.Orden = this.datosMunicipio[0].Orden;
+    this.datosSitioTuristico = [objData]
   }
 
   loadMap() {
@@ -81,8 +89,8 @@ export class MapsPage {
     this.map.clear();
     // Presentamos el componente creado en el paso anterior
     loading.present();
-    this.cargarSitiosTuristicos(this.map);
-    loading.dismiss();
+    await this.cargarSitiosTuristicos();
+    loading.dismiss();   
   }
 
   // Función que muestra un Toast en la parte inferior
@@ -97,12 +105,12 @@ export class MapsPage {
     toast.present();
   }
 
-  async cargarSitiosTuristicos(map:GoogleMap) {
+  async cargarSitiosTuristicos() {
     let data = await this.syncService.descargarDatos()
     let jsonRows  = data.value[0].rows;
     let jsonColumns  = data.value[0].columns;    
     let aSitiosTuristicos:SitioTuristico[] = this.arrayMap(jsonRows, jsonColumns);
-    this.dibujarSitiosTuristicos(map, aSitiosTuristicos);
+    await this.dibujarSitiosTuristicos(aSitiosTuristicos, this);
   }
 
   arrayMap(aRows: any[], aColumns: any[]):any[] {
@@ -117,15 +125,31 @@ export class MapsPage {
     return aData;
   }
 
-  dibujarSitiosTuristicos(map:GoogleMap, SitiosTuristicos: SitioTuristico[]) {
+  onMarkerClick(params: any) {
+    this.datosSitioTuristico = []
+    let marker: Marker = <Marker>params[1];
+    let SitioTuristico: SitioTuristico = marker.get('SitioTuristico');
+
+    let objData : DataAcordeon = new DataAcordeon();
+    objData.Nombre = SitioTuristico.NombreSitioTuristicoESP;
+    objData.ValorESP = SitioTuristico.DescripcionESP;
+    objData.Imagen = SitioTuristico.Imagen;
+    objData.Orden = 0;
+    this.datosSitioTuristico = [objData]
+  }
+
+  dibujarSitiosTuristicos(SitiosTuristicos: SitioTuristico[], objThis:any) {
     SitiosTuristicos.forEach(function (objSitioTuristico) {
       let latLng: LatLng = new LatLng(objSitioTuristico.Latitud, objSitioTuristico.Longitud);
 
-      let marker: Marker = map.addMarkerSync({
+      let marker: Marker = objThis.map.addMarkerSync({
         title: objSitioTuristico.NombreSitioTuristicoESP,
         position: latLng,
-        animation: GoogleMapsAnimation.BOUNCE
+        animation: GoogleMapsAnimation.BOUNCE,
+        SitioTuristico : objSitioTuristico
       });
+      
+      marker.on(GoogleMapsEvent.MARKER_CLICK,).subscribe(objThis.onMarkerClick);
     });
   }
 }

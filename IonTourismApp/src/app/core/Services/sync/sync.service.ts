@@ -63,7 +63,6 @@ export class SyncService {
     const sasUriBlob = this.urlApi + ""; 
     let header = new HttpHeaders();
     header = header.set("Content-Type", "application/json; charset=UTF-8"); 
-    debugger;
     let data = await this.http.post<any>(
       {
         Uri:sasUriBlob,
@@ -81,7 +80,6 @@ async descargarDatosMunicipio() {
   const sasUriBlob = this.urlApi + ""; 
   let header = new HttpHeaders();
   header = header.set("Content-Type", "application/json; charset=UTF-8"); 
-  debugger;
   let data = await this.http.post<any>(
     {
       Uri:sasUriBlob,

@@ -1,4 +1,4 @@
-export class CulturaGenralMunicipio{
+export class CulturaGeneralMunicipio{
     IdMunicipio :number;
 	NombreMunicipio :string;
 	ValorESP :string;
