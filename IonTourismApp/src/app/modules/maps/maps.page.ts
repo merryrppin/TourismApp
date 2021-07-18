@@ -12,7 +12,9 @@ import {
 
 import { Platform, LoadingController, ToastController } from "@ionic/angular";
 import { SitioTuristico } from "src/app/data/models/sitioturistico";
-
+import { CulturaGenralMunicipio } from "src/app/data/models/culturageneralmunicipio";
+import { GeneralService } from "src/app/core/Services/General/general.service";
+import { SyncService } from "src/app/core/Services/sync/sync.service";
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.page.html',
@@ -24,11 +26,14 @@ export class MapsPage {
   idMunicipio: number = 1; //Girardota
   map: GoogleMap;
   loading: any;
+  datosMunicipio:CulturaGenralMunicipio[];
 
   constructor(
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    private platform: Platform
+    private platform: Platform,
+    private generalService:GeneralService,
+    private syncService:SyncService
   ) { }
 
   async ngOnInit() {
@@ -38,6 +43,13 @@ export class MapsPage {
     await this.platform.ready();
     this.loadMap();
     await this.localizar();
+    await this.cargarDatosMunicipio();
+    
+  }
+  async cargarDatosMunicipio(){
+    debugger;
+    let data = await this.syncService.descargarDatosMunicipio();
+    this.datosMunicipio = this.arrayMap(data.value[0].rows,data.value[0].columns);
   }
 
   loadMap() {
@@ -61,17 +73,16 @@ export class MapsPage {
   }
 
   async localizar() {
+    const loading = await this.generalService.presentLoading({
+      message: "por favor espere...",
+      keyboardClose: false
+    });
     // Limpiamos todos los elementos de nuestro mapa
     this.map.clear();
-    this.loading = await this.loadingCtrl.create({
-      message: "Espera por favor..."
-    });
-
     // Presentamos el componente creado en el paso anterior
-    await this.loading.present();
-
+    loading.present();
     this.cargarSitiosTuristicos(this.map);
-    this.loading.dismiss();
+    loading.dismiss();
   }
 
   // Función que muestra un Toast en la parte inferior
@@ -86,16 +97,15 @@ export class MapsPage {
     toast.present();
   }
 
-  cargarSitiosTuristicos(map:GoogleMap) {
-    let jsonRows :string = '[["1","Parque Principal Girardota","1","6.374737600","-75.449925400"],["2","Placa Deportiva Barrio el Paraíso","1","6.374281500","-75.446336800"],["3","Comfama Girardota","1","6.377480300","-75.450563900"]]';
-    let jsonColumns :string = '["IdSitioTuristico","NombreSitioTuristicoESP","IdMunicipio","Latitud","Longitud"]';    
+  async cargarSitiosTuristicos(map:GoogleMap) {
+    let data = await this.syncService.descargarDatos()
+    let jsonRows  = data.value[0].rows;
+    let jsonColumns  = data.value[0].columns;    
     let aSitiosTuristicos:SitioTuristico[] = this.arrayMap(jsonRows, jsonColumns);
     this.dibujarSitiosTuristicos(map, aSitiosTuristicos);
   }
 
-  arrayMap(jsonRows: string, jsonColumns: string):any[] {
-    let aColumns: string[] = JSON.parse(jsonColumns);
-    let aRows: string[] = JSON.parse(jsonRows);
+  arrayMap(aRows: any[], aColumns: any[]):any[] {
     let aData: object[] = [];
     aRows.forEach(function (aRows) {
       let objData = {};

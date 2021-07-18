@@ -76,4 +76,22 @@ export class SyncService {
     return data;
 }
 
+async descargarDatosMunicipio() {
+  const dataSync = '{    "StoredParams":[{"Name":"IdMunicipio", "Value":"1"}],"StoredProcedureName":"ObtenerCulturaGeneralMunicipio"}';
+  const sasUriBlob = this.urlApi + ""; 
+  let header = new HttpHeaders();
+  header = header.set("Content-Type", "application/json; charset=UTF-8"); 
+  debugger;
+  let data = await this.http.post<any>(
+    {
+      Uri:sasUriBlob,
+      controller:"",
+      action:"",
+      body:dataSync,
+      headers:header
+    }
+  )
+  return data;
+}
+
 }
