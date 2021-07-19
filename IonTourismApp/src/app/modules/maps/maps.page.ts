@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, NgZone, OnInit } from "@angular/core";
 
 import {
   GoogleMaps,
@@ -35,7 +35,8 @@ export class MapsPage {
     public toastCtrl: ToastController,
     private platform: Platform,
     private generalService:GeneralService,
-    private syncService:SyncService
+    private syncService:SyncService,
+    private zone: NgZone
   ) { }
 
   async ngOnInit() {
@@ -135,6 +136,8 @@ export class MapsPage {
         objData.Imagen = SitioTuristico.Imagen;
         objData.Orden = 0;
         objThis.datosSitioTuristico = [objData]
+
+        objThis.zone.run(() => {});
       });
     });
   }

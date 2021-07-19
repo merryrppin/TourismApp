@@ -31,7 +31,7 @@ SET IDENTITY_INSERT [dbo].[tblMunicipioCulturaGeneral] OFF
 SET IDENTITY_INSERT [dbo].[tblInfoSitioTuristico] ON
 
 INSERT INTO [dbo].[tblInfoSitioTuristico]([IdInfoSitioTuristico],[IdSitioTuristico],[DescripcionESP],[Imagen]) VALUES
-(1, 1, 'Es un espacio propicio para el encuentro e interacción   cultural, religiosa y social.​​', NULL),
+(1, 1, 'Es un espacio propicio para el encuentro e interacción cultural, religiosa y social.​​', NULL),
 (2, 3, 'Comfama, contribuye al desarrollo social y a la generación de oportunidades para la población afiliada a través de programas y alianzas sociales, con la prestación directa de servicios sociales al trabajador afiliado y a su familia a precios inferiores al costo del mercado.', 'https://www.girardota.gov.co/MiMunicipio/PublishingImages/Paginas/Sitios-de-Interes/parque%20principal%20de%20girardota.jpg');
 
 SET IDENTITY_INSERT [dbo].[tblInfoSitioTuristico] OFF
