@@ -93,18 +93,6 @@ export class MapsPage {
     loading.dismiss();   
   }
 
-  // Función que muestra un Toast en la parte inferior
-  // de la pantalla
-  async showToast(mensaje) {
-    let toast = await this.toastCtrl.create({
-      message: mensaje,
-      duration: 2000,
-      position: "bottom"
-    });
-
-    toast.present();
-  }
-
   async cargarSitiosTuristicos() {
     let data = await this.syncService.descargarDatos()
     let jsonRows  = data.value[0].rows;
@@ -125,19 +113,6 @@ export class MapsPage {
     return aData;
   }
 
-  onMarkerClick(params: any) {
-    this.datosSitioTuristico = []
-    let marker: Marker = <Marker>params[1];
-    let SitioTuristico: SitioTuristico = marker.get('SitioTuristico');
-
-    let objData : DataAcordeon = new DataAcordeon();
-    objData.Nombre = SitioTuristico.NombreSitioTuristicoESP;
-    objData.ValorESP = SitioTuristico.DescripcionESP;
-    objData.Imagen = SitioTuristico.Imagen;
-    objData.Orden = 0;
-    this.datosSitioTuristico = [objData]
-  }
-
   dibujarSitiosTuristicos(SitiosTuristicos: SitioTuristico[], objThis:any) {
     SitiosTuristicos.forEach(function (objSitioTuristico) {
       let latLng: LatLng = new LatLng(objSitioTuristico.Latitud, objSitioTuristico.Longitud);
@@ -149,7 +124,18 @@ export class MapsPage {
         SitioTuristico : objSitioTuristico
       });
       
-      marker.on(GoogleMapsEvent.MARKER_CLICK,).subscribe(objThis.onMarkerClick);
+      marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe((params: any) => {
+        objThis.datosSitioTuristico = []
+        let marker: Marker = <Marker>params[1];
+        let SitioTuristico: SitioTuristico = marker.get('SitioTuristico');
+    
+        let objData : DataAcordeon = new DataAcordeon();
+        objData.Nombre = SitioTuristico.NombreSitioTuristicoESP;
+        objData.ValorESP = SitioTuristico.DescripcionESP;
+        objData.Imagen = SitioTuristico.Imagen;
+        objData.Orden = 0;
+        objThis.datosSitioTuristico = [objData]
+      });
     });
   }
 }
