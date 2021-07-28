@@ -29,6 +29,7 @@ export class MapsPage {
   loading: any;
   datosMunicipio:CulturaGeneralMunicipio[];
   datosSitioTuristico:DataAcordeon[];
+  aSitiosTuristicos:SitioTuristico[];
 
   constructor(
     public loadingCtrl: LoadingController,
@@ -98,8 +99,11 @@ export class MapsPage {
     let data = await this.syncService.descargarDatos()
     let jsonRows  = data.value[0].rows;
     let jsonColumns  = data.value[0].columns;    
-    let aSitiosTuristicos:SitioTuristico[] = this.arrayMap(jsonRows, jsonColumns);
-    await this.dibujarSitiosTuristicos(aSitiosTuristicos, this);
+    this.aSitiosTuristicos = this.arrayMap(jsonRows, jsonColumns);
+    let aSitiosTuristicosUnique:SitioTuristico[];
+    aSitiosTuristicosUnique = this.aSitiosTuristicos.filter((objSitioTuristico, i, aSitioTuristico) => aSitioTuristico.findIndex(t => t.IdSitioTuristico === objSitioTuristico.IdSitioTuristico) === i);
+
+    await this.dibujarSitiosTuristicos(aSitiosTuristicosUnique, this);
   }
 
   arrayMap(aRows: any[], aColumns: any[]):any[] {
@@ -129,13 +133,16 @@ export class MapsPage {
         objThis.datosSitioTuristico = []
         let marker: Marker = <Marker>params[1];
         let SitioTuristico: SitioTuristico = marker.get('SitioTuristico');
-    
+        let aSitiosTuristicos = objThis.aSitiosTuristicos.filter(obj=> obj.IdSitioTuristico === SitioTuristico.IdSitioTuristico);
         let objData : DataAcordeon = new DataAcordeon();
-        objData.Nombre = SitioTuristico.NombreSitioTuristicoESP;
-        objData.ValorESP = SitioTuristico.DescripcionESP;
-        objData.Imagen = SitioTuristico.Imagen;
-        objData.Orden = 0;
-        objThis.datosSitioTuristico = [objData]
+        let pr = aSitiosTuristicos.map(o=>({
+          Nombre:o.Titulo,
+          ValorESP:o.DescripcionESP,
+          Imagen:o.Imagen,
+          Orden:0
+        }))
+     
+        objThis.datosSitioTuristico = pr;
 
         objThis.zone.run(() => {});
       });
