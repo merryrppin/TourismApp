@@ -1,5 +1,5 @@
 <ion-list class="ion-no-padding">
-  <ion-list-header class="ion-no-padding">
+  <ion-list-header class="ion-no-padding styleheaderAccordion">
     <ion-item (click)="onClick()" [color]="color" [ngClass]="classTitle" [class.expanded]="_expanded" lines="none">
       <ion-label>
         <b>{{ title }}</b>
@@ -7,7 +7,7 @@
       <ion-icon [name]="expanded ? openIcon : closeIcon" slot="end"></ion-icon>
     </ion-item>
   </ion-list-header>
-  <div [@itemExpandable]="expanded ? 'expandable' : 'unexpansive'">
-    <ng-content #expandable></ng-content>
+  <div [@itemExpandable]="expanded ? 'expandable' : 'unexpansive'" class="styleAccordion">
+    <ng-content #expandable ></ng-content>
   </div>
 </ion-list>

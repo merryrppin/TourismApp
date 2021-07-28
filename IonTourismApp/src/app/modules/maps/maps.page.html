@@ -14,7 +14,7 @@
   <div id="banner_info">
     
     <ion-list *ngFor="let item of datosSitioTuristico">
-      <ion-accordion title="{{item.Nombre}}" openIcon="arrow-up-outline" closeIcon="arrow-down" classTitle="border-header" class="accordion">
+      <ion-accordion title="{{item.Nombre}}" openIcon="remove-circle" closeIcon="add-circle" classTitle="border-header" class="accordion">
           <div class="ion-text-justify">{{item.ValorESP}}</div>
       </ion-accordion>
     </ion-list>

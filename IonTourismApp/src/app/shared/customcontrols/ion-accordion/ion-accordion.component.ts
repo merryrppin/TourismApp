@@ -40,8 +40,8 @@ export class IonAccordionComponent implements OnInit {
   }
 
   @Input() title: string = "";
-  @Input() openIcon: string = "arrow-dropup";
-  @Input() closeIcon: string = "arrow-dropdown";
+  @Input() openIcon: string = "add-circle";
+  @Input() closeIcon: string = "remove-circle";
   @Input() color: string = undefined;
   @Input() classTitle: string = "";
   @Output() ionChange = new EventEmitter<boolean>();
