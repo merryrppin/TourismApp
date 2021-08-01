@@ -7,7 +7,8 @@ import {
   Marker,
   GoogleMapsAnimation,
   MyLocation,
-  LatLng
+  LatLng,
+  MarkerOptions
 } from "@ionic-native/google-maps";
 
 import { Platform, LoadingController, ToastController } from "@ionic/angular";
@@ -121,13 +122,16 @@ export class MapsPage {
   dibujarSitiosTuristicos(SitiosTuristicos: SitioTuristico[], objThis:any) {
     SitiosTuristicos.forEach(function (objSitioTuristico) {
       let latLng: LatLng = new LatLng(objSitioTuristico.Latitud, objSitioTuristico.Longitud);
-
-      let marker: Marker = objThis.map.addMarkerSync({
+      
+      let markerOptions: MarkerOptions = {
         title: objSitioTuristico.NombreSitioTuristicoESP,
         position: latLng,
         animation: GoogleMapsAnimation.BOUNCE,
-        SitioTuristico : objSitioTuristico
-      });
+        SitioTuristico : objSitioTuristico,
+        icon: objSitioTuristico.IconoMarcador
+      };
+
+      let marker: Marker = objThis.map.addMarkerSync(markerOptions);
       
       marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe((params: any) => {
         objThis.datosSitioTuristico = []
@@ -139,7 +143,7 @@ export class MapsPage {
           Nombre:o.Titulo,
           ValorESP:o.DescripcionESP,
           Imagen:o.Imagen,
-          Orden:0
+          Orden:o.Orden
         }))
      
         objThis.datosSitioTuristico = pr;
