@@ -31,7 +31,7 @@ export class MapsPage {
   datosMunicipio:CulturaGeneralMunicipio[];
   datosSitioTuristico:DataAcordeon[];
   aSitiosTuristicos:SitioTuristico[];
-
+  initialMapLoad:boolean=false;
   constructor(
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
@@ -41,15 +41,33 @@ export class MapsPage {
     private zone: NgZone
   ) { }
 
+  async ngAfterViewInit(){
+    await this.platform.ready();
+    this.loadMap();
+    await this.localizar();
+    await this.cargarDatosMunicipio(); 
+  }
   async ngOnInit() {
     // Debido ngOnInit() inicia antes del evento
     // deviceready, debemos detectar cuando este evento se
     // ejecute para en ese momento cargar nuestro mapa sin problema alguno
-    await this.platform.ready();
-    this.loadMap();
-    await this.localizar();
-    await this.cargarDatosMunicipio();
-    
+  }
+  ionViewWillEnter(){
+    if (!this.initialMapLoad) {
+      this.map.setDiv('map');
+      this.map.setVisible(true);
+      setTimeout(()=>{
+        // hack to fix occasionally disappearing map
+        this.map.setDiv('map');
+      }, 1000);      
+    } else {
+      this.initialMapLoad = false;
+    }
+  }
+  ionViewWillLeave() {
+    // unset div & visibility on exit
+    this.map.setVisible(false);
+    this.map.setDiv(null);
   }
   async cargarDatosMunicipio(){
     let data = await this.syncService.descargarDatosMunicipio();

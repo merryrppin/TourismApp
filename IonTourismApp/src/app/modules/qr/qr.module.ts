@@ -4,10 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { MapsPageRoutingModule } from './maps-routing.module';
+import { QrPageRoutingModule } from './qr-routing.module';
 
-import { MapsPage } from './maps.page';
-import { IonAccordionModule } from 'src/app/shared/customcontrols/ion-accordion/ion-accordion.module';
+import { QrPage } from './qr.page';
 import {IonHeaderPageModule} from 'src/app/shared/CustomControls/ion-header/ion-header.module';
 
 @NgModule({
@@ -15,10 +14,9 @@ import {IonHeaderPageModule} from 'src/app/shared/CustomControls/ion-header/ion-
     CommonModule,
     FormsModule,
     IonicModule,
-    MapsPageRoutingModule,
-    IonAccordionModule,
+    QrPageRoutingModule,
     IonHeaderPageModule
   ],
-  declarations: [MapsPage]
+  declarations: [QrPage]
 })
-export class MapsPageModule {}
+export class QrPageModule {}
