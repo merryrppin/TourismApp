@@ -8,7 +8,9 @@ import {
   GoogleMapsAnimation,
   MyLocation,
   LatLng,
-  MarkerOptions
+  MarkerOptions,
+  Polyline,
+  PolylineOptions
 } from "@ionic-native/google-maps";
 
 import { Platform, LoadingController, ToastController } from "@ionic/angular";
@@ -37,6 +39,7 @@ export class MapsPage {
   datosSitioTuristico:DataAcordeon[];
   aSitiosTuristicos:SitioTuristico[];
   initialMapLoad:boolean=false;
+  aSitiosTuristicosUnique:SitioTuristico[];
 
   markerUser: Marker;
 
@@ -155,10 +158,9 @@ export class MapsPage {
     let jsonRows  = data.value[0].rows;
     let jsonColumns  = data.value[0].columns;    
     this.aSitiosTuristicos = this.arrayMap(jsonRows, jsonColumns);
-    let aSitiosTuristicosUnique:SitioTuristico[];
-    aSitiosTuristicosUnique = this.aSitiosTuristicos.filter((objSitioTuristico, i, aSitioTuristico) => aSitioTuristico.findIndex(t => t.IdSitioTuristico === objSitioTuristico.IdSitioTuristico) === i);
+    this.aSitiosTuristicosUnique = this.aSitiosTuristicos.filter((objSitioTuristico, i, aSitioTuristico) => aSitioTuristico.findIndex(t => t.IdSitioTuristico === objSitioTuristico.IdSitioTuristico) === i);
 
-    await this.dibujarSitiosTuristicos(aSitiosTuristicosUnique, this);
+    await this.dibujarSitiosTuristicos(this);
   }
 
   arrayMap(aRows: any[], aColumns: any[]):any[] {
@@ -173,8 +175,8 @@ export class MapsPage {
     return aData;
   }
 
-  dibujarSitiosTuristicos(SitiosTuristicos: SitioTuristico[], objThis:any) {
-    SitiosTuristicos.forEach(function (objSitioTuristico) {
+  dibujarSitiosTuristicos(objThis:any) {
+    this.aSitiosTuristicosUnique.forEach(function (objSitioTuristico) {
       let latLng: LatLng = new LatLng(objSitioTuristico.Latitud, objSitioTuristico.Longitud);
   
       let markerOptions: MarkerOptions = {
@@ -216,7 +218,6 @@ export class MapsPage {
     }, (response, status) => {
       if (status === 'OK') {
         this.drawRoute(response, objThis);
-        // this.directionsDisplay.setDirections(response);
       } else {
         window.alert('Directions request failed due to ' + status);
       }
@@ -225,57 +226,38 @@ export class MapsPage {
 
   drawRoute(route: any, objThis: any){
     this.map.clear();
+    this.dibujarSitiosTuristicos(this);
+    let coordinates: LatLng[] = [];
     let origin: LatLng;
     let destination: LatLng;
     let routePoints: any[]= route.routes[0].legs[0].steps;
     routePoints.forEach(function (objRoutePoint) {
-      
-
       let aPath: any[] = objRoutePoint.path;
-      origin = new LatLng(aPath[0].lat(), aPath[0].lng());
       aPath.forEach(function(objPath, index){
-        //if(index !== 0){
-          destination = new LatLng(objPath.lat(), objPath.lng());
-          objThis.drawLineMap(origin, destination, objThis);
-          origin = new LatLng(objPath.lat(), objPath.lng());
-        //}
+        destination = new LatLng(objPath.lat(), objPath.lng());
+        coordinates.push(new LatLng(destination.lat, destination.lng));
       });
 
     });
+    objThis.drawLineMap(coordinates, objThis);
   }
 
-  drawLineMap(origin: LatLng, destination: LatLng, objThis: any){
-    let points = [
-      {
-        lat: origin.lat,
-        lng: origin.lng
-      },
-      {
-        lat: destination.lat,
-        lng: destination.lng,
-      }
-    ];
-    
-    objThis.map.addPolyline({
-      points: points,
-      'color' : '#1e315a',
-      'width': 10,
-      'geodesic': true
-  });
+  drawLineMap(coordinates: LatLng[], objThis: any){
+    let optionsPolyline: PolylineOptions = {
+      points: coordinates,
+      color: '#1e315a'
+    };
+    this.map.addPolyline(optionsPolyline);
   }
 
   
 
   getPosition(latLng: LatLng){
-    //HACIENDO USO DE LA VARIABLE GEOLOCATION PROPIA DEL PLUGIN NATIVO DE IONIC USAREMOS EL METODO GETCURRENTPOSITION, METODO
-    // QUE NOS DEVUELVE NUESTRA POSICIÓN ACTUAL
     this.geolocation.getCurrentPosition()
     .then(data => {
       let destinationDirection : string = latLng.lat+', '+latLng.lng;
       let originDirection : string = data.coords.latitude+', '+data.coords.longitude;
       this.calculateAndDisplayRoute(originDirection, destinationDirection);
-      //UNA VEZ OBTENIDA NUESTRA POSICIÓN RETORNAMOS LA DATA OBTENIDA  
-      // return data;
     })
     .catch(error =>{
       console.log(error);
