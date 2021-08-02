@@ -17,12 +17,17 @@ import { CulturaGeneralMunicipio } from "src/app/data/models/culturageneralmunic
 import { GeneralService } from "src/app/core/Services/General/general.service";
 import { SyncService } from "src/app/core/Services/sync/sync.service";
 import { DataAcordeon } from '../../data/models/dataacordeon';
+import { Geolocation as Geoc, Geoposition } from '@ionic-native/geolocation/ngx';
+declare var google;
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.page.html',
   styleUrls: ['./maps.page.scss'],
 })
 export class MapsPage {
+
+  directionsService = new google.maps.DirectionsService;
+  directionsDisplay = new google.maps.DirectionsRenderer;
 
   idioma: string = "ESP"; //TEST 
   idMunicipio: number = 1; //Girardota
@@ -32,14 +37,18 @@ export class MapsPage {
   datosSitioTuristico:DataAcordeon[];
   aSitiosTuristicos:SitioTuristico[];
 
+  markerUser: Marker;
+
   constructor(
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     private platform: Platform,
     private generalService:GeneralService,
     private syncService:SyncService,
-    private zone: NgZone
-  ) { }
+    private zone: NgZone,
+    private geolocation: Geoc
+  ) { 
+  }
 
   async ngOnInit() {
     // Debido ngOnInit() inicia antes del evento
@@ -81,6 +90,32 @@ export class MapsPage {
         tilt: 30
       }
     });
+    this.initiliazeCurrentPosition();
+  }
+
+  initiliazeCurrentPosition(){
+      this.geolocation.getCurrentPosition().then((resp) => {
+      let latLng: LatLng = new LatLng(resp.coords.latitude, resp.coords.longitude);
+  
+      let markerOptions: MarkerOptions = {
+        position: latLng,
+        animation: GoogleMapsAnimation.BOUNCE,
+        icon: "https://webflowers-wmalpha-rf.azurewebsites.net/Images/user.png"
+      };
+
+      this.markerUser = this.map.addMarkerSync(markerOptions);
+     }).catch((error) => {
+       console.log('Error getting location', error);
+     });
+     
+     let watch = this.geolocation.watchPosition();
+     watch.subscribe((data: any) => {
+      let latLng: LatLng = new LatLng(data.coords.latitude, data.coords.longitude);
+      this.markerUser.setPosition(latLng);
+      // data can be a set of coordinates, or an error (if an error occurred).
+      // data.coords.latitude
+      // data.coords.longitude
+     });
   }
 
   async localizar() {
@@ -122,7 +157,7 @@ export class MapsPage {
   dibujarSitiosTuristicos(SitiosTuristicos: SitioTuristico[], objThis:any) {
     SitiosTuristicos.forEach(function (objSitioTuristico) {
       let latLng: LatLng = new LatLng(objSitioTuristico.Latitud, objSitioTuristico.Longitud);
-      
+  
       let markerOptions: MarkerOptions = {
         title: objSitioTuristico.NombreSitioTuristicoESP,
         position: latLng,
@@ -147,9 +182,84 @@ export class MapsPage {
         }))
      
         objThis.datosSitioTuristico = pr;
-
+        objThis.getPosition(marker.get('position'));
         objThis.zone.run(() => {});
       });
     });
+  }
+
+  calculateAndDisplayRoute(originDirection: string, destinationDirection: string) {
+    let objThis = this;
+    this.directionsService.route({
+      origin: originDirection,
+      destination: destinationDirection,
+      travelMode: 'DRIVING'
+    }, (response, status) => {
+      if (status === 'OK') {
+        this.drawRoute(response, objThis);
+        // this.directionsDisplay.setDirections(response);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+  }
+
+  drawRoute(route: any, objThis: any){
+    this.map.clear();
+    let origin: LatLng;
+    let destination: LatLng;
+    let routePoints: any[]= route.routes[0].legs[0].steps;
+    routePoints.forEach(function (objRoutePoint) {
+      
+
+      let aPath: any[] = objRoutePoint.path;
+      origin = new LatLng(aPath[0].lat(), aPath[0].lng());
+      aPath.forEach(function(objPath, index){
+        //if(index !== 0){
+          destination = new LatLng(objPath.lat(), objPath.lng());
+          objThis.drawLineMap(origin, destination, objThis);
+          origin = new LatLng(objPath.lat(), objPath.lng());
+        //}
+      });
+
+    });
+  }
+
+  drawLineMap(origin: LatLng, destination: LatLng, objThis: any){
+    let points = [
+      {
+        lat: origin.lat,
+        lng: origin.lng
+      },
+      {
+        lat: destination.lat,
+        lng: destination.lng,
+      }
+    ];
+    
+    objThis.map.addPolyline({
+      points: points,
+      'color' : '#1e315a',
+      'width': 10,
+      'geodesic': true
+  });
+  }
+
+  
+
+  getPosition(latLng: LatLng){
+    //HACIENDO USO DE LA VARIABLE GEOLOCATION PROPIA DEL PLUGIN NATIVO DE IONIC USAREMOS EL METODO GETCURRENTPOSITION, METODO
+    // QUE NOS DEVUELVE NUESTRA POSICIÓN ACTUAL
+    this.geolocation.getCurrentPosition()
+    .then(data => {
+      let destinationDirection : string = latLng.lat+', '+latLng.lng;
+      let originDirection : string = data.coords.latitude+', '+data.coords.longitude;
+      this.calculateAndDisplayRoute(originDirection, destinationDirection);
+      //UNA VEZ OBTENIDA NUESTRA POSICIÓN RETORNAMOS LA DATA OBTENIDA  
+      // return data;
+    })
+    .catch(error =>{
+      console.log(error);
+    })
   }
 }
