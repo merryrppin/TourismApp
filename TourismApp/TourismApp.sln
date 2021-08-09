@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TourismApp", "TourismApp\To
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TourismDB", "TourismDB\TourismDB.sqlproj", "{1A1C845D-59F6-44EB-8AB4-EAB9CE042D63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourismWeb", "TourismWeb\TourismWeb.csproj", "{D66905B7-4E40-45AC-BDFB-8FD3A7F11589}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{1A1C845D-59F6-44EB-8AB4-EAB9CE042D63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A1C845D-59F6-44EB-8AB4-EAB9CE042D63}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1A1C845D-59F6-44EB-8AB4-EAB9CE042D63}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{D66905B7-4E40-45AC-BDFB-8FD3A7F11589}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D66905B7-4E40-45AC-BDFB-8FD3A7F11589}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D66905B7-4E40-45AC-BDFB-8FD3A7F11589}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D66905B7-4E40-45AC-BDFB-8FD3A7F11589}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
