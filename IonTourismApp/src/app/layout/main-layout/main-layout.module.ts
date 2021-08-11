@@ -12,7 +12,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes:Routes =[
   {
     path: "",
-    redirectTo: "/_mainLayout/maps",
+    redirectTo: "/_mainLayout/index",
     pathMatch:"full"
   },
   {
@@ -21,8 +21,8 @@ const routes:Routes =[
     children:[
       { path: "", redirectTo:"/_mainLayout/maps", pathMatch:"full"},  
       { path: "maps", loadChildren: () => import('src/app/modules/maps/maps.module').then( m => m.MapsPageModule)},
-      { path: 'qr', loadChildren: () => import('src/app/modules/qr/qr.module').then( m => m.QrPageModule)
-      } 
+      { path: 'qr', loadChildren: () => import('src/app/modules/qr/qr.module').then( m => m.QrPageModule)} ,
+      {path: 'index',loadChildren: () => import('src/app/modules/index/index.module').then( m => m.IndexPageModule) }
     ]
   }
 ]

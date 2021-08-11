@@ -7,8 +7,9 @@ import { Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/cor
 })
 export class MainLayoutPage implements OnInit {
   appPages = [
-    { title: ' Girardota', url: '/_mainLayout/maps', icon: '/assets/images/marcacion.svg' },
-    { title: ' Escanear QR', url: '/_mainLayout/qr', icon: 'qr-scanner' },
+    { title: ' Inicio', url: '/_mainLayout/index', icon: 'home' },
+    { title: ' Girardota', url: '/_mainLayout/maps', icon: 'map' },
+    { title: ' Escanear QR', url: '/_mainLayout/qr', icon: 'barcode' },
   ]
 
   @ViewChild("content") content: ElementRef

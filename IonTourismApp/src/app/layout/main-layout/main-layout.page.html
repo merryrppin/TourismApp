@@ -9,7 +9,7 @@
       <ion-list class="ion-no-padding" lines="none" >
         <ion-menu-toggle autoHide="false" *ngFor="let p of appPages"> 
           <ion-item routerDirection="root" [routerLink]="[p.url]" color="blueberry">
-            <ion-icon name="qr-scanner"></ion-icon>
+            <ion-icon name="{{p.icon}}"></ion-icon>
             <ion-label class="font-menu" style="padding-left: 10px;"> {{ p.title }}</ion-label>
           </ion-item>
         </ion-menu-toggle>

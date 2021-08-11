@@ -23,6 +23,10 @@ const routes: Routes = [
   },  {
     path: 'qr',
     loadChildren: () => import('./modules/qr/qr.module').then( m => m.QrPageModule)
+  },
+  {
+    path: 'index',
+    loadChildren: () => import('./modules/index/index.module').then( m => m.IndexPageModule)
   }
 
 
