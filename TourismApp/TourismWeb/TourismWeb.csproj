@@ -67,6 +67,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\app.js" />
+    <Content Include="app\config.js" />
+    <Content Include="app\directives.js" />
+    <Content Include="app\interceptors.js" />
+    <Content Include="app\modules\general\error\404.html" />
+    <Content Include="app\modules\general\error\errorCtrl.js" />
+    <Content Include="app\modules\general\generalCtrl.js" />
+    <Content Include="app\modules\general\generalSvc.js" />
+    <Content Include="app\modules\general\home\Home.html" />
+    <Content Include="app\modules\general\home\homeCtrl.js" />
+    <Content Include="app\modules\general\login\loginCtrl.js" />
+    <Content Include="app\modules\general\sessionSvc.js" />
     <Content Include="Icons\mailbox.png" />
     <Content Include="Icons\placeholder.png" />
     <Content Include="Icons\push-pin.png" />
@@ -141,6 +153,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
