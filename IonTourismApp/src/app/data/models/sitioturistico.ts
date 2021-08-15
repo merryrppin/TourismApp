@@ -12,5 +12,6 @@ export class SitioTuristico{
 	DescripcionENG :string;
 	Imagen :string;
 	Titulo:string;
+	TituloENG:string;
 	Orden:number;
 }

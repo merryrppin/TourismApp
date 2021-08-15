@@ -26,6 +26,7 @@ interface IOptionAlertConfirm {
   providedIn: 'root'
 })
 export class GeneralService {
+  public currentLanguage: string = "ESP";//TODO: Valor por defecto, al cambiar se debe mantener en el storage de la aplicación y cargar desde ahí
   private _toast: HTMLIonToastElement;
   readonly limitToast: number = 3000;
   private messageSource = new BehaviorSubject("Marcacion SEF");
@@ -227,5 +228,12 @@ export class GeneralService {
     });
   }
 
+  getCurrentLanguage(): string {
+    return this.currentLanguage;
+  }
+
+  setCurrentLanguage(language:string) {
+    this.currentLanguage = language;
+  }
 
 }

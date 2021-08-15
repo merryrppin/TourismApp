@@ -42,6 +42,7 @@ export class MapsPage {
   aSitiosTuristicosUnique:SitioTuristico[];
 
   markerUser: Marker;
+  currentMarkerPosition: LatLng = null;
 
   constructor(
     public loadingCtrl: LoadingController,
@@ -52,6 +53,14 @@ export class MapsPage {
     private zone: NgZone,
     private geolocation: Geoc
   ) { 
+  }
+
+  getCurrentLanguage():string{
+    return this.generalService.getCurrentLanguage();
+  }
+
+  getCurrentLanguageESP():boolean{
+    return this.generalService.getCurrentLanguage() == "ESP";
   }
 
   async ngAfterViewInit(){
@@ -88,7 +97,9 @@ export class MapsPage {
 
     let objData : DataAcordeon = new DataAcordeon();
     objData.Nombre = this.datosMunicipio[0].NombreMunicipio;
+    objData.NombreENG = this.datosMunicipio[0].NombreMunicipio;
     objData.ValorESP = this.datosMunicipio[0].ValorESP;
+    objData.ValorENG = this.datosMunicipio[0].ValorENG;
     objData.Imagen = this.datosMunicipio[0].Imagen;
     objData.Orden = this.datosMunicipio[0].Orden;
     this.datosSitioTuristico = [objData]
@@ -112,7 +123,6 @@ export class MapsPage {
         tilt: 30
       }
     });
-    this.initiliazeCurrentPosition();
   }
 
   initiliazeCurrentPosition(){
@@ -120,6 +130,8 @@ export class MapsPage {
       let latLng: LatLng = new LatLng(resp.coords.latitude, resp.coords.longitude);
   
       let markerOptions: MarkerOptions = {
+        clickable : false,
+        disableAutoPan: true,
         position: latLng,
         animation: GoogleMapsAnimation.BOUNCE,
         icon: "https://webflowers-wmalpha-rf.azurewebsites.net/Images/user.png"
@@ -145,11 +157,13 @@ export class MapsPage {
       message: "por favor espere...",
       keyboardClose: false
     });
+    this.currentMarkerPosition = null;
     // Limpiamos todos los elementos de nuestro mapa
     this.map.clear();
     // Presentamos el componente creado en el paso anterior
     loading.present();
     await this.cargarSitiosTuristicos();
+    this.initiliazeCurrentPosition();
     loading.dismiss();   
   }
 
@@ -197,13 +211,15 @@ export class MapsPage {
         let objData : DataAcordeon = new DataAcordeon();
         let pr = aSitiosTuristicos.map(o=>({
           Nombre:o.Titulo,
+          NombreENG:o.TituloENG,
           ValorESP:o.DescripcionESP,
+          ValorENG:o.DescripcionENG,
           Imagen:o.Imagen,
           Orden:o.Orden
         }))
      
         objThis.datosSitioTuristico = pr;
-        objThis.getPosition(marker.get('position'));
+        objThis.currentMarkerPosition = marker.get('position');
         objThis.zone.run(() => {});
       });
     });
@@ -226,6 +242,7 @@ export class MapsPage {
 
   drawRoute(route: any, objThis: any){
     this.map.clear();
+    this.initiliazeCurrentPosition();
     this.dibujarSitiosTuristicos(this);
     let coordinates: LatLng[] = [];
     let origin: LatLng;
@@ -250,7 +267,9 @@ export class MapsPage {
     this.map.addPolyline(optionsPolyline);
   }
 
-  
+  drawRouteFromMarker(){
+    this.getPosition(this.currentMarkerPosition);
+  }
 
   getPosition(latLng: LatLng){
     this.geolocation.getCurrentPosition()
