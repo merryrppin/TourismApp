@@ -1,0 +1,44 @@
+$MaxHeight: 100%;
+.h-100 {
+  height: $MaxHeight;
+  margin-top: 30px;
+}
+ion-content.background{
+    --background: url(/assets/images/bg.jpg) 0 0/100% 100% no-repeat;
+  }
+.logo {
+  width: 100%;
+  height: 140px;
+}
+
+.iconLogo{
+  width: 70px;
+  height: 40px;
+}
+.input-img {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  fill:#f5a248;
+}
+
+.login-content {
+  width: 80%;
+}
+
+
+.input-login {
+  --padding-start: 0px;
+  ion-icon {
+    margin-right: 10px;
+  }
+}
+ion-button{
+  --background: #db4a39;
+  --color: #ffffff;
+}
+.title{
+    color: #ffffff;
+}
+
+

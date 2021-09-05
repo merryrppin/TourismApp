@@ -1,0 +1,14 @@
+ion-content.background{
+    --background: url(/assets/images/bg.jpg) 0 0/100% 100% no-repeat;
+  }
+$MaxHeight: 85%;
+.h-100 {
+  height: $MaxHeight;
+  margin-top: 30px;
+}
+
+.logo {
+  width: 100%;
+  height: 140px;
+}
+
