@@ -1,0 +1,7 @@
+{
+  "name": "IonTourismApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

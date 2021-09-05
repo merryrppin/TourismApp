@@ -1,0 +1,16 @@
+{
+	"appId": "io.ionic.tourismappv2",
+	"appName": "IonTourismApp",
+	"webDir": "www",
+	"bundledWebRuntime": false,
+	"plugins": {
+		"GoogleAuth": {
+			"scopes": [
+				"profile",
+				"email"
+			],
+			"serverClientId": "498714658181-hm7iuo790nejcjpsh7t3ckds1mumnoma.apps.googleusercontent.com",
+			"forceCodeForRefreshToken": true
+		}
+	}
+}

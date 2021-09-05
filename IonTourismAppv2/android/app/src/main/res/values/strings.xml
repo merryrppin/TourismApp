@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">IonTourismApp</string>
+    <string name="title_activity_main">IonTourismApp</string>
+    <string name="package_name">io.ionic.tourismappv2</string>
+    <string name="custom_url_scheme">io.ionic.tourismappv2</string>
+    <string name="server_client_id">498714658181-hm7iuo790nejcjpsh7t3ckds1mumnoma.apps.googleusercontent.com</string>
+</resources>
