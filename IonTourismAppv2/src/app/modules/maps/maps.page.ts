@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, ElementRef, Inject, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, Input, Renderer2, ViewChild, OnInit } from '@angular/core';
 import { CapacitorGoogleMaps } from '@capacitor-community/capacitor-googlemaps-native';
 import { CulturaGeneralMunicipio } from 'src/app/data/models/culturageneralmunicipio';
 import { DataAcordeon } from 'src/app/data/models/dataacordeon';
@@ -20,17 +20,41 @@ import {
   PolylineOptions
 } from "@ionic-native/google-maps";
 import { SyncService } from 'src/app/core/sync/sync.service';
-import { Geolocation as Geoc, Geoposition } from '@ionic-native/geolocation/ngx';
+import { Platform } from '@ionic/angular';
+// import { Geolocation as Geoc, Geoposition } from '@ionic-native/geolocation/ngx';
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.page.html',
   styleUrls: ['./maps.page.scss'],
 })
-export class MapsPage {
+export class MapsPage implements OnInit{
 
   directionsService = new google.maps.DirectionsService;
   directionsDisplay = new google.maps.DirectionsRenderer;
 
+  ngOnInit(){
+    const boundingRect = this.mapView.nativeElement.getBoundingClientRect() as DOMRect;
+
+    CapacitorGoogleMaps.create({
+      width: Math.round(boundingRect.width),
+      height: Math.round(boundingRect.height),
+      x: Math.round(boundingRect.x),
+      y: Math.round(boundingRect.y),
+      latitude: 6.378543,
+      longitude: -75.4464299,
+      zoom: 15
+    });
+
+    CapacitorGoogleMaps.addListener("onMapReady", async function () {
+
+      debugger;
+      this.localizar();
+
+      CapacitorGoogleMaps.setMapType({
+        "type": "normal"
+      })
+    })
+  }
 
   @ViewChild(GoogleMapComponent) mapComponent: GoogleMapComponent;
   idioma: string = "ESP"; //TEST 
@@ -47,16 +71,18 @@ export class MapsPage {
   currentMarkerPosition: LatLng = null;
 
   @Input('apiKey') apiKey: string;
-  public map: any;
+  public map: GoogleMap;
   public markers: any[] = [];
   private mapsLoaded: boolean = false;
   private networkHandler = null;
   generalService: GeneralService;
 
-  // @ViewChild('map_canvas') mapView: ElementRef;
+  @ViewChild('map_canvas') mapView: ElementRef;
   constructor(
+    private platform: Platform,
     //private renderer: Renderer2, private element: ElementRef, @Inject(DOCUMENT) private _document
-    private syncService:SyncService, private geolocation: Geoc
+    private syncService:SyncService, 
+    // private geolocation: Geoc
   ) {
   }
 
@@ -68,24 +94,7 @@ export class MapsPage {
     return this.generalService.getCurrentLanguage();
   }
 
-  ionViewWillEnter(){
-    if (!this.initialMapLoad) {
-      this.map.setDiv('map');
-      this.map.setVisible(true);
-      setTimeout(()=>{
-        // hack to fix occasionally disappearing map
-        this.map.setDiv('map');
-      }, 1000);      
-    } else {
-      this.initialMapLoad = false;
-    }
-  }
 
-  ionViewWillLeave() {
-    // unset div & visibility on exit
-    this.map.setVisible(false);
-    this.map.setDiv(null);
-  }
 
   async cargarDatosMunicipio(){
     let data = await this.syncService.descargarDatosMunicipio();
@@ -122,33 +131,34 @@ export class MapsPage {
   }
 
   initiliazeCurrentPosition(){
-      this.geolocation.getCurrentPosition().then((resp) => {
-      let latLng: LatLng = new LatLng(resp.coords.latitude, resp.coords.longitude);
+    //   this.geolocation.getCurrentPosition().then((resp) => {
+    //   let latLng: LatLng = new LatLng(resp.coords.latitude, resp.coords.longitude);
   
-      let markerOptions: MarkerOptions = {
-        clickable : false,
-        disableAutoPan: true,
-        position: latLng,
-        animation: GoogleMapsAnimation.BOUNCE,
-        icon: "https://webflowers-wmalpha-rf.azurewebsites.net/Images/user.png"
-      };
+    //   let markerOptions: MarkerOptions = {
+    //     clickable : false,
+    //     disableAutoPan: true,
+    //     position: latLng,
+    //     animation: GoogleMapsAnimation.BOUNCE,
+    //     icon: "https://webflowers-wmalpha-rf.azurewebsites.net/Images/user.png"
+    //   };
 
-      this.markerUser = this.map.addMarkerSync(markerOptions);
-     }).catch((error) => {
-       console.log('Error getting location', error);
-     });
+    //   this.markerUser = this.map.addMarkerSync(markerOptions);
+    //  }).catch((error) => {
+    //    console.log('Error getting location', error);
+    //  });
      
-     let watch = this.geolocation.watchPosition();
-     watch.subscribe((data: any) => {
-      let latLng: LatLng = new LatLng(data.coords.latitude, data.coords.longitude);
-      this.markerUser.setPosition(latLng);
-      // data can be a set of coordinates, or an error (if an error occurred).
-      // data.coords.latitude
-      // data.coords.longitude
-     });
+    //  let watch = this.geolocation.watchPosition();
+    //  watch.subscribe((data: any) => {
+    //   let latLng: LatLng = new LatLng(data.coords.latitude, data.coords.longitude);
+    //   this.markerUser.setPosition(latLng);
+    //   // data can be a set of coordinates, or an error (if an error occurred).
+    //   // data.coords.latitude
+    //   // data.coords.longitude
+    //  });
   }
 
   async localizar() {
+    debugger;
     // const loading = await this.generalService.presentLoading({
     //   message: "por favor espere...",
     //   keyboardClose: false
@@ -164,6 +174,7 @@ export class MapsPage {
   }
 
   async cargarSitiosTuristicos() {
+    debugger;
     let data = await this.syncService.descargarDatos()
     let jsonRows  = data.value[0].rows;
     let jsonColumns  = data.value[0].columns;    
@@ -198,6 +209,16 @@ export class MapsPage {
       };
 
       let marker: Marker = objThis.map.addMarkerSync(markerOptions);
+
+      CapacitorGoogleMaps.addMarker({
+        latitude: objSitioTuristico.Latitud,
+        longitude: objSitioTuristico.Longitud,
+        title: objSitioTuristico.NombreSitioTuristicoESP,
+        // animation: GoogleMapsAnimation.BOUNCE,
+        // SitioTuristico : objSitioTuristico,
+        // icon: objSitioTuristico.IconoMarcador
+        // snippet: "Custom Snippet",
+      });
       
       marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe((params: any) => {
         objThis.datosSitioTuristico = []
@@ -268,64 +289,57 @@ export class MapsPage {
   }
 
   getPosition(latLng: LatLng){
-    this.geolocation.getCurrentPosition()
-    .then(data => {
-      let destinationDirection : string = latLng.lat+', '+latLng.lng;
-      let originDirection : string = data.coords.latitude+', '+data.coords.longitude;
-      this.calculateAndDisplayRoute(originDirection, destinationDirection);
-    })
-    .catch(error =>{
-      console.log(error);
-    })
+    // this.geolocation.getCurrentPosition()
+    // .then(data => {
+    //   let destinationDirection : string = latLng.lat+', '+latLng.lng;
+    //   let originDirection : string = data.coords.latitude+', '+data.coords.longitude;
+    //   this.calculateAndDisplayRoute(originDirection, destinationDirection);
+    // })
+    // .catch(error =>{
+    //   console.log(error);
+    // })
   }
 
   // drawRouteFromMarker() {
 
   // }
 
-  // async ionViewDidEnter() {
-  //   const boundingRect = this.mapView.nativeElement.getBoundingClientRect() as DOMRect;
+  async ionViewDidEnter() {
+//     const boundingRect = this.mapView.nativeElement.getBoundingClientRect() as DOMRect;
 
-  //   CapacitorGoogleMaps.create({
-  //     width: Math.round(boundingRect.width),
-  //     height: Math.round(boundingRect.height),
-  //     x: Math.round(boundingRect.x),
-  //     y: Math.round(boundingRect.y),
-  //     latitude: -33.86,
-  //     longitude: 151.20,
-  //     zoom: 12
-  //   })
-  //     .then(response => {
-  //       debugger;
-  //       console.log(response);
-  //     })
-  //     .catch(error => {
-  //       debugger;
-  //       console.log(error);
-  //     });
+//     CapacitorGoogleMaps.create({
+//       width: Math.round(boundingRect.width),
+//       height: Math.round(boundingRect.height),
+//       x: Math.round(boundingRect.x),
+//       y: Math.round(boundingRect.y),
+//       latitude: 6.378543,
+//       longitude: -75.4464299,
+//       zoom: 15
+//     });
 
-  //   CapacitorGoogleMaps.addListener("onMapReady", async function () {
+//     CapacitorGoogleMaps.addListener("onMapReady", async function () {
 
-  //     /*
-  //       We can do all the magic here when map is ready
-  //     */
+//       /*
+//         We can do all the magic here when map is ready
+//       */
+// debugger;
+//       this.localizar();
 
-  //     CapacitorGoogleMaps.addMarker({
-  //       latitude: -33.86,
-  //       longitude: 151.20,
-  //       title: "Custom Title",
-  //       snippet: "Custom Snippet",
-  //     });
+//       // CapacitorGoogleMaps.addMarker({
+//       //   latitude: 6.378543,
+//       //   longitude: -75.4464299,
+//       //   title: "Custom Title",
+//       //   snippet: "Custom Snippet",
+//       // });
 
-  //     CapacitorGoogleMaps.setMapType({
-  //       "type": "normal"
-  //     })
-  //   })
-  // }
+//       CapacitorGoogleMaps.setMapType({
+//         "type": "normal"
+//       })
+//     })
+  }
 
-  // ionViewDidLeave() {
-  //   debugger;
-  //   CapacitorGoogleMaps.close();
-  // }
+  ionViewDidLeave() {
+    CapacitorGoogleMaps.close();
+  }
 
 }

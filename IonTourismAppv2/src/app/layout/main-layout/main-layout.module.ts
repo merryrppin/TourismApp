@@ -18,10 +18,10 @@ const routes:Routes =[
     path: '_mainLayout',
     component: MainLayoutPage,
     children:[
-      { path: "", redirectTo:"/_mainLayout/scan-qr", pathMatch:"full"},  
-/*       { path: "maps", loadChildren: () => import('src/app/modules/maps/maps.module').then( m => m.MapsPageModule)},*/
+      { path: "", redirectTo:"/_mainLayout/maps", pathMatch:"full"},  
+      { path: "maps", loadChildren: () => import('src/app/modules/maps/maps.module').then( m => m.MapsPageModule)},
       { path: 'scan-qr', loadChildren: () => import('src/app/modules/scan-qr/scan-qr.module').then( m => m.ScanQRPageModule)} , 
-      {path: 'index',loadChildren: () => import('src/app/modules/index/index.module').then( m => m.IndexPageModule) }
+      { path: 'index',loadChildren: () => import('src/app/modules/index/index.module').then( m => m.IndexPageModule) }
     ]
   }
 ]
