@@ -8,8 +8,12 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'maps',
     pathMatch: 'full'
+  },
+  {
+    path: 'maps',
+    loadChildren: () => import('./modules/maps/maps.module').then( m => m.MapsPageModule)
   },
 ];
 
