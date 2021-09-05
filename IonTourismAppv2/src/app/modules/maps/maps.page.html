@@ -5,8 +5,8 @@
 </ion-header>
 
 <ion-content padding>
-  <google-map apiKey="AIzaSyC0lKHHDg6t9uiw9CbZj04jbFSw2z2phCk"></google-map>
-  <!-- <div id="map_canvas" #map_canvas></div> -->
+  <!-- <google-map apiKey="AIzaSyC0lKHHDg6t9uiw9CbZj04jbFSw2z2phCk"></google-map> -->
+  <div id="map_canvas" #map_canvas></div>
   <ion-fab vertical="top" horizontal="end" slot="fixed">
     <ion-fab-button [disabled]="currentMarkerPosition === null" color="success" (click)="drawRouteFromMarker()">
       <ion-icon name="map"></ion-icon>
