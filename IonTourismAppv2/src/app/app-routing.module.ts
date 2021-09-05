@@ -33,9 +33,10 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./layout/main-layout/main-layout.module').then( m => m.MainLayoutPageModule)
   },
-
-
-
+  {
+    path: 'maps',
+    loadChildren: () => import('./modules/maps/maps.module').then( m => m.MapsPageModule)
+  },
 ];
 
 @NgModule({
