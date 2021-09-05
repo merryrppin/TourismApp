@@ -348,6 +348,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+IonTourismAppv2/capacitor.config.json
 IonTourismAppv2/package-lock.json
 .gitignore
 IonTourismAppv2/android/app/src/main/assets/capacitor.config.json

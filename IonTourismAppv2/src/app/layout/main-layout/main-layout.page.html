@@ -10,7 +10,7 @@
         <ion-menu-toggle autoHide="false" *ngFor="let p of appPages"> 
           <ion-item routerDirection="root" [routerLink]="[p.url]" color="blueberry">
             <ion-img src="{{p.icon}}"></ion-img>
-            <!-- <ion-label class="font-menu" style="padding-left: 10px;"> {{ getLanguage() == "ESP" ? p.title : p.titleENG }}</ion-label> -->
+            <ion-label class="font-menu" style="padding-left: 10px;"> {{ getLanguage() == "ESP" ? p.title : p.titleENG }}</ion-label> 
           </ion-item>
         </ion-menu-toggle>
 

@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
-
+import { GeneralService } from 'src/app/core/General/general.service';
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.page.html',
@@ -13,9 +13,15 @@ export class MainLayoutPage implements OnInit {
   ]
 
   @ViewChild("content") content: ElementRef
-  constructor() { }
+  constructor(private generalService:GeneralService) { }
 
   ngOnInit() {
   }
+  changeLanguage(language:string){
+    this.generalService.setCurrentLanguage(language);
+  }
 
+  getLanguage():string{
+    return this.generalService.getCurrentLanguage();
+  }
 }
