@@ -8,7 +8,6 @@ import { MapsPageRoutingModule } from './maps-routing.module';
 
 import { MapsPage } from './maps.page';
 import { IonAccordionModule } from 'src/app/shared/customcontrols/ion-accordion/ion-accordion.module';
-import {GoogleMapModule} from 'src/app/shared/customcontrols/google-maps/google-map.module';
 
 @NgModule({
   imports: [
@@ -16,8 +15,7 @@ import {GoogleMapModule} from 'src/app/shared/customcontrols/google-maps/google-
     FormsModule,
     IonicModule,
     MapsPageRoutingModule,
-    IonAccordionModule,
-    GoogleMapModule
+    IonAccordionModule
   ],
   declarations: [MapsPage]
 })
