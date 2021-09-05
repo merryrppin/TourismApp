@@ -13,7 +13,7 @@ export class IndexPage implements OnInit {
   }
 
   scanPage(){
-    this.navController.navigateRoot(["/_mainLayout"]);
+    this.navController.navigateRoot(["/_mainLayout/scan-qr"]);
   }
 
 }
