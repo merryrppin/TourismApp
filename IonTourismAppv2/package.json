@@ -16,6 +16,7 @@
     "@angular/animations": "^12.2.4",
     "@angular/common": "~12.1.1",
     "@angular/core": "~12.1.1",
+    "@angular/fire": "^7.0.3",
     "@angular/forms": "~12.1.1",
     "@angular/platform-browser": "~12.1.1",
     "@angular/platform-browser-dynamic": "~12.1.1",
@@ -30,8 +31,8 @@
     "@codetrix-studio/capacitor-google-auth": "^3.0.2",
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/geolocation": "^5.36.0",
-    "@ionic-native/google-maps": "^5.5.0",
     "@ionic/angular": "^5.5.2",
+    "firebase": "^9.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
