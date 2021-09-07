@@ -7,8 +7,7 @@ import { DataAcordeon } from 'src/app/data/models/dataacordeon';
 import { SitioTuristico } from 'src/app/data/models/sitioturistico';
 import { GeneralService } from '../../core/General/general.service';
 
-
-import { Geolocation as Geoc, Geoposition } from '@ionic-native/geolocation/ngx';
+import { Geolocation } from '@capacitor/geolocation';
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.page.html',
@@ -34,9 +33,7 @@ export class MapsPage {
 
   constructor(
     private generalService: GeneralService,
-    private syncService: SyncService,
-    private geolocation: Geoc) { }
-
+    private syncService: SyncService) { }
 
   dibujarSitiosTuristicos(objThis: any) {
     this.markers.map(marker => marker.setMap(null));
@@ -136,8 +133,23 @@ export class MapsPage {
     loading.dismiss();
   }
 
+  routePath:google.maps.Polyline= null;
+
+  drawLineMap(coordinates: google.maps.LatLng[]){
+    this.routePath = new google.maps.Polyline({
+      path: coordinates,
+      geodesic: true,
+      strokeColor: "#1e315a",
+      strokeOpacity: 1.0,
+      strokeWeight: 2,
+    });
+    this.routePath.setMap(this.map);
+  }
+
   drawRoute(route: any, objThis: any){
-    this.map.clear();
+    if(this.routePath != null)
+      this.routePath.setMap(null);
+    // this.map.clear();
     this.initiliazeCurrentPosition();
     this.dibujarSitiosTuristicos(this);
     let coordinates: google.maps.LatLng[] = [];
@@ -160,7 +172,7 @@ export class MapsPage {
     this.directionsService.route({
       origin: originDirection,
       destination: destinationDirection,
-      // travelMode: 'DRIVING'
+      travelMode:  google.maps.TravelMode.DRIVING
     }, (response, status) => {
       if (status === 'OK') {
         this.drawRoute(response, objThis);
@@ -171,15 +183,16 @@ export class MapsPage {
   }
 
   getPosition(latLng: google.maps.LatLng) {
-    this.geolocation.getCurrentPosition()
-    .then(data => {
-      let destinationDirection : string = latLng.lat+', '+latLng.lng;
-      let originDirection : string = data.coords.latitude+', '+data.coords.longitude;
+
+    
+    const printCurrentPosition = async () => {
+      const coordinates = await Geolocation.getCurrentPosition();
+    
+      let destinationDirection : string = latLng.lat() + ', ' + latLng.lng();
+      let originDirection : string = coordinates.coords.latitude + ', ' + coordinates.coords.longitude;
       this.calculateAndDisplayRoute(originDirection, destinationDirection);
-    })
-    .catch(error =>{
-      console.log(error);
-    })
+    };
+    printCurrentPosition();
   }
 
   drawRouteFromMarker() {
