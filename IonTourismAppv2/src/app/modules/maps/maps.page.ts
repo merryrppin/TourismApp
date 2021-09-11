@@ -1,6 +1,5 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, ElementRef, Inject, Input, Renderer2, ViewChild, OnInit } from '@angular/core';
-import { CapacitorGoogleMaps } from '@capacitor-community/capacitor-googlemaps-native';
 import { SyncService } from 'src/app/core/sync/sync.service';
 import { CulturaGeneralMunicipio } from 'src/app/data/models/culturageneralmunicipio';
 import { DataAcordeon } from 'src/app/data/models/dataacordeon';
@@ -177,7 +176,7 @@ export class MapsPage {
       if (status === 'OK') {
         this.drawRoute(response, objThis);
       } else {
-        window.alert('Directions request failed due to ' + status);
+        console.log('Directions request failed due to ' + status);
       }
     });
   }
