@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {
   BarcodeScannerOptions,
   BarcodeScanner
-} from "@ionic-native/barcode-scanner";
+} from "@ionic-native/barcode-scanner/ngx";
 @Component({
   selector: 'app-scan-qr',
   templateUrl: './scan-qr.page.html',
