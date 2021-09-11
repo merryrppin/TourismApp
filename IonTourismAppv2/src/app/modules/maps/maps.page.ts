@@ -1,97 +1,116 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, ElementRef, Inject, Input, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, Input, Renderer2, ViewChild, OnInit } from '@angular/core';
 import { CapacitorGoogleMaps } from '@capacitor-community/capacitor-googlemaps-native';
+import { SyncService } from 'src/app/core/sync/sync.service';
 import { CulturaGeneralMunicipio } from 'src/app/data/models/culturageneralmunicipio';
 import { DataAcordeon } from 'src/app/data/models/dataacordeon';
 import { SitioTuristico } from 'src/app/data/models/sitioturistico';
-import { GoogleMapComponent } from 'src/app/shared/customcontrols/google-maps/google-map.component';
 import { GeneralService } from '../../core/General/general.service';
 
-import {
-  GoogleMaps,
-  GoogleMap,
-  GoogleMapsEvent,
-  Marker,
-  GoogleMapsAnimation,
-  MyLocation,
-  LatLng,
-  MarkerOptions,
-  Polyline,
-  PolylineOptions
-} from "@ionic-native/google-maps";
-import { SyncService } from 'src/app/core/sync/sync.service';
-import { Geolocation as Geoc, Geoposition } from '@ionic-native/geolocation/ngx';
+import { Geolocation } from '@capacitor/geolocation';
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.page.html',
   styleUrls: ['./maps.page.scss'],
 })
 export class MapsPage {
-
   directionsService = new google.maps.DirectionsService;
   directionsDisplay = new google.maps.DirectionsRenderer;
+  // Map related
+  @ViewChild('map_canvas') mapElement: ElementRef;
+  map: any;
+  markers = [];
 
-
-  @ViewChild(GoogleMapComponent) mapComponent: GoogleMapComponent;
   idioma: string = "ESP"; //TEST 
   idMunicipio: number = 1; //Girardota
-  //map: GoogleMap;
-  loading: any;
+
+  currentMarkerPosition: google.maps.LatLng = null;
+
   datosMunicipio: CulturaGeneralMunicipio[];
   datosSitioTuristico: DataAcordeon[];
   aSitiosTuristicos: SitioTuristico[];
-  initialMapLoad: boolean = false;
   aSitiosTuristicosUnique: SitioTuristico[];
 
-  markerUser: Marker;
-  currentMarkerPosition: LatLng = null;
-
-  @Input('apiKey') apiKey: string;
-  public map: any;
-  public markers: any[] = [];
-  private mapsLoaded: boolean = false;
-  private networkHandler = null;
-  generalService: GeneralService;
-
-  // @ViewChild('map_canvas') mapView: ElementRef;
   constructor(
-    //private renderer: Renderer2, private element: ElementRef, @Inject(DOCUMENT) private _document
-    private syncService:SyncService, private geolocation: Geoc
-  ) {
+    private generalService: GeneralService,
+    private syncService: SyncService) { }
+
+  dibujarSitiosTuristicos(objThis: any) {
+    this.markers.map(marker => marker.setMap(null));
+    this.markers = [];
+    this.aSitiosTuristicosUnique.forEach(function (objSitioTuristico) {
+      let latLng: google.maps.LatLng = new google.maps.LatLng(objSitioTuristico.Latitud, objSitioTuristico.Longitud);
+
+      let marker = new google.maps.Marker({
+        map: objThis.map,
+        animation: google.maps.Animation.DROP,//BOUNCE
+        position: latLng,
+        icon: objSitioTuristico.IconoMarcador
+      });
+
+      marker.addListener("click", (currentMarker) => {
+        let aSitiosTuristicos = objThis.aSitiosTuristicos.filter(obj => obj.IdSitioTuristico === objSitioTuristico.IdSitioTuristico);
+        let pr = aSitiosTuristicos.map(o => ({
+          Nombre: o.Titulo,
+          NombreENG: o.TituloENG,
+          ValorESP: o.DescripcionESP,
+          ValorENG: o.DescripcionENG,
+          Imagen: o.Imagen,
+          Orden: o.Orden
+        }))
+
+        objThis.datosSitioTuristico = pr;
+        objThis.currentMarkerPosition = marker.get('position');
+      });
+
+      objThis.markers.push(marker);
+    });
   }
 
-  getCurrentLanguageESP(): boolean {
-    return this.generalService.getCurrentLanguage() == "ESP";
+  async cargarSitiosTuristicos() {
+    let data = await this.syncService.descargarDatos()
+    let jsonRows = data.value[0].rows;
+    let jsonColumns = data.value[0].columns;
+    this.aSitiosTuristicos = this.arrayMap(jsonRows, jsonColumns);
+    this.aSitiosTuristicosUnique = this.aSitiosTuristicos.filter((objSitioTuristico, i, aSitioTuristico) => aSitioTuristico.findIndex(t => t.IdSitioTuristico === objSitioTuristico.IdSitioTuristico) === i);
+
+    this.dibujarSitiosTuristicos(this);
   }
 
-  getCurrentLanguage(): string {
-    return this.generalService.getCurrentLanguage();
+
+  initiliazeCurrentPosition() {
+    //   this.geolocation.getCurrentPosition().then((resp) => {
+    //   let latLng: LatLng = new LatLng(resp.coords.latitude, resp.coords.longitude);
+
+    //   let markerOptions: MarkerOptions = {
+    //     clickable : false,
+    //     disableAutoPan: true,
+    //     position: latLng,
+    //     animation: GoogleMapsAnimation.BOUNCE,
+    //     icon: "https://webflowers-wmalpha-rf.azurewebsites.net/Images/user.png"
+    //   };
+
+    //   this.markerUser = this.map.addMarkerSync(markerOptions);
+    //  }).catch((error) => {
+    //    console.log('Error getting location', error);
+    //  });
+
+    //  let watch = this.geolocation.watchPosition();
+    //  watch.subscribe((data: any) => {
+    //   let latLng: LatLng = new LatLng(data.coords.latitude, data.coords.longitude);
+    //   this.markerUser.setPosition(latLng);
+    //   // data can be a set of coordinates, or an error (if an error occurred).
+    //   // data.coords.latitude
+    //   // data.coords.longitude
+    //  });
   }
 
-  ionViewWillEnter(){
-    if (!this.initialMapLoad) {
-      this.map.setDiv('map');
-      this.map.setVisible(true);
-      setTimeout(()=>{
-        // hack to fix occasionally disappearing map
-        this.map.setDiv('map');
-      }, 1000);      
-    } else {
-      this.initialMapLoad = false;
-    }
-  }
 
-  ionViewWillLeave() {
-    // unset div & visibility on exit
-    this.map.setVisible(false);
-    this.map.setDiv(null);
-  }
-
-  async cargarDatosMunicipio(){
+  async cargarDatosMunicipio() {
     let data = await this.syncService.descargarDatosMunicipio();
-    this.datosMunicipio = this.arrayMap(data.value[0].rows,data.value[0].columns);
+    this.datosMunicipio = this.arrayMap(data.value[0].rows, data.value[0].columns);
 
-    let objData : DataAcordeon = new DataAcordeon();
+    let objData: DataAcordeon = new DataAcordeon();
     objData.Nombre = this.datosMunicipio[0].NombreMunicipio;
     objData.NombreENG = this.datosMunicipio[0].NombreMunicipio;
     objData.ValorESP = this.datosMunicipio[0].ValorESP;
@@ -101,79 +120,122 @@ export class MapsPage {
     this.datosSitioTuristico = [objData]
   }
 
-  loadMap() {
-    // Esta función inicializa la propiedad de clase
-    // map
-    // que va a contener el control de nuestro mapa de google
+  async localizar() {
+    const loading = await this.generalService.presentLoading({
+      message: "por favor espere...",
+      keyboardClose: false
+    });
+    this.currentMarkerPosition = null;
+    // Presentamos el componente creado en el paso anterior
+    loading.present();
+    await this.cargarSitiosTuristicos();
+    this.initiliazeCurrentPosition();
+    loading.dismiss();
+  }
 
-    // Para crear nuestro mapa debemos enviar como parametros
-    // el id del div en donde se va a renderizar el mapa (paso anterior)
-    // y las opciones que configuran nuestro mapa
-    this.map = GoogleMaps.create("map_canvas", {
-      camera: {
-        target: {
-          lat: 6.378543,
-          lng: -75.4464299
-        },
-        zoom: 15,
-        tilt: 30
+  routePath:google.maps.Polyline= null;
+
+  drawLineMap(coordinates: google.maps.LatLng[]){
+    this.routePath = new google.maps.Polyline({
+      path: coordinates,
+      geodesic: true,
+      strokeColor: "#1e315a",
+      strokeOpacity: 1.0,
+      strokeWeight: 2,
+    });
+    this.routePath.setMap(this.map);
+  }
+
+  drawRoute(route: any, objThis: any){
+    if(this.routePath != null)
+      this.routePath.setMap(null);
+    // this.map.clear();
+    this.initiliazeCurrentPosition();
+    this.dibujarSitiosTuristicos(this);
+    let coordinates: google.maps.LatLng[] = [];
+    let origin: google.maps.LatLng;
+    let destination: google.maps.LatLng;
+    let routePoints: any[]= route.routes[0].legs[0].steps;
+    routePoints.forEach(function (objRoutePoint) {
+      let aPath: any[] = objRoutePoint.path;
+      aPath.forEach(function(objPath, index){
+        destination = new google.maps.LatLng(objPath.lat(), objPath.lng());
+        coordinates.push(destination);
+      });
+
+    });
+    objThis.drawLineMap(coordinates, objThis);
+  }
+
+  calculateAndDisplayRoute(originDirection: string, destinationDirection: string) {
+    let objThis = this;
+    this.directionsService.route({
+      origin: originDirection,
+      destination: destinationDirection,
+      travelMode:  google.maps.TravelMode.DRIVING
+    }, (response, status) => {
+      if (status === 'OK') {
+        this.drawRoute(response, objThis);
+      } else {
+        window.alert('Directions request failed due to ' + status);
       }
     });
   }
 
-  initiliazeCurrentPosition(){
-      this.geolocation.getCurrentPosition().then((resp) => {
-      let latLng: LatLng = new LatLng(resp.coords.latitude, resp.coords.longitude);
-  
-      let markerOptions: MarkerOptions = {
-        clickable : false,
-        disableAutoPan: true,
-        position: latLng,
-        animation: GoogleMapsAnimation.BOUNCE,
-        icon: "https://webflowers-wmalpha-rf.azurewebsites.net/Images/user.png"
-      };
+  getPosition(latLng: google.maps.LatLng) {
 
-      this.markerUser = this.map.addMarkerSync(markerOptions);
-     }).catch((error) => {
-       console.log('Error getting location', error);
-     });
-     
-     let watch = this.geolocation.watchPosition();
-     watch.subscribe((data: any) => {
-      let latLng: LatLng = new LatLng(data.coords.latitude, data.coords.longitude);
-      this.markerUser.setPosition(latLng);
-      // data can be a set of coordinates, or an error (if an error occurred).
-      // data.coords.latitude
-      // data.coords.longitude
-     });
+    
+    const printCurrentPosition = async () => {
+      const coordinates = await Geolocation.getCurrentPosition();
+    
+      let destinationDirection : string = latLng.lat() + ', ' + latLng.lng();
+      let originDirection : string = coordinates.coords.latitude + ', ' + coordinates.coords.longitude;
+      this.calculateAndDisplayRoute(originDirection, destinationDirection);
+    };
+    printCurrentPosition();
   }
 
-  async localizar() {
-    // const loading = await this.generalService.presentLoading({
-    //   message: "por favor espere...",
-    //   keyboardClose: false
-    // });
-    this.currentMarkerPosition = null;
-    // Limpiamos todos los elementos de nuestro mapa
-    this.map.clear();
-    // Presentamos el componente creado en el paso anterior
-    // loading.present();
-    await this.cargarSitiosTuristicos();
-    this.initiliazeCurrentPosition();
-    // loading.dismiss();   
+  drawRouteFromMarker() {
+    this.getPosition(this.currentMarkerPosition);
   }
 
-  async cargarSitiosTuristicos() {
-    let data = await this.syncService.descargarDatos()
-    let jsonRows  = data.value[0].rows;
-    let jsonColumns  = data.value[0].columns;    
-    this.aSitiosTuristicos = this.arrayMap(jsonRows, jsonColumns);
-    this.aSitiosTuristicosUnique = this.aSitiosTuristicos.filter((objSitioTuristico, i, aSitioTuristico) => aSitioTuristico.findIndex(t => t.IdSitioTuristico === objSitioTuristico.IdSitioTuristico) === i);
+  // Initialize a blank map
+  loadMap() {
+    let latLng = new google.maps.LatLng(6.378543, -75.4464299);
 
-    await this.dibujarSitiosTuristicos(this);
+    let mapOptions = {
+      center: latLng,
+      zoom: 15,
+      tilt: 30,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+
+      mapTypeControl: false,
+      scaleControl: true,
+      streetViewControl: false,
+      rotateControl: true,
+      fullscreenControl: false
+    };
+
+    this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+    console.log(this.map);
   }
 
-  arrayMap(aRows: any[], aColumns: any[]):any[] {
+
+  getCurrentLanguage(): string {
+    return this.generalService.getCurrentLanguage();
+  }
+
+  getCurrentLanguageESP(): boolean {
+    return this.generalService.getCurrentLanguage() == "ESP";
+  }
+
+  ionViewWillEnter() {
+    this.loadMap();
+    this.localizar();
+    this.cargarDatosMunicipio();
+  }
+
+  arrayMap(aRows: any[], aColumns: any[]): any[] {
     let aData: object[] = [];
     aRows.forEach(function (aRows) {
       let objData = {};
@@ -184,148 +246,4 @@ export class MapsPage {
     });
     return aData;
   }
-
-  dibujarSitiosTuristicos(objThis:any) {
-    this.aSitiosTuristicosUnique.forEach(function (objSitioTuristico) {
-      let latLng: LatLng = new LatLng(objSitioTuristico.Latitud, objSitioTuristico.Longitud);
-  
-      let markerOptions: MarkerOptions = {
-        title: objSitioTuristico.NombreSitioTuristicoESP,
-        position: latLng,
-        animation: GoogleMapsAnimation.BOUNCE,
-        SitioTuristico : objSitioTuristico,
-        icon: objSitioTuristico.IconoMarcador
-      };
-
-      let marker: Marker = objThis.map.addMarkerSync(markerOptions);
-      
-      marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe((params: any) => {
-        objThis.datosSitioTuristico = []
-        let marker: Marker = <Marker>params[1];
-        let SitioTuristico: SitioTuristico = marker.get('SitioTuristico');
-        let aSitiosTuristicos = objThis.aSitiosTuristicos.filter(obj=> obj.IdSitioTuristico === SitioTuristico.IdSitioTuristico);
-        let objData : DataAcordeon = new DataAcordeon();
-        let pr = aSitiosTuristicos.map(o=>({
-          Nombre:o.Titulo,
-          NombreENG:o.TituloENG,
-          ValorESP:o.DescripcionESP,
-          ValorENG:o.DescripcionENG,
-          Imagen:o.Imagen,
-          Orden:o.Orden
-        }))
-     
-        objThis.datosSitioTuristico = pr;
-        objThis.currentMarkerPosition = marker.get('position');
-        objThis.zone.run(() => {});
-      });
-    });
-  }
-
-  calculateAndDisplayRoute(originDirection: string, destinationDirection: string) {
-    let objThis = this;
-    this.directionsService.route({
-      origin: originDirection,
-      destination: destinationDirection,
-      // travelMode: 'DRIVING'
-    }, (response, status) => {
-      if (status === 'OK') {
-        this.drawRoute(response, objThis);
-      } else {
-        window.alert('Directions request failed due to ' + status);
-      }
-    });
-  }
-
-  drawRoute(route: any, objThis: any){
-    this.map.clear();
-    this.initiliazeCurrentPosition();
-    this.dibujarSitiosTuristicos(this);
-    let coordinates: LatLng[] = [];
-    let origin: LatLng;
-    let destination: LatLng;
-    let routePoints: any[]= route.routes[0].legs[0].steps;
-    routePoints.forEach(function (objRoutePoint) {
-      let aPath: any[] = objRoutePoint.path;
-      aPath.forEach(function(objPath, index){
-        destination = new LatLng(objPath.lat(), objPath.lng());
-        coordinates.push(new LatLng(destination.lat, destination.lng));
-      });
-
-    });
-    objThis.drawLineMap(coordinates, objThis);
-  }
-
-  drawLineMap(coordinates: LatLng[], objThis: any){
-    let optionsPolyline: PolylineOptions = {
-      points: coordinates,
-      color: '#1e315a'
-    };
-    this.map.addPolyline(optionsPolyline);
-  }
-
-  drawRouteFromMarker(){
-    this.getPosition(this.currentMarkerPosition);
-  }
-
-  getPosition(latLng: LatLng){
-    this.geolocation.getCurrentPosition()
-    .then(data => {
-      let destinationDirection : string = latLng.lat+', '+latLng.lng;
-      let originDirection : string = data.coords.latitude+', '+data.coords.longitude;
-      this.calculateAndDisplayRoute(originDirection, destinationDirection);
-    })
-    .catch(error =>{
-      console.log(error);
-    })
-  }
-
-  // drawRouteFromMarker() {
-
-  // }
-
-  // async ionViewDidEnter() {
-  //   const boundingRect = this.mapView.nativeElement.getBoundingClientRect() as DOMRect;
-
-  //   CapacitorGoogleMaps.create({
-  //     width: Math.round(boundingRect.width),
-  //     height: Math.round(boundingRect.height),
-  //     x: Math.round(boundingRect.x),
-  //     y: Math.round(boundingRect.y),
-  //     latitude: -33.86,
-  //     longitude: 151.20,
-  //     zoom: 12
-  //   })
-  //     .then(response => {
-  //       debugger;
-  //       console.log(response);
-  //     })
-  //     .catch(error => {
-  //       debugger;
-  //       console.log(error);
-  //     });
-
-  //   CapacitorGoogleMaps.addListener("onMapReady", async function () {
-
-  //     /*
-  //       We can do all the magic here when map is ready
-  //     */
-
-  //     CapacitorGoogleMaps.addMarker({
-  //       latitude: -33.86,
-  //       longitude: 151.20,
-  //       title: "Custom Title",
-  //       snippet: "Custom Snippet",
-  //     });
-
-  //     CapacitorGoogleMaps.setMapType({
-  //       "type": "normal"
-  //     })
-  //   })
-  // }
-
-  // ionViewDidLeave() {
-  //   debugger;
-  //   CapacitorGoogleMaps.close();
-  // }
-
 }

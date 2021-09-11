@@ -13,7 +13,6 @@
     </ion-fab-button>
   </ion-fab>
   <div id="banner_info">
-    
     <ion-list *ngFor="let item of datosSitioTuristico">
       <ion-accordion title="{{getCurrentLanguageESP() ? item.Nombre : item.NombreENG}}" openIcon="remove-circle" closeIcon="add-circle" classTitle="border-header" class="accordion">
           <div class="ion-text-justify">{{getCurrentLanguage() == "ESP" ? item.ValorESP : item.ValorENG}}</div>
