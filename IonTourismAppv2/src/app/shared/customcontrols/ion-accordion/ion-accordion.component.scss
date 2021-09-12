@@ -10,7 +10,7 @@ ion-list-header {
   margin-right: 4%;
 }
 .styleheaderAccordion{
- background-color: rgb(28, 112, 182);
+ background-color: #216ca7;
  color:white;
 }
 .labelAccordion{
@@ -18,4 +18,9 @@ ion-list-header {
 }
 ion-icon{
   fill: white;
+}
+
+ion-list{
+  background-color: #216ca7 !important;
+  color:#216ca7;
 }
