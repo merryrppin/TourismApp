@@ -22,6 +22,8 @@ export class MapsPage {
   loading: any;
   markers = [];
 
+  userMarker:google.maps.Marker;
+
   idioma: string = "ESP"; //TEST 
   idMunicipio: number = 1; //Girardota
 
@@ -79,12 +81,11 @@ export class MapsPage {
     this.dibujarSitiosTuristicos(this);
   }
 
-
   async initiliazeCurrentPosition() {
     await Geolocation.getCurrentPosition()
       .then((response) => {
         let coordinate: google.maps.LatLng = new google.maps.LatLng(response.coords.latitude, response.coords.longitude);
-        let marker = new google.maps.Marker({
+        this.userMarker = new google.maps.Marker({
           map: this.map,
           animation: google.maps.Animation.DROP,//BOUNCE
           position: coordinate,
@@ -105,7 +106,7 @@ export class MapsPage {
   }
 
   moveUserMarker(userLatLng: google.maps.LatLng) {
-
+    this.userMarker.setPosition(userLatLng);
   }
 
   async cargarDatosMunicipio() {
@@ -190,7 +191,7 @@ export class MapsPage {
 
   getPosition(latLng: google.maps.LatLng) {
     const printCurrentPosition = async () => {
-      const coordinates = await Geolocation.getCurrentPosition()
+      await Geolocation.getCurrentPosition()
         .then((response) => {
           let destinationDirection: string = latLng.lat() + ', ' + latLng.lng();
           let originDirection: string = response.coords.latitude + ', ' + response.coords.longitude;
@@ -217,7 +218,7 @@ export class MapsPage {
 
   async goToCurrentLocation() {
     await this.openLoading();
-    const coordinates = await Geolocation.getCurrentPosition()
+    await Geolocation.getCurrentPosition()
       .then((response) => {
         let coordinate: google.maps.LatLng = new google.maps.LatLng(response.coords.latitude, response.coords.longitude);
         this.map.setCenter(coordinate);
@@ -229,7 +230,6 @@ export class MapsPage {
   }
 
   validateIfGPSIsEnabled(){
-    debugger;
     this.locationAccuracy.canRequest().then((canRequest: boolean) => {
       if(canRequest) {
         // the accuracy option will be ignored by iOS
