@@ -3,7 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
 
-  { path: '', redirectTo: '_loginLayout', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '', loadChildren: () => import('./modules/login/login.module').then( m => m.LoginPageModule)},
   { path: '', loadChildren: () => import('./layout/main-layout/main-layout.module').then( m => m.MainLayoutPageModule)},
   {

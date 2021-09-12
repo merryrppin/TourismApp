@@ -30,6 +30,12 @@
         </ion-item> -->
       </ion-list>
     </ion-content>
+    <ion-footer>
+      <ion-item (click)="logout()">
+        <ion-icon class="icon-menu" name="exit"></ion-icon>
+        <ion-label class="font-menu" style="padding-left: 10px;"> Cerrar Sesion</ion-label>
+    </ion-item>
+    </ion-footer>
   </ion-menu>
   <ion-router-outlet main id="content" #content></ion-router-outlet>
 </ion-split-pane>
