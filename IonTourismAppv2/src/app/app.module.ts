@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {BarcodeScanner} from "@ionic-native/barcode-scanner/ngx";
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 
 import {HttpClientModule } from "@angular/common/http"
 
@@ -15,7 +16,7 @@ import {HttpClientModule } from "@angular/common/http"
   declarations: [AppComponent],
   entryComponents: [],
   imports: [HttpClientModule, BrowserModule, BrowserAnimationsModule, IonicModule.forRoot(), AppRoutingModule],
-  providers: [BarcodeScanner,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [BarcodeScanner, LocationAccuracy, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

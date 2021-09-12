@@ -7,6 +7,7 @@ import { SitioTuristico } from 'src/app/data/models/sitioturistico';
 import { GeneralService } from '../../core/General/general.service';
 
 import { Geolocation, WatchPositionCallback } from '@capacitor/geolocation';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.page.html',
@@ -33,7 +34,8 @@ export class MapsPage {
 
   constructor(
     private generalService: GeneralService,
-    private syncService: SyncService) { }
+    private syncService: SyncService,
+    private locationAccuracy: LocationAccuracy) { }
 
   dibujarSitiosTuristicos(objThis: any) {
     this.markers.map(marker => marker.setMap(null));
@@ -97,7 +99,7 @@ export class MapsPage {
         let watch = Geolocation.watchPosition(positionOptions, watchPostion);
       })
       .catch((err) => {
-        debugger;
+        this.validateIfGPSIsEnabled();
       });
 
   }
@@ -195,7 +197,7 @@ export class MapsPage {
           this.calculateAndDisplayRoute(originDirection, destinationDirection);
         })
         .catch((err) => {
-          debugger;
+          this.validateIfGPSIsEnabled();
         });
     };
     printCurrentPosition();
@@ -222,8 +224,21 @@ export class MapsPage {
         this.loading.dismiss();
       })
       .catch((err) => {
-        debugger;
+        this.validateIfGPSIsEnabled();
       });
+  }
+
+  validateIfGPSIsEnabled(){
+    debugger;
+    this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+      if(canRequest) {
+        // the accuracy option will be ignored by iOS
+        this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
+          () => console.log('Request successful'),
+          error => console.log('Error requesting location permissions', error)
+        );
+      }
+    });
   }
 
   // Initialize a blank map
