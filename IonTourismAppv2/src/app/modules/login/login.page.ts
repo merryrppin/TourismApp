@@ -10,8 +10,9 @@ import { StorageService } from 'src/app/core/Services/storage/storage.service';
 export class LoginPage  {
   user : any;
   constructor(private navController: NavController,
-              private storage:StorageService) { }
-
+              private storage:StorageService) { 
+                
+              }
 
   async loginGoogle() {
     this.user = await GoogleAuth.signIn();

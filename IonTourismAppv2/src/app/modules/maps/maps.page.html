@@ -1,6 +1,10 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>maps</ion-title>
+  <ion-toolbar>    
+    <ion-buttons slot="start">
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+  <ion-img slot="start" class="iconLogo" src="../../assets/images/logoappinterno.png"></ion-img>
+    <ion-title></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -16,11 +20,16 @@
     <ion-fab-button [disabled]="currentMarkerPosition === null" color="success" (click)="drawRouteFromMarker()">
       <ion-icon name="navigate"></ion-icon>
     </ion-fab-button>
-  </ion-fab>
+</ion-fab>  
   <div id="banner_info">
     <ion-list *ngFor="let item of datosSitioTuristico">
       <ion-accordion title="{{getCurrentLanguageESP() ? item.Nombre : item.NombreENG}}" openIcon="remove-circle" closeIcon="add-circle" classTitle="border-header" class="accordion">
+        <div class="background">
           <div class="ion-text-justify">{{getCurrentLanguage() == "ESP" ? item.ValorESP : item.ValorENG}}</div>
+          <div ng-show="item.Imagen">
+          <ion-img  [src]="item.Imagen"></ion-img>
+          </div>
+        </div>
       </ion-accordion>
     </ion-list>
   </div>
