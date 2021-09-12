@@ -6,7 +6,7 @@ import { DataAcordeon } from 'src/app/data/models/dataacordeon';
 import { SitioTuristico } from 'src/app/data/models/sitioturistico';
 import { GeneralService } from '../../core/General/general.service';
 
-import { Geolocation } from '@capacitor/geolocation';
+import { Geolocation, WatchPositionCallback } from '@capacitor/geolocation';
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.page.html',
@@ -48,7 +48,7 @@ export class MapsPage {
         icon: objSitioTuristico.IconoMarcador
       });
 
-      marker.addListener("click", (currentMarker) => {
+      marker.addListener("click", () => {
         let aSitiosTuristicos = objThis.aSitiosTuristicos.filter(obj => obj.IdSitioTuristico === objSitioTuristico.IdSitioTuristico);
         let pr = aSitiosTuristicos.map(o => ({
           Nombre: o.Titulo,
@@ -79,17 +79,32 @@ export class MapsPage {
 
 
   async initiliazeCurrentPosition() {
+    await Geolocation.getCurrentPosition()
+      .then((response) => {
+        let coordinate: google.maps.LatLng = new google.maps.LatLng(response.coords.latitude, response.coords.longitude);
+        let marker = new google.maps.Marker({
+          map: this.map,
+          animation: google.maps.Animation.DROP,//BOUNCE
+          position: coordinate,
+          icon: "https://webflowers-wmalpha-rf.azurewebsites.net/Images/user.png"
+        });
 
-    const coordinates = await Geolocation.getCurrentPosition();
-    let coordinate: google.maps.LatLng = new google.maps.LatLng(coordinates.coords.latitude, coordinates.coords.longitude); 
-    let marker = new google.maps.Marker({
-      map: this.map,
-      animation: google.maps.Animation.DROP,//BOUNCE
-      position: coordinate,
-      icon: "https://webflowers-wmalpha-rf.azurewebsites.net/Images/user.png"
-    });
+        let positionOptions: PositionOptions = { enableHighAccuracy: true };
+        let watchPostion: WatchPositionCallback = (position, err) => {
+          let userLatLng: google.maps.LatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+          this.moveUserMarker(userLatLng);
+        };
+        let watch = Geolocation.watchPosition(positionOptions, watchPostion);
+      })
+      .catch((err) => {
+        debugger;
+      });
+
   }
 
+  moveUserMarker(userLatLng: google.maps.LatLng) {
+
+  }
 
   async cargarDatosMunicipio() {
     let data = await this.syncService.descargarDatosMunicipio();
@@ -108,23 +123,23 @@ export class MapsPage {
   async localizar() {
     await this.openLoading();
     this.currentMarkerPosition = null;
-    try{
+    try {
       await this.cargarSitiosTuristicos();
-      this.initiliazeCurrentPosition();
-    }catch{ }
+      await this.initiliazeCurrentPosition();
+    } catch { }
     this.loading.dismiss();
   }
 
-  async openLoading(){
+  async openLoading() {
     this.loading = await this.generalService.presentLoading({
       message: "por favor espere...",
       keyboardClose: false
     });
   }
 
-  routePath:google.maps.Polyline= null;
+  routePath: google.maps.Polyline = null;
 
-  drawLineMap(coordinates: google.maps.LatLng[]){
+  drawLineMap(coordinates: google.maps.LatLng[]) {
     this.routePath = new google.maps.Polyline({
       path: coordinates,
       geodesic: true,
@@ -135,19 +150,16 @@ export class MapsPage {
     this.routePath.setMap(this.map);
   }
 
-  drawRoute(route: any, objThis: any){
-    if(this.routePath != null)
+  drawRoute(route: any, objThis: any) {
+    if (this.routePath != null)
       this.routePath.setMap(null);
-    // this.map.clear();
-    this.initiliazeCurrentPosition();
-    this.dibujarSitiosTuristicos(this);
     let coordinates: google.maps.LatLng[] = [];
     let origin: google.maps.LatLng;
     let destination: google.maps.LatLng;
-    let routePoints: any[]= route.routes[0].legs[0].steps;
+    let routePoints: any[] = route.routes[0].legs[0].steps;
     routePoints.forEach(function (objRoutePoint) {
       let aPath: any[] = objRoutePoint.path;
-      aPath.forEach(function(objPath, index){
+      aPath.forEach(function (objPath, index) {
         destination = new google.maps.LatLng(objPath.lat(), objPath.lng());
         coordinates.push(destination);
       });
@@ -163,7 +175,7 @@ export class MapsPage {
     this.directionsService.route({
       origin: originDirection,
       destination: destinationDirection,
-      travelMode:  google.maps.TravelMode.DRIVING
+      travelMode: google.maps.TravelMode.DRIVING
     }, (response, status) => {
       if (status === 'OK') {
         this.drawRoute(response, objThis);
@@ -176,11 +188,15 @@ export class MapsPage {
 
   getPosition(latLng: google.maps.LatLng) {
     const printCurrentPosition = async () => {
-      const coordinates = await Geolocation.getCurrentPosition();
-    
-      let destinationDirection : string = latLng.lat() + ', ' + latLng.lng();
-      let originDirection : string = coordinates.coords.latitude + ', ' + coordinates.coords.longitude;
-      this.calculateAndDisplayRoute(originDirection, destinationDirection);
+      const coordinates = await Geolocation.getCurrentPosition()
+        .then((response) => {
+          let destinationDirection: string = latLng.lat() + ', ' + latLng.lng();
+          let originDirection: string = response.coords.latitude + ', ' + response.coords.longitude;
+          this.calculateAndDisplayRoute(originDirection, destinationDirection);
+        })
+        .catch((err) => {
+          debugger;
+        });
     };
     printCurrentPosition();
   }
@@ -190,7 +206,7 @@ export class MapsPage {
     this.getPosition(this.currentMarkerPosition);
   }
 
-  async centerMapOnCity(){
+  async centerMapOnCity() {
     let latLng = new google.maps.LatLng(6.378543, -75.4464299); //Girardota
     await this.openLoading();
     this.map.setCenter(latLng);
@@ -199,10 +215,15 @@ export class MapsPage {
 
   async goToCurrentLocation() {
     await this.openLoading();
-    const coordinates = await Geolocation.getCurrentPosition();
-    let coordinate: google.maps.LatLng = new google.maps.LatLng(coordinates.coords.latitude, coordinates.coords.longitude);
-    this.map.setCenter(coordinate);
-    this.loading.dismiss();
+    const coordinates = await Geolocation.getCurrentPosition()
+      .then((response) => {
+        let coordinate: google.maps.LatLng = new google.maps.LatLng(response.coords.latitude, response.coords.longitude);
+        this.map.setCenter(coordinate);
+        this.loading.dismiss();
+      })
+      .catch((err) => {
+        debugger;
+      });
   }
 
   // Initialize a blank map
@@ -221,11 +242,16 @@ export class MapsPage {
       rotateControl: true,
       fullscreenControl: false,
 
-      clickableIcons: false
+      clickableIcons: false,
+      mapToolbar: true
     };
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    console.log(this.map);
+    // this.map.addListener("click", (e) => {
+    //   if(e.cancelable) {
+    //     e.preventDefault();
+    //   }
+    // });
   }
 
 
