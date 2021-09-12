@@ -10,10 +10,15 @@
 
 <ion-content padding>
   <!-- <google-map apiKey="AIzaSyC0lKHHDg6t9uiw9CbZj04jbFSw2z2phCk"></google-map> -->
- <div id="map_canvas" #map_canvas></div>
+  <div id="map_canvas" #map_canvas></div>
+  <ion-fab vertical="top" horizontal="start" slot="fixed">
+    <ion-fab-button color="success" (click)="centerMapOnCity()">
+      <ion-icon name="map"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   <ion-fab vertical="top" horizontal="end" slot="fixed">
     <ion-fab-button [disabled]="currentMarkerPosition === null" color="success" (click)="drawRouteFromMarker()">
-      <ion-icon name="map"></ion-icon>
+      <ion-icon name="navigate"></ion-icon>
     </ion-fab-button>
 </ion-fab>  
   <div id="banner_info">

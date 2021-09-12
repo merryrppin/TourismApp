@@ -18,6 +18,7 @@ export class MapsPage {
   // Map related
   @ViewChild('map_canvas') mapElement: ElementRef;
   map: any;
+  loading: any;
   markers = [];
 
   idioma: string = "ESP"; //TEST 
@@ -77,31 +78,16 @@ export class MapsPage {
   }
 
 
-  initiliazeCurrentPosition() {
-    //   this.geolocation.getCurrentPosition().then((resp) => {
-    //   let latLng: LatLng = new LatLng(resp.coords.latitude, resp.coords.longitude);
+  async initiliazeCurrentPosition() {
 
-    //   let markerOptions: MarkerOptions = {
-    //     clickable : false,
-    //     disableAutoPan: true,
-    //     position: latLng,
-    //     animation: GoogleMapsAnimation.BOUNCE,
-    //     icon: "https://webflowers-wmalpha-rf.azurewebsites.net/Images/user.png"
-    //   };
-
-    //   this.markerUser = this.map.addMarkerSync(markerOptions);
-    //  }).catch((error) => {
-    //    console.log('Error getting location', error);
-    //  });
-
-    //  let watch = this.geolocation.watchPosition();
-    //  watch.subscribe((data: any) => {
-    //   let latLng: LatLng = new LatLng(data.coords.latitude, data.coords.longitude);
-    //   this.markerUser.setPosition(latLng);
-    //   // data can be a set of coordinates, or an error (if an error occurred).
-    //   // data.coords.latitude
-    //   // data.coords.longitude
-    //  });
+    const coordinates = await Geolocation.getCurrentPosition();
+    let coordinate: google.maps.LatLng = new google.maps.LatLng(coordinates.coords.latitude, coordinates.coords.longitude); 
+    let marker = new google.maps.Marker({
+      map: this.map,
+      animation: google.maps.Animation.DROP,//BOUNCE
+      position: coordinate,
+      icon: "https://webflowers-wmalpha-rf.azurewebsites.net/Images/user.png"
+    });
   }
 
 
@@ -120,16 +106,20 @@ export class MapsPage {
   }
 
   async localizar() {
-    const loading = await this.generalService.presentLoading({
+    await this.openLoading();
+    this.currentMarkerPosition = null;
+    try{
+      await this.cargarSitiosTuristicos();
+      this.initiliazeCurrentPosition();
+    }catch{ }
+    this.loading.dismiss();
+  }
+
+  async openLoading(){
+    this.loading = await this.generalService.presentLoading({
       message: "por favor espere...",
       keyboardClose: false
     });
-    this.currentMarkerPosition = null;
-    // Presentamos el componente creado en el paso anterior
-    loading.present();
-    await this.cargarSitiosTuristicos();
-    this.initiliazeCurrentPosition();
-    loading.dismiss();
   }
 
   routePath:google.maps.Polyline= null;
@@ -163,7 +153,9 @@ export class MapsPage {
       });
 
     });
+    this.loading.dismiss();
     objThis.drawLineMap(coordinates, objThis);
+    objThis.goToCurrentLocation();
   }
 
   calculateAndDisplayRoute(originDirection: string, destinationDirection: string) {
@@ -176,14 +168,13 @@ export class MapsPage {
       if (status === 'OK') {
         this.drawRoute(response, objThis);
       } else {
+        this.loading.dismiss();
         console.log('Directions request failed due to ' + status);
       }
     });
   }
 
   getPosition(latLng: google.maps.LatLng) {
-
-    
     const printCurrentPosition = async () => {
       const coordinates = await Geolocation.getCurrentPosition();
     
@@ -194,8 +185,24 @@ export class MapsPage {
     printCurrentPosition();
   }
 
-  drawRouteFromMarker() {
+  async drawRouteFromMarker() {
+    await this.openLoading();
     this.getPosition(this.currentMarkerPosition);
+  }
+
+  async centerMapOnCity(){
+    let latLng = new google.maps.LatLng(6.378543, -75.4464299); //Girardota
+    await this.openLoading();
+    this.map.setCenter(latLng);
+    this.loading.dismiss();
+  }
+
+  async goToCurrentLocation() {
+    await this.openLoading();
+    const coordinates = await Geolocation.getCurrentPosition();
+    let coordinate: google.maps.LatLng = new google.maps.LatLng(coordinates.coords.latitude, coordinates.coords.longitude);
+    this.map.setCenter(coordinate);
+    this.loading.dismiss();
   }
 
   // Initialize a blank map
@@ -212,7 +219,9 @@ export class MapsPage {
       scaleControl: true,
       streetViewControl: false,
       rotateControl: true,
-      fullscreenControl: false
+      fullscreenControl: false,
+
+      clickableIcons: false
     };
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
