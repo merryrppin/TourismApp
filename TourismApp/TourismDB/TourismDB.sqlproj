@@ -80,6 +80,9 @@
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\ObtenerMunicipios.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\ObtenerSitiosTuristicos.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\ObtenerCulturaGeneralMunicipio.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblUsuarioApp.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblSesionUsuarioApp.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\GuardarSesionUsuarioApp.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Objects\PostDeployment\Postdeployment.sql" />
