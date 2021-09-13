@@ -7,4 +7,5 @@ export class CulturaGeneralMunicipio{
 	Orden :number;
 	NombreCulturaGeneralESP :string;
 	NombreCulturaGeneralENG :string;
+	Video:string;
 }

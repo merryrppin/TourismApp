@@ -5,4 +5,5 @@ export class DataAcordeon{
     ValorENG:string;
     Imagen:string;
     Orden:number;
+    Video:string;
 }
