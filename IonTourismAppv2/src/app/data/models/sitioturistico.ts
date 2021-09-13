@@ -14,4 +14,5 @@ export class SitioTuristico{
 	Titulo:string;
 	TituloENG:string;
 	Orden:number;
+	Video:string;
 }

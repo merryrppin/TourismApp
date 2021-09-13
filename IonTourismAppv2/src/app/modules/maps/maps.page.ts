@@ -8,6 +8,7 @@ import { GeneralService } from '../../core/General/general.service';
 
 import { Geolocation, WatchPositionCallback } from '@capacitor/geolocation';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.page.html',
@@ -18,6 +19,7 @@ export class MapsPage {
   directionsDisplay = new google.maps.DirectionsRenderer;
   // Map related
   @ViewChild('map_canvas') mapElement: ElementRef;
+  @ViewChild('video') videoElement:ElementRef;
   map: any;
   loading: any;
   markers = [];
@@ -36,6 +38,8 @@ export class MapsPage {
     private generalService: GeneralService,
     private syncService: SyncService,
     private locationAccuracy: LocationAccuracy) { }
+
+
 
   dibujarSitiosTuristicos(objThis: any) {
     this.markers.map(marker => marker.setMap(null));
@@ -58,14 +62,22 @@ export class MapsPage {
           ValorESP: o.DescripcionESP,
           ValorENG: o.DescripcionENG,
           Imagen: o.Imagen,
-          Orden: o.Orden
+          Orden: o.Orden,
+          Video: o.Video
         }))
-
         objThis.datosSitioTuristico = pr;
+
+
         objThis.currentMarkerPosition = marker.get('position');
+/*         if(objThis.datosSitioTuristico[0].Video !== null && objThis.datosSitioTuristico[0].Video !== undefined)
+        {
+          objThis.datosSitioTuristico[0].Video = objThis.datosSitioTuristico[0].Video.replace("560","100%");
+          objThis.videoElement.nativeElement.innerHTML=objThis.datosSitioTuristico[0].Video;
+        } */
       });
 
       objThis.markers.push(marker);
+
     });
   }
 
@@ -96,7 +108,7 @@ export class MapsPage {
           let userLatLng: google.maps.LatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
           this.moveUserMarker(userLatLng);
         };
-        let watch = Geolocation.watchPosition(positionOptions, watchPostion);
+        //let watch = Geolocation.watchPosition(positionOptions, watchPostion);
       })
       .catch((err) => {
         this.validateIfGPSIsEnabled();
@@ -119,6 +131,8 @@ export class MapsPage {
     objData.ValorENG = this.datosMunicipio[0].ValorENG;
     objData.Imagen = this.datosMunicipio[0].Imagen;
     objData.Orden = this.datosMunicipio[0].Orden;
+    objData.Video = this.datosMunicipio[0].Video;
+    
     this.datosSitioTuristico = [objData]
   }
 
@@ -284,6 +298,21 @@ export class MapsPage {
     this.cargarDatosMunicipio();
   }
 
+  vervideo(id:string){
+    //document.getElementById("video").innerHTML=id;
+    id = id.replace("560","100%");
+    this.videoElement.nativeElement.innerHTML=id;
+  }
+  validate(value)
+  { 
+    if(value != "" && value != null && value != undefined) 
+      return true;
+    else
+      return false;  
+  }
+
+
+
   arrayMap(aRows: any[], aColumns: any[]): any[] {
     let aData: object[] = [];
     aRows.forEach(function (aRows) {
@@ -295,4 +324,5 @@ export class MapsPage {
     });
     return aData;
   }
+
 }
