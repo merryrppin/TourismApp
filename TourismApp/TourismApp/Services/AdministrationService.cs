@@ -41,6 +41,11 @@ namespace TourismApp.Services
 
                         foreach (StoredParams StoredParam in StoredObjectParams.StoredParams)
                         {
+                            if (StoredParam.TypeOfParameter == (int)EnumTypeOfParameter.JSONType)
+                            {
+                                StoredParam.Value = StoredParam.Value.Replace("'", "\"");
+                            }
+
                             cmd.Parameters.Add("@" + StoredParam.Name, TypeOfParameter(StoredParam.TypeOfParameter)).Value = StoredParam.Value;
                         }
                         con.Open();
@@ -89,6 +94,8 @@ namespace TourismApp.Services
                     return SqlDbType.Bit;
                 case (int)EnumTypeOfParameter.DateType:
                     return SqlDbType.Date;
+                case (int)EnumTypeOfParameter.JSONType:
+                    return SqlDbType.VarChar;
                 default:
                     return SqlDbType.VarChar;
             }
