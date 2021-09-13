@@ -1,7 +1,8 @@
-import { Injectable,NgZone } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { WebapiService } from '../webapi/webapi.service';
 import { GeneralService } from '../General/general.service';
+import { UsuarioApp } from 'src/app/data/models/usuarioapp';
 
 export interface IGet {
   controller: string;
@@ -17,8 +18,8 @@ export interface IResponse {
   d: string;
 }
 
-export interface IResponse{
-  f:boolean;
+export interface IResponse {
+  f: boolean;
 }
 export interface IException {
   Data: any;
@@ -42,8 +43,8 @@ export interface IPrinpalResponse {
   providedIn: 'root'
 })
 export class SyncService {
-  protected urlApi:string ="https://testappservicewf.azurewebsites.net/api/tourism";
-  constructor(private http:WebapiService, private general:GeneralService,private zone: NgZone) { }
+  protected urlApi: string = "https://testappservicewf.azurewebsites.net/api/tourism";
+  constructor(private http: WebapiService, private general: GeneralService, private zone: NgZone) { }
 
   private errorHandler = <T>(
     e: HttpErrorResponse,
@@ -60,36 +61,56 @@ export class SyncService {
 
   async descargarDatos() {
     const dataSync = '{"StoredParams":[{"Name":"IdMunicipio", "Value":"1"}],"StoredProcedureName":"ObtenerSitiosTuristicos"}';
-    const sasUriBlob = this.urlApi + ""; 
+    const sasUriBlob = this.urlApi + "";
     let header = new HttpHeaders();
-    header = header.set("Content-Type", "application/json; charset=UTF-8"); 
+    header = header.set("Content-Type", "application/json; charset=UTF-8");
     let data = await this.http.post<any>(
       {
-        Uri:sasUriBlob,
-        controller:"",
-        action:"",
-        body:dataSync,
-        headers:header
+        Uri: sasUriBlob,
+        controller: "",
+        action: "",
+        body: dataSync,
+        headers: header
       }
     )
     return data;
-}
+  }
 
-async descargarDatosMunicipio() {
-  const dataSync = '{    "StoredParams":[{"Name":"IdMunicipio", "Value":"1"}],"StoredProcedureName":"ObtenerCulturaGeneralMunicipio"}';
-  const sasUriBlob = this.urlApi + ""; 
-  let header = new HttpHeaders();
-  header = header.set("Content-Type", "application/json; charset=UTF-8"); 
-  let data = await this.http.post<any>(
-    {
-      Uri:sasUriBlob,
-      controller:"",
-      action:"",
-      body:dataSync,
-      headers:header
-    }
-  )
-  return data;
-}
+  async descargarDatosMunicipio() {
+    const dataSync = '{    "StoredParams":[{"Name":"IdMunicipio", "Value":"1"}],"StoredProcedureName":"ObtenerCulturaGeneralMunicipio"}';
+    const sasUriBlob = this.urlApi + "";
+    let header = new HttpHeaders();
+    header = header.set("Content-Type", "application/json; charset=UTF-8");
+    let data = await this.http.post<any>(
+      {
+        Uri: sasUriBlob,
+        controller: "",
+        action: "",
+        body: dataSync,
+        headers: header
+      }
+    )
+    return data;
+  }
+
+  async GuardarSesionUsuarioApp(usuarioApp: UsuarioApp, IdSesion: string) {
+    let usr = JSON.stringify(usuarioApp);
+    let re = /\"/gi;
+    usr = usr.replace(re, "'");
+    const dataSync = '{"StoredParams":[{ "Name":"jsonDatosUsuario", "TypeOfParameter": 5, "Value":"' + usr + '"},{"Name":"IdSesion", "Value": "' + IdSesion + '"}],"StoredProcedureName":"GuardarSesionUsuarioApp"}';
+    const sasUriBlob = this.urlApi + "";
+    let header = new HttpHeaders();
+    header = header.set("Content-Type", "application/json; charset=UTF-8");
+    let data = await this.http.post<any>(
+      {
+        Uri: sasUriBlob,
+        controller: "",
+        action: "",
+        body: dataSync,
+        headers: header
+      }
+    )
+    return data;
+  }
 
 }
