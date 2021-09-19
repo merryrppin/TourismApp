@@ -20,7 +20,9 @@ export class LoginPage {
   async loadUser(){
     this.user = await this.storage.getUser("User");
     if(typeof this.user !== 'undefined'){
-      //consultar si el idSesion es válido y redireccionar
+      this.navController.navigateRoot(["/_mainLayout/index"]).then(()=> {
+        console.log("Login exitoso.");
+      })
     }
   }
 

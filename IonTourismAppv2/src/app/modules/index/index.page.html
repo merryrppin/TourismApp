@@ -8,7 +8,8 @@
         <ion-row justify-content-center align-items-center>
           <ion-col size="12" class="ion-no-padding">
             <div class="ion-text-center">
-              <h1 class="title">¡Bienvenido!</h1>
+              <h1 class="title" *ngIf="getCurrentLanguageESP()">¡Bienvenido!</h1>
+              <h1 class="title" *ngIf="!getCurrentLanguageESP()">Welcome!</h1>
             </div>
           </ion-col>
         </ion-row>
@@ -25,7 +26,16 @@
             <ion-img src="../../assets/images/iconScan.png" (click)="scanPage()"></ion-img>
           </ion-col>
           <ion-col size="6">
-            <ion-img src="../../assets/images/iconMap.png"></ion-img>
+            <ion-row>
+              <ion-col size="6">
+                <ion-img src="../../assets/images/colflag.png" (click)="setLanguage('ESP')"></ion-img>
+              </ion-col>
+              <ion-col size="6" class="style-text-lang" (click)="setLanguage('ESP')">ESP</ion-col>
+              <ion-col size="6">
+                <ion-img src="../../assets/images/usaflag.png" (click)="setLanguage('ENG')"></ion-img>
+              </ion-col>
+              <ion-col size="6" class="style-text-lang" (click)="setLanguage('ENG')">ENG</ion-col>
+            </ion-row>
           </ion-col>
         </ion-row>
         <ion-row>
