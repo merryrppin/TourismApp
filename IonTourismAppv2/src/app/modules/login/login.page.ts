@@ -30,7 +30,7 @@ export class LoginPage {
 
   async loadUser() {
     this.user = await this.storage.getUser("User");
-    if (typeof this.user !== 'undefined' && typeof this.user !== null) {
+    if (typeof this.user !== 'undefined' && this.user !== null) {
       await this.openLoading();
       let data = await this.syncService.GetSesionUsuarioApp(this.user.IdSesion);
       this.loading.dismiss();
