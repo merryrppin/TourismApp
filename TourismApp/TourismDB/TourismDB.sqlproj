@@ -83,6 +83,7 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblUsuarioApp.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblSesionUsuarioApp.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\GuardarSesionUsuarioApp.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\ObtenerSesionUsuarioApp.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Objects\PostDeployment\Postdeployment.sql" />
