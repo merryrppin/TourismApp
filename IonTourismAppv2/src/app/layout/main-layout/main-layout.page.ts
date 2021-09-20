@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/cor
 import { GeneralService } from 'src/app/core/General/general.service';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { NavController } from '@ionic/angular';
+import { StorageService } from 'src/app/core/Services/storage/storage.service';
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.page.html',
@@ -16,10 +17,12 @@ export class MainLayoutPage implements OnInit {
 
   @ViewChild("content") content: ElementRef
   constructor(private generalService:GeneralService,
-    private navController:NavController) { }
+    private navController:NavController,
+    private storage: StorageService) { }
 
   ngOnInit() {
   }
+
   changeLanguage(language:string){
     this.generalService.setCurrentLanguage(language);
   }
@@ -27,9 +30,11 @@ export class MainLayoutPage implements OnInit {
   getLanguage():string{
     return this.generalService.getCurrentLanguage();
   }
+
   logout(){
+    this.storage.setUser("User", null);
     GoogleAuth.signOut().then(()=>{
-      this.navController.navigateRoot([""]);
+      this.navController.navigateRoot(["/_mainLayout/login"]);
     })
   }
 }
