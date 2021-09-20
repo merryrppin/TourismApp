@@ -113,4 +113,32 @@ export class SyncService {
     return data;
   }
 
+  async GetSesionUsuarioApp(IdSesion: string) {
+    const dataSync = '{"StoredParams":[{ "Name":"IdSesion", "Value":"' + IdSesion + '"}],"StoredProcedureName":"ObtenerSesionUsuarioApp"}';
+    const sasUriBlob = this.urlApi + "";
+    let header = new HttpHeaders();
+    header = header.set("Content-Type", "application/json; charset=UTF-8");
+    let data = await this.http.post<any>(
+      {
+        Uri: sasUriBlob,
+        controller: "",
+        action: "",
+        body: dataSync,
+        headers: header
+      }
+    )
+    return this.arrayMap(data.value[0].rows, data.value[0].columns);
+  }
+
+  arrayMap(aRows: any[], aColumns: any[]): any[] {
+    let aData: object[] = [];
+    aRows.forEach(function (aRows) {
+      let objData = {};
+      aColumns.forEach(function (objColumn, indexColumn) {
+        objData[objColumn] = aRows[indexColumn];
+      });
+      aData.push(objData);
+    });
+    return aData;
+  }
 }

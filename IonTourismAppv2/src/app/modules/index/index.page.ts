@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { GeneralService } from 'src/app/core/General/general.service';
+import { StorageService } from 'src/app/core/Services/storage/storage.service';
 @Component({
   selector: 'app-index',
   templateUrl: './index.page.html',
@@ -10,9 +11,14 @@ export class IndexPage implements OnInit {
 
   constructor(
     private navController: NavController,
-    private generalService: GeneralService) { }
+    private generalService: GeneralService,
+    private storage: StorageService) { }
 
   ngOnInit() {
+    this.storage.getIdioma("Language").then(resp => {
+      let respLang = resp.value == null ? "ESP" : resp.value;
+      this.generalService.setCurrentLanguage(respLang);
+    });
   }
 
   scanPage(){
@@ -22,7 +28,8 @@ export class IndexPage implements OnInit {
     this.navController.navigateRoot(["/_mainLayout/maps"]);
   }
 
-  setLanguage(selectedLanguage:string){
+  async setLanguage(selectedLanguage:string){
+    await this.storage.setIdioma("Language", selectedLanguage);
     this.generalService.setCurrentLanguage(selectedLanguage);
   }
 

@@ -26,7 +26,6 @@ export class MapsPage {
 
   userMarker:google.maps.Marker;
 
-  idioma: string = "ESP"; //TEST 
   idMunicipio: number = 1; //Girardota
 
   currentMarkerPosition: google.maps.LatLng = null;
@@ -149,7 +148,7 @@ export class MapsPage {
 
   async openLoading() {
     this.loading = await this.generalService.presentLoading({
-      message: "por favor espere...",
+      message: this.getCurrentLanguageESP() ? "Por favor espere..." : "Please wait...",
       keyboardClose: false
     });
   }
