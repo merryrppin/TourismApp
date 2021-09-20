@@ -19,7 +19,7 @@ export class IndexPage implements OnInit {
     this.navController.navigateRoot(["/_mainLayout/scan-qr"]);
   }
   mapsPage(){
-    this.navController.navigateRoot(["/_mainLayout/scan-qr"]);
+    this.navController.navigateRoot(["/_mainLayout/maps"]);
   }
 
   setLanguage(selectedLanguage:string){

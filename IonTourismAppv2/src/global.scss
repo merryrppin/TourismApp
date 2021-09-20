@@ -24,3 +24,20 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+@font-face{
+    font-family:'champagne-regular';
+    src:url('./assets/fonts/Champagne & Limousines.ttf');
+}
+@font-face{
+    font-family:'champagne-semibold';
+    src:url('./assets/fonts/Champagne & Limousines Bold Italic.ttf');
+}
+@font-face{
+    font-family:'champagne-bold';
+    src:url('./assets/fonts/Champagne & Limousines Bold.ttf');
+}
+ion-content{
+    font-family:champagne-regular;
+    color:#216CA7;
+}

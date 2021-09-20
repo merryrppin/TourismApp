@@ -3,6 +3,7 @@ import {
   BarcodeScannerOptions,
   BarcodeScanner
 } from "@ionic-native/barcode-scanner/ngx";
+import {InformacionQRService} from 'src/app/core/informacionQR/informacion-qr.service';
 @Component({
   selector: 'app-scan-qr',
   templateUrl: './scan-qr.page.html',
@@ -11,7 +12,9 @@ import {
 export class ScanQRPage implements OnInit {
   barcodeScannerOptions: BarcodeScannerOptions;
   scannedData: {};
-  constructor(private barcodeScanner: BarcodeScanner) { }
+  QRInformacion:string ="";
+  constructor(private barcodeScanner: BarcodeScanner,
+    private serviceQR:InformacionQRService) { }
 
   ngOnInit() {
   }
@@ -22,11 +25,20 @@ export class ScanQRPage implements OnInit {
     .scan()
     .then(barcodeData => {
       //alert("Barcode data " + JSON.stringify(barcodeData));
+      //this.traerInformacionQR(scannedData);
       this.scannedData = barcodeData;
+      this.traerInformacionQR(barcodeData.text,this);
     })
     .catch(err => {
       console.log("Error", err);
     });
   
+    }
+
+    async traerInformacionQR(barcodeData:string,objectthis:any){
+      var informacion ;
+      await this.serviceQR.ObtenerInformacionQR(barcodeData).then(function(value){
+        objectthis.QRInformacion= value.value[0].rows[0][0];
+      });
     }
 }
