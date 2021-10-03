@@ -84,6 +84,15 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblSesionUsuarioApp.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\GuardarSesionUsuarioApp.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\ObtenerSesionUsuarioApp.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblFiltroSenderismo.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblValorFiltroSenderismo.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblRutaAlternativa.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblRutaSenderismo.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblPuntoSenderismo.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblPuntoReferencia.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblRutaAlternativa_tblPuntoReferencia.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblFotoPuntoSenderismo.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblFotoPuntoReferencia.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Objects\PostDeployment\Postdeployment.sql" />
