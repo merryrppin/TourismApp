@@ -1,0 +1,7 @@
+{
+  "name": "AppMiGi",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

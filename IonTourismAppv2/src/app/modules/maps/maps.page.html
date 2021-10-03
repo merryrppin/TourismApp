@@ -31,7 +31,7 @@
       <ion-accordion color="-" title="{{getCurrentLanguageESP() ? item.Nombre : item.NombreENG}}"
         openIcon="remove-circle" closeIcon="add-circle" classTitle="border-header" class="accordion title-accordion">
         <div class="background">
-          <div class="ion-text-justify color-font">{{getCurrentLanguage() == "ESP" ? item.ValorESP : item.ValorENG}}</div>
+          <div class="ion-text-justify color-font"><br/>{{getCurrentLanguage() == "ESP" ? item.ValorESP : item.ValorENG}}</div>
           <br/>
           <div *ngIf="validate(item.Imagen)">
           <ion-img  [src]="item.Imagen"></ion-img>
