@@ -98,4 +98,7 @@
     <None Include="Schema Objects\PostDeployment\Postdeployment.sql" />
     <None Include="Schema Objects\PostDeployment\DummyData.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="TourismDB.refactorlog" />
+  </ItemGroup>
 </Project>

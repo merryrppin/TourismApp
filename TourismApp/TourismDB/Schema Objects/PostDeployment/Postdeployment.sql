@@ -33,3 +33,15 @@ INSERT INTO [dbo].[tblCulturaGeneral]([IdCulturaGeneral], [NombreCulturaGeneralE
 (2, 'Historia', 'HIST', 1);
 
 SET IDENTITY_INSERT [dbo].[tblCulturaGeneral] OFF
+
+SET IDENTITY_INSERT [dbo].[tblFiltroSenderismo] ON
+
+INSERT INTO [dbo].[tblFiltroSenderismo]([NombreFiltroSenderismo], [NombreFiltroSenderismoENG], [Orden]) VALUES
+('Nombre', 'Name', 100),
+('Zona', 'Zone', 200),
+('Vereda', 'Sidewalk', 300),
+('Distancia(Km)', 'Distance(Km)', 400),
+('Intensidad', 'Intensity', 500),
+('Duración', 'Duration', 600);
+
+SET IDENTITY_INSERT [dbo].[tblFiltroSenderismo] OFF
