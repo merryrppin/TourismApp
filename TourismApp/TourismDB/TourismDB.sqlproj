@@ -93,6 +93,8 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblRutaAlternativa_tblPuntoReferencia.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblFotoPuntoSenderismo.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblFotoPuntoReferencia.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblSitiosGastronomico.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblSitiosGastronomicosDetalle.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Objects\PostDeployment\Postdeployment.sql" />
