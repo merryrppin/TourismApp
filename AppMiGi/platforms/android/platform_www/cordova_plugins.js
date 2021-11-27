@@ -39,14 +39,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "window.StatusBar"
       ]
-    },
-    {
-      "id": "cordova-plugin-facebook-connect.FacebookConnectPlugin",
-      "file": "plugins/cordova-plugin-facebook-connect/www/facebook-native.js",
-      "pluginId": "cordova-plugin-facebook-connect",
-      "clobbers": [
-        "facebookConnectPlugin"
-      ]
     }
   ];
   module.exports.metadata = {
@@ -55,7 +47,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-ionic-webview": "4.2.1",
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-statusbar": "2.4.2",
-    "cordova-plugin-whitelist": "1.3.3",
-    "cordova-plugin-facebook-connect": "3.2.0"
+    "cordova-plugin-whitelist": "1.3.3"
   };
 });
