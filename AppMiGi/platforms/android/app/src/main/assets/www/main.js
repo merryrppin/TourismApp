@@ -40,18 +40,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const routes = [
-    {
+    /*   {
         path: 'inicio',
-        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_modules_inicio_inicio_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./modules/inicio/inicio.module */ 8727)).then(m => m.InicioPageModule)
+        loadChildren: () => import('./modules/inicio/inicio.module').then( m => m.InicioPageModule)
+      }, */
+    {
+        path: 'menu',
+        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_shared_menu_menu_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./shared/menu/menu.module */ 1777)).then(m => m.MenuPageModule)
     },
     {
         path: '',
-        redirectTo: 'inicio',
+        redirectTo: 'menu',
         pathMatch: 'full'
     },
-    {
+    /*   {
         path: 'inicio',
-        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_modules_inicio_inicio_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./modules/inicio/inicio.module */ 8727)).then(m => m.InicioPageModule)
+        loadChildren: () => import('./modules/inicio/inicio.module').then( m => m.InicioPageModule)
+      }, */
+    {
+        path: 'menu',
+        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_shared_menu_menu_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./shared/menu/menu.module */ 1777)).then(m => m.MenuPageModule)
     },
 ];
 let AppRoutingModule = class AppRoutingModule {
@@ -129,14 +137,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let AppModule = class AppModule {
 };
 AppModule = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.NgModule)({
         declarations: [_app_component__WEBPACK_IMPORTED_MODULE_0__.AppComponent],
         entryComponents: [],
-        imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__.BrowserModule, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonicModule.forRoot(), _app_routing_module__WEBPACK_IMPORTED_MODULE_1__.AppRoutingModule],
-        providers: [{ provide: _angular_router__WEBPACK_IMPORTED_MODULE_6__.RouteReuseStrategy, useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonicRouteStrategy }],
+        imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_4__.BrowserModule, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonicModule.forRoot(), _app_routing_module__WEBPACK_IMPORTED_MODULE_1__.AppRoutingModule, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonicModule],
+        providers: [{ provide: _angular_router__WEBPACK_IMPORTED_MODULE_6__.RouteReuseStrategy, useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.IonicRouteStrategy }, _ionic_angular__WEBPACK_IMPORTED_MODULE_5__.NavParams],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_0__.AppComponent],
     })
 ], AppModule);
@@ -460,7 +469,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-app>\r\n  <ion-router-outlet></ion-router-outlet>\r\n</ion-app>\r\n");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-app>\n  <ion-router-outlet></ion-router-outlet>\n</ion-app>\n");
 
 /***/ })
 
