@@ -9,34 +9,66 @@ const routes: Routes = [
     component: MenuPage,
     children: [
       {
-        path:'', loadChildren: '../../modules/inicio/inicio.module#InicioPageModule'
+        path:'inicio',
+        children:[
+          {
+            path: '',
+            loadChildren: () => import('../../modules/inicio/inicio.module').then(m => m.InicioPageModule)
+          }
+
+        ]
+
       },
-/*       {
+      {
         path: 'religioso',
-        loadChildren: () => import('../../modules/inicio/inicio.module').then(m => m.InicioPageModule)
+        children:[
+          {
+            path: '',
+            loadChildren: () => import('../../modules/inicio/inicio.module').then(m => m.InicioPageModule)
+          }
+
+        ]
       },
       {
         path: 'senderismo',
-        loadChildren: () => import('../../modules/inicio/inicio.module').then(m => m.InicioPageModule)
+        children:[
+          {
+            path: '',
+            loadChildren: () => import('../../modules/inicio/inicio.module').then(m => m.InicioPageModule)
+          }
+
+        ]
       },
       {
         path: 'gastronomico',
-        loadChildren: () => import('../../modules/inicio/inicio.module').then(m => m.InicioPageModule)
+        children:[
+          {
+            path: '',
+            loadChildren: () => import('../../modules/inicio/inicio.module').then(m => m.InicioPageModule)
+          }
+
+        ]
       },
       {
         path: 'perfil',
-        loadChildren: () => import('../../modules/inicio/inicio.module').then(m => m.InicioPageModule)
-      }, */
+        children:[
+          {
+            path: '',
+            loadChildren: () => import('../../modules/inicio/inicio.module').then(m => m.InicioPageModule)
+          }
+
+        ]
+      },
       {
         path: '',
-        redirectTo: '/tabs/tabs/inicio',
+        redirectTo: '/tabs/inicio',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tabs/inicio',
+    redirectTo: '/tabs/inicio',
     pathMatch: 'full'
   }
 ];
