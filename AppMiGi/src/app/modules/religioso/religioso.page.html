@@ -1,0 +1,44 @@
+<ion-content>
+  <ion-slides #slides effect="coverflow" (ionSlideAfterInit)="ionSlideAfterInit()"
+    (ionSlideDidChange)="slideChanged(slides)">
+    <ion-slide *ngFor="let item of mainPredictionArray">
+      <ion-icon slot="start" class="icon-arrow" name="arrow-back-outline"></ion-icon>
+      <ion-icon slot="end" class="icon-share" name="share-social-outline"></ion-icon>
+      <ion-icon slot="end" class="icon-heart" name="heart-outline"></ion-icon>
+      <ion-card>
+        <img class="card-img" src="{{item.predictionImageURL}}" />
+        <ion-card-content>
+          {{item.subject}}
+        </ion-card-content>
+        <ion-item>
+          <ion-button color="light" slot="start">
+            <ion-icon name="thumbs-up-outline"></ion-icon>
+          </ion-button>
+          <ion-button color="light" slot="end">
+            <ion-icon name="bookmark-outline"></ion-icon>
+          </ion-button>
+          <ion-badge color="tertiary" slot="end">34k</ion-badge>
+        </ion-item>
+      </ion-card>
+      <ion-item class="card-item">
+        <ion-icon style="margin-right: 0px;" slot="start" class="bigger"
+          src="../../../assets/svg/chatbubbles-sharp.svg"></ion-icon>
+        <ion-textarea [(ngModel)]="conversationDetail" style="padding-left: 10px;">
+        </ion-textarea>
+        <ion-icon slot="end" (click)="saveConversation(item.id)" name="send-outline"></ion-icon>
+        <ion-icon slot="end" (click)="pickImage(item.id)" slot="end" name="image-outline"></ion-icon>
+      </ion-item>
+      <div *ngFor="let chat of item.chatResponse">
+        <ion-item>
+          <ion-avatar slot="start">
+            <img class="ion-img-internal" src="{{chat.userProfilePic}}">
+          </ion-avatar>
+          <ion-label>
+            <h2 class="ion-img-h2 ">{{chat.userDisplayName}} </h2>
+            <p>{{chat.conversation}}</p>
+          </ion-label>
+        </ion-item>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

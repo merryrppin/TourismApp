@@ -24,7 +24,7 @@ const routes: Routes = [
         children:[
           {
             path: '',
-            loadChildren: () => import('../../modules/inicio/inicio.module').then(m => m.InicioPageModule)
+            loadChildren: () => import('../../modules/religioso/religioso.module').then(m => m.ReligiosoPageModule)
           }
 
         ]
