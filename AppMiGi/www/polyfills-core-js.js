@@ -1,6 +1,6 @@
 (self["webpackChunkAppMiGi"] = self["webpackChunkAppMiGi"] || []).push([["polyfills-core-js"],{
 
-/***/ 3609:
+/***/ 7656:
 /*!****************************************************************!*\
   !*** ./node_modules/@ionic/core/dist/esm/polyfills/core-js.js ***!
   \****************************************************************/
