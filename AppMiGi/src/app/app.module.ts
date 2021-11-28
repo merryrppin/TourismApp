@@ -8,11 +8,13 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NavController, NavParams } from '@ionic/angular';
 
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,IonicModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },NavParams],
+  providers: [GooglePlus, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },NavParams],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
