@@ -1,5 +1,5 @@
 {
-  "name": "appmigi",
+  "name": "AppMiGi",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
@@ -19,9 +19,7 @@
     "@angular/platform-browser": "~12.1.1",
     "@angular/platform-browser-dynamic": "~12.1.1",
     "@angular/router": "~12.1.1",
-    "@ionic-native/google-plus": "^5.36.0",
     "@ionic/angular": "^5.5.2",
-    "cordova-plugin-googleplus": "^8.5.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
@@ -75,11 +73,7 @@
       "cordova-plugin-ionic-webview": {
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
-      "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-googleplus": {
-        "REVERSED_CLIENT_ID": "io.ionic.appmigi",
-        "WEB_APPLICATION_CLIENT_ID": "446349367137-t127da6e24r06t49hb63rs51jfhpba2d.apps.googleusercontent.com"
-      }
+      "cordova-plugin-ionic-keyboard": {}
     },
     "platforms": [
       "android"
