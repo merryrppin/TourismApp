@@ -95,6 +95,8 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblFotoPuntoReferencia.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblSitiosGastronomico.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblSitiosGastronomicosDetalle.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblUsuarioWeb.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\ObtenerUsuario.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Objects\PostDeployment\Postdeployment.sql" />

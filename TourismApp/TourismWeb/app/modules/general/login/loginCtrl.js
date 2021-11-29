@@ -1,43 +1,57 @@
-﻿angular.module("tourismApp").controller('loginController', ["$scope", "$rootScope", "GeneralService", "SessionService", loginController]);
-function loginController($scope, $rootScope, GeneralService, SessionService) {
-    // GeneralService.hidePanels();//Todo: TEST
+﻿angular
+    .module("tourismApp", [])
+    .controller('loginController', loginController);
 
-    $scope.LoginEntity = {
-        login: '',
+loginController.$inject = ['$scope', 'GeneralService'];
+
+function loginController($scope, GeneralService) {
+
+    var ctrl = this;
+    ctrl.IsValid = false;
+    ctrl.IsLoad = false;
+    ctrl.messageLoginInvalid;
+
+    ctrl.LoginEntity = {
+        user: '',
         password: '',
     }
 
-    $scope.loginUser = function () {
-        if ($("#frmLogin").valid()) {
-            GeneralService.executeAjax({
-                url: 'api/login',
-                data: $scope.LoginEntity,
-                success: function (response) {
-                    if (typeof response !== 'undefined' && typeof response.UserId !== 'undefined' && response.UserId !== 0) {
-                        $rootScope.$broadcast('clearState');
-                        SessionService.model = angular.copy(response);
-                        $rootScope.$broadcast('savestate');
-                        $rootScope.$broadcast('restorestate');
-                        window.location.hash = "#!/home";
-                    } else {
-                        //TODO: Usuario y/o contraseña no válidas
-                    }
-                }
-            });
-
+    ctrl.loginUser = function (credentials) {
+        if (ctrl.LoginEntity.user.lenght === 0) {
+            ctrl.IsValid = true;
+            ctrl.messageLoginInvalid = 'Ingrese su usuario';
+            return;
         }
-    };
+        else if (ctrl.LoginEntity.password === 0) {
+            ctrl.IsValid = true;
+            ctrl.messageLoginInvalid = 'Ingrese su contraseña';
+            return;
+        }
 
-    $(document).ready(function () {
-        $("#frmLogin").validate({
-            rules: {
-                username: {
-                    required: true
-                },
-                password: {
-                    required: true
+        ctrl.IsValid = false;
+        ctrl.IsLoad = true;
+
+        var StoredObjectParams =
+        {
+            "StoredParams": [{ "Name": "Email", "Value": ctrl.LoginEntity.user }, { "Name": "Password", "Value": ctrl.LoginEntity.password }],
+            "StoredProcedureName": "ObtenerUsuario"
+        }
+
+        GeneralService.executeAjax({
+            url: 'https://localhost:44355/api/tourism/Login',
+            data: StoredObjectParams,
+            success: function (response) {
+                ctrl.IsLoad = false;
+                if (response != null && response.token != null) {
+                    ctrl.IsValid = false;
+                    window.location.hash = "#!/home";
+                } else {
+                    ctrl.IsValid = true;
+                    ctrl.messageLoginInvalid = 'Usuario y/o contraseña no válidas';
                 }
             }
         });
-    });
+    };
+
+
 }
