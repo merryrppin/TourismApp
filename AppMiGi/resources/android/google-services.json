@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "193003617596",
+    "project_id": "migiapp-e1989",
+    "storage_bucket": "migiapp-e1989.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193003617596:android:2d16c57c980c72b705b239",
+        "android_client_info": {
+          "package_name": "io.ionic.appmigi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "193003617596-1nm994b44qiso0h1e6i1m7anmap40j72.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.ionic.appmigi",
+            "certificate_hash": "ed4fcfb3713bfc700306ab6da1278b41212c65de"
+          }
+        },
+        {
+          "client_id": "193003617596-f3gi7se22k1slo7lrh3csnuut4jbrnvg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCftCSO8ZHMczceXvCwi0VQROHYH-Mg1k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "193003617596-f3gi7se22k1slo7lrh3csnuut4jbrnvg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "193003617596-4801i7118q65m8hqe6vlgh0joq6cdoi3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.ionic.appmigi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
