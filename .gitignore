@@ -354,3 +354,5 @@ IonTourismAppv2/package-lock.json
 IonTourismAppv2/android/app/src/main/assets/capacitor.config.json
 IonTourismAppv2/android/app/src/main/AndroidManifest.xml.orig
 IonTourismAppv2/android/app/src/main/AndroidManifest.xml
+AppMiGi/www/
+AppMiGi/platforms/
