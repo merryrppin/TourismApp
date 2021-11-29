@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -11,7 +10,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using TourismApp.General;
 using TourismApp.Services;
 using TourismApp.Services.Entities;
@@ -56,7 +54,7 @@ namespace TourismApp.Controllers
             var encriptPassword = EncryptDecryptPassword.EncryptPlainText(password);
             StoredObjectParams.StoredParams.Where(x => x.Name == "Password").ToList().ForEach(p => p.Value = encriptPassword);
             var response = _AdministrationService.ExecuteStoredProcedure(StoredObjectParams);
-            if (response.Value.Count > 0)
+            if (response.Value != null && response.Value[0].Rows.Count > 0)
             {
                 return BuildToken(email);
             }
@@ -73,7 +71,7 @@ namespace TourismApp.Controllers
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_Configuration.GetValue<string>("keyJwt")));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expirationDate = DateTime.UtcNow.AddYears(1);
+            var expirationDate = DateTime.UtcNow.AddYears(1); // TODO aun por definir tiempo de expiración por ahora un año
             var securityToken = new JwtSecurityToken(issuer: null, audience: null, claims: claims, expires: expirationDate, signingCredentials: credentials);
 
             return new AuthenticationResponse()
