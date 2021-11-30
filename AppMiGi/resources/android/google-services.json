@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "193003617596-8bu1n9imao757rt9vmqq77m6tn826bd1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.ionic.appmigi",
+            "certificate_hash": "f67758bfffc782f245b5df3c19e2dcaf5bb6ec8d"
+          }
+        },
+        {
           "client_id": "193003617596-f3gi7se22k1slo7lrh3csnuut4jbrnvg.apps.googleusercontent.com",
           "client_type": 3
         }
