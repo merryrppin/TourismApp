@@ -19,10 +19,10 @@
     "@angular/platform-browser": "~12.1.1",
     "@angular/platform-browser-dynamic": "~12.1.1",
     "@angular/router": "~12.1.1",
+    "@ionic-native/facebook": "^5.36.0",
     "@ionic-native/google-plus": "^5.36.0",
     "@ionic/angular": "^5.5.2",
     "cordova": "10.0.0",
-    "cordova-android": "9.1.0",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-googleplus": "8.5.2",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
@@ -51,7 +51,11 @@
     "@typescript-eslint/eslint-plugin": "4.16.1",
     "@typescript-eslint/parser": "4.16.1",
     "cordova": "10.0.0",
+    "cordova-android": "^9.1.0",
+    "cordova-plugin-androidx": "^3.0.0",
+    "cordova-plugin-androidx-adapter": "^1.1.3",
     "cordova-plugin-device": "2.0.2",
+    "cordova-plugin-facebook-connect": "^3.2.0",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^4.0.0",
     "cordova-plugin-splashscreen": "5.0.2",
@@ -86,9 +90,22 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-googleplus": {
         "REVERSED_CLIENT_ID": "193003617596-1nm994b44qiso0h1e6i1m7anmap40j72.apps.googleusercontent.com",
-        "WEB_APPLICATION_CLIENT_ID": "193003617596-f3gi7se22k1slo7lrh3csnuut4jbrnvg.apps.googleusercontent.com",
-        "PLAY_SERVICES_VERSION": "15.0.1"
-      }
+        "WEB_APPLICATION_CLIENT_ID": "193003617596-f3gi7se22k1slo7lrh3csnuut4jbrnvg.apps.googleusercontent.com"
+      },
+      "cordova-plugin-facebook-connect": {
+        "APP_ID": "1216766098840608",
+        "APP_NAME": "TourismApp",
+        "FACEBOOK_URL_SCHEME_SUFFIX": " ",
+        "OTHER_APP_SCHEMES": " ",
+        "FACEBOOK_AUTO_LOG_APP_EVENTS": "true",
+        "FACEBOOK_HYBRID_APP_EVENTS": "false",
+        "FACEBOOK_ADVERTISER_ID_COLLECTION": "true",
+        "FACEBOOK_ANDROID_SDK_VERSION": "11.3.0",
+        "FACEBOOK_IOS_SDK_VERSION": "11.1.0",
+        "FACEBOOK_BROWSER_SDK_VERSION": "v11.0"
+      },
+      "cordova-plugin-androidx": {},
+      "cordova-plugin-androidx-adapter": {}
     },
     "platforms": [
       "android"
