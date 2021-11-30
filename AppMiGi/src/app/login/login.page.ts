@@ -23,11 +23,11 @@ export class LoginPage implements OnInit {
     })
       .then((res) => {
         debugger;
-        console.log(res)
+        console.log(res);
       })
       .catch((err) => {
         debugger;
-        console.error(err)
+        console.error(err);
       });
   }
 
@@ -35,14 +35,30 @@ export class LoginPage implements OnInit {
     this.fb.login(['public_profile', 'user_friends', 'email'])
       .then((res: FacebookLoginResponse) => {
         debugger;
-        console.log('Logged into Facebook!', res)
+        console.log('Logged into Facebook!', res);
+
+        this.fb.api("me?fields=id,name,email,picture.width(500).height(500)", ["public_profile", "email"])
+        .then(function(resp){
+          debugger;
+        })
+        .catch(function(err){
+          debugger;
+        });
       })
       .catch(e => {
         debugger;
-        console.log('Error logging into Facebook', e)
+        console.log('Error logging into Facebook', e);
       });
-
-
     this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
+  }
+
+  logoutFacebook(){
+    this.fb.logout()
+    .then(function(resp){
+      debugger;
+    })
+    .catch(function(err){
+      debugger;
+    })
   }
 }
