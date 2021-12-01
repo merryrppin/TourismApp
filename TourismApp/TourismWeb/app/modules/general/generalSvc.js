@@ -1,4 +1,5 @@
-﻿angular.module("tourismApp").factory('GeneralService', ['$http', '$rootScope', '$window', GeneralService]);
+﻿angular.module("tourismApp")
+    .factory('GeneralService', ['$http', '$rootScope', '$window', GeneralService]);
 function GeneralService($http, $rootScope, $window) {
     var generalService = {};
 
@@ -8,9 +9,9 @@ function GeneralService($http, $rootScope, $window) {
     generalService.executeAjax = function (data) {
         var options = angular.extend({}, {
             'method': "POST",
-            'url': '',
+            'url': data.url,
             'params': "",
-            'data': "",
+            'data': data.data,
             'async': true,
             'carga': true,
             'success': function () { },
@@ -18,14 +19,20 @@ function GeneralService($http, $rootScope, $window) {
             'funcionCorrecto': function () { },
             'funcionIncorrecto': function () { },
             'spinner': true,
-            'mapData': true
+            'mapData': true,
+            'dataType': 'json',
+            'contentType': 'application/json'
         }, data);
         $http({
             method: options.method,
             async: options.async,
             url: options.url,
             params: options.params,
-            data: options.data
+            data: options.data,
+            headers: {
+                'Content-Type': options.contentType
+            },
+            dataType: options.dataType,
         }).then(function (response) {
             if (typeof response === 'undefined' || (typeof response.data.Exception !== 'undefined' && response.data.Exception !== null)) {
                 var errorMessage = typeof response === 'undefined' ? aLanguage.generalError : response.data.Exception.Message;

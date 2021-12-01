@@ -2,12 +2,26 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html data-ng-app="tourismApp">
 <head runat="server">
     <title></title>
+
+    <%--Angular reference  --%>
+    <script src="Libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <script src="Libs/AngularJS-1.8.2/angular.min.js"></script>
+
+
+    <%-- Page reference --%>
+    <script src="app/app.js"></script>
+    <script src="app/config.js"></script>
+
+
+    <script src="app/modules/general/login/loginCtrl.js"></script>
+    <script src="app/modules/general/generalSvc.js"></script>
+
     <link href="Libs/bootstrap-5.1.0/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        .superiorDiv{
+        .superiorDiv {
             margin-top: 15%;
         }
 
@@ -16,7 +30,7 @@
         }
     </style>
 </head>
-<body>
+<body ng-controller="loginController as ctrl">
     <section class="vh-100">
         <div class="container-fluid h-custom superiorDiv">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -26,18 +40,28 @@
                 </div>
                 <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                     <br />
-                    <form>
+                    <form name="dataLogin" ng-submit="ctrl.loginUser(ctrl.LoginEntity)">
                         <!-- Email input -->
                         <div class="form-outline mb-4">
-                            <input type="email" id="form3Example3" class="form-control form-control-lg"
-                                placeholder="Ingresar email" />
+                            <input type="email"
+                                id="form3Example3"
+                                class="form-control form-control-lg"
+                                placeholder="Ingresar email"
+                                ng-model="ctrl.LoginEntity.user"
+                                required="required"
+                                name="user" />
                             <label class="form-label" for="form3Example3">Correo electrónico</label>
                         </div>
 
                         <!-- Password input -->
                         <div class="form-outline mb-3">
-                            <input type="password" id="form3Example4" class="form-control form-control-lg"
-                                placeholder="Ingresar contraseña" />
+                            <input type="password"
+                                id="form3Example4"
+                                class="form-control form-control-lg"
+                                placeholder="Ingresar contraseña"
+                                required="required"
+                                ng-model="ctrl.LoginEntity.password"
+                                name="password" />
                             <label class="form-label" for="form3Example4">Contraseña</label>
                         </div>
 
@@ -52,14 +76,27 @@
                         </div>
 
                         <div class="text-center text-lg-start mt-4 pt-2">
-                            <button type="button" class="btn btn-primary btn-lg bannerColor"
-                                style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                            <button
+                                type="submit"
+                                class="btn btn-primary btn-lg bannerColor"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem;"
+                                ng-disabled="dataLogin.$invalid ||  ctrl.IsLoad">
                                 Ingresar</button>
                             <p class="small fw-bold mt-2 pt-1 mb-0">
                             </p>
                         </div>
 
+                        <div class="row" ng-show="ctrl.IsValid">
+                            <div class="col-md-12">
+                                <div class="alert alert-danger">
+                                    <strong>Por favor, verifique los datos de ingreso</strong>
+                                    {{ ctrl.messageLoginInvalid }}
+                                </div>
+                            </div>
+                        </div>
+
                     </form>
+
                 </div>
             </div>
         </div>
@@ -88,5 +125,6 @@
             <!-- Right -->
         </div>
     </section>
+
 </body>
 </html>
