@@ -77,7 +77,8 @@ namespace TourismApp.Controllers
             return new AuthenticationResponse()
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(securityToken),
-                ExpirationDate = expirationDate
+                ExpirationDate = expirationDate,
+                RedirecTo= "/home",
             };
         }
 

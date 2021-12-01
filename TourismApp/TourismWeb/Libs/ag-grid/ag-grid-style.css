@@ -1,0 +1,14 @@
+﻿.fixedBadge {
+    display: inline;
+    float: right;
+}
+
+.gridInputText {
+    width: 100%;
+    height: 60%;
+}
+
+.mainGrid {
+    width: 100%;
+    height: 400px;
+}

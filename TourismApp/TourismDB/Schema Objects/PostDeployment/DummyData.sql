@@ -1,4 +1,8 @@
-﻿--[dbo].[tblMunicipio]
+﻿--[tblUsuarioWeb] Password : 123456
+insert into tblUsuarioWeb (UserName,Email,[Password])
+select 'admin','admin@correo.com','wEW6Tok99ik='
+
+--[dbo].[tblMunicipio]
 SET IDENTITY_INSERT [dbo].[tblMunicipio] ON
 
 INSERT INTO [dbo].[tblMunicipio]([IdMunicipio], [NombreMunicipio], [Activo]) VALUES

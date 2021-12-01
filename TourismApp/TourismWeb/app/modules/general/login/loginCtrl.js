@@ -1,15 +1,19 @@
 ﻿angular
-    .module("tourismApp", [])
+    .module('tourismApp.loginController', [])
     .controller('loginController', loginController);
 
-loginController.$inject = ['$scope', 'GeneralService'];
+loginController.$inject = ['$scope', '$window', '$location', 'GeneralService'];
 
-function loginController($scope, GeneralService) {
+function loginController($scope, $window, $location, GeneralService) {
 
     var ctrl = this;
+    ctrl.IsValidMenu = false;
     ctrl.IsValid = false;
     ctrl.IsLoad = false;
     ctrl.messageLoginInvalid;
+    $("aside").hide();
+
+    ctrl.aside = 'app/modules/general/templates/aside.html';
 
     ctrl.LoginEntity = {
         user: '',
@@ -42,9 +46,10 @@ function loginController($scope, GeneralService) {
             data: StoredObjectParams,
             success: function (response) {
                 ctrl.IsLoad = false;
-                if (response != null && response.token != null) {
+                if (response !== null && response !== '' && response.token !== null) {
                     ctrl.IsValid = false;
-                    window.location.hash = "#!/home";
+                    $location.path(response.redirecTo);
+                    $("aside").show();
                 } else {
                     ctrl.IsValid = true;
                     ctrl.messageLoginInvalid = 'Usuario y/o contraseña no válidas';
@@ -53,5 +58,18 @@ function loginController($scope, GeneralService) {
         });
     };
 
-
+    ctrl.transformRespond = function (Data) {
+        var Result = [];
+        var Columns = Data.Columns;
+        var Rows = Data.Rows;
+        for (var i = 0; i < Rows.length; i++) {
+            var Value = {};
+            for (var j = 0; j < Columns.length; j++) {
+                var ColumnName = Columns[j];
+                Value[ColumnName] = Rows[i][j];
+            }
+            Result.push(Value);
+        }
+        return Result;
+    };
 }
