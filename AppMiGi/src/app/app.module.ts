@@ -11,10 +11,11 @@ import { NavController, NavParams } from '@ionic/angular';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 
+import {HttpClientModule } from "@angular/common/http"
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, IonicModule],
+  imports: [HttpClientModule, BrowserModule, IonicModule.forRoot(), AppRoutingModule, IonicModule],
   providers: [GooglePlus, Facebook, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },NavParams],
   bootstrap: [AppComponent],
 })
