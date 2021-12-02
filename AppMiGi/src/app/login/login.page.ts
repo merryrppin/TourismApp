@@ -6,6 +6,7 @@ import { StorageService } from '../core/services/storage/storage.service';
 import { NavController } from '@ionic/angular';
 import { SyncService } from '../core/sync/sync.service';
 import { GeneralService } from '../core/General/general.service';
+import { CONSTANTS } from '../core/services/constants';
 
 @Component({
   selector: 'app-login',
@@ -41,7 +42,7 @@ export class LoginPage {
       let data = await this.syncService.GetSesionUsuarioApp(this.user.IdSesion);
       this.loading.dismiss();
       if (data.length > 0) {
-        this.navController.navigateRoot(["/tabs/inicio"]).then(() => { })
+        this.goToHomePage();
       } else {
         this.storage.setUser("User", null);
       }
@@ -50,11 +51,11 @@ export class LoginPage {
 
   loginGoogle() {
     this.googlePlus.login({
-      'webClientId': '193003617596-f3gi7se22k1slo7lrh3csnuut4jbrnvg.apps.googleusercontent.com',
+      'webClientId': CONSTANTS.webClientId,
       'offline': true
     })
       .then((user) => {
-        let usuarioApp: UsuarioApp = this.createUserObject(user.idToken, user.givenName,user.familyName, user.imageUrl, user.email);
+        let usuarioApp: UsuarioApp = this.createUserObject(user.idToken, user.givenName, user.familyName, user.imageUrl, user.email);
         this.saveLogin(usuarioApp);
       })
       .catch((err) => {
@@ -62,7 +63,7 @@ export class LoginPage {
       });
   }
 
-  createUserObject(idToken: string, givenName:string,familyName:string, imageUrl:string, email:string):UsuarioApp{
+  createUserObject(idToken: string, givenName: string, familyName: string, imageUrl: string, email: string): UsuarioApp {
     let usuarioApp: UsuarioApp = new UsuarioApp();
     usuarioApp.IdToken = idToken;
     usuarioApp.GivenName = givenName;
@@ -78,9 +79,7 @@ export class LoginPage {
     usuarioApp.IdSesion = data.value[0].rows[0][0];
     this.storage.setUser("User", usuarioApp);
     this.loading.dismiss();
-    this.navController.navigateRoot(["/tabs/inicio"]).then(() => {
-      console.log("Login exitoso.");
-    })
+    this.goToHomePage();
   }
 
   loginFacebook() {
@@ -102,13 +101,23 @@ export class LoginPage {
     this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
   }
 
+  goToHomePage(){
+    this.navController.navigateRoot(["/tabs/inicio"]).then(() => {})
+  }
+
   logoutFacebook() {
+    var objThis = this;
     this.fb.logout()
       .then(function (resp) {
+        objThis.storage.setUser("User", null);
         console.log(resp);
       })
       .catch(function (err) {
         console.log('Error logout Facebook', err);
       })
+  }
+
+  logoutGoogle() {
+    this.storage.setUser("User", null);
   }
 }
