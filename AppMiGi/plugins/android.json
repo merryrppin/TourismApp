@@ -37,15 +37,17 @@
       "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+",
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
-    "cordova-plugin-splashscreen": {
+    "cordova-plugin-nativegeocoder": {
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
-    "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "io.ionic.appmigi"
-    },
-    "cordova-plugin-whitelist": {
+    "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
       "PACKAGE_NAME": "io.ionic.appmigi"
     }
   },
-  "dependent_plugins": {}
+  "dependent_plugins": {
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "io.ionic.appmigi"
+    }
+  }
 }

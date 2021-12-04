@@ -63,7 +63,7 @@
   "cordova-plugin-facebook-connect": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-facebook-connect"
+      "id": "cordova-plugin-facebook-connect@^3.2.0"
     },
     "is_top_level": true,
     "variables": {
@@ -83,6 +83,30 @@
     "source": {
       "type": "registry",
       "id": "cordova-plugin-androidx-adapter"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-nativegeocoder": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-nativegeocoder"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-add-swift-support": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-add-swift-support@2.0.2"
+    },
+    "is_top_level": false,
+    "variables": {}
+  },
+  "cordova-plugin-geolocation": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-geolocation@^4.1.0"
     },
     "is_top_level": true,
     "variables": {}
