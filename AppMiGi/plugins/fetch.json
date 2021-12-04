@@ -63,7 +63,7 @@
   "cordova-plugin-facebook-connect": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-facebook-connect"
+      "id": "cordova-plugin-facebook-connect@^3.2.0"
     },
     "is_top_level": true,
     "variables": {
