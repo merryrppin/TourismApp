@@ -2,11 +2,11 @@
     .module('tourismApp.loginController', [])
     .controller('loginController', loginController);
 
-loginController.$inject = ['$scope', '$window', '$location', 'GeneralService'];
+loginController.$inject = ['$scope', '$window', '$location', '$rootScope', 'GeneralService'];
 
-function loginController($scope, $window, $location, GeneralService) {
+function loginController($scope, $window, $location, $rootScope, GeneralService) {
 
-    var ctrl = this;
+    let ctrl = this;
     ctrl.IsValidMenu = false;
     ctrl.IsValid = false;
     ctrl.IsLoad = false;
@@ -35,7 +35,7 @@ function loginController($scope, $window, $location, GeneralService) {
         ctrl.IsValid = false;
         ctrl.IsLoad = true;
 
-        var StoredObjectParams =
+        let StoredObjectParams =
         {
             "StoredParams": [{ "Name": "Email", "Value": ctrl.LoginEntity.user }, { "Name": "Password", "Value": ctrl.LoginEntity.password }],
             "StoredProcedureName": "ObtenerUsuario"
@@ -50,6 +50,9 @@ function loginController($scope, $window, $location, GeneralService) {
                     ctrl.IsValid = false;
                     $location.path(response.redirecTo);
                     $("aside").show();
+                    $rootScope.token = response.token;
+                    $window.localStorage.removeItem('token')
+                    $window.localStorage.setItem('token', response.token)
                 } else {
                     ctrl.IsValid = true;
                     ctrl.messageLoginInvalid = 'Usuario y/o contraseña no válidas';
@@ -59,13 +62,13 @@ function loginController($scope, $window, $location, GeneralService) {
     };
 
     ctrl.transformRespond = function (Data) {
-        var Result = [];
-        var Columns = Data.Columns;
-        var Rows = Data.Rows;
-        for (var i = 0; i < Rows.length; i++) {
-            var Value = {};
-            for (var j = 0; j < Columns.length; j++) {
-                var ColumnName = Columns[j];
+        let Result = [];
+        let Columns = Data.Columns;
+        let Rows = Data.Rows;
+        for (let i = 0; i < Rows.length; i++) {
+            let Value = {};
+            for (let j = 0; j < Columns.length; j++) {
+                let ColumnName = Columns[j];
                 Value[ColumnName] = Rows[i][j];
             }
             Result.push(Value);

@@ -4,12 +4,87 @@ angular
     .module('tourismApp.gastronomyController', [])
     .controller('gastronomyController', gastronomyController);
 
-gastronomyController.$inject = ['$scope', '$window', '$location', 'GeneralService'];
+gastronomyController.$inject = ['$scope', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
 
-function gastronomyController($scope, $window, $location, GeneralService) {
+function gastronomyController($scope, $window, $filter, $timeout, $location, GeneralService) {
+    let ctrl = this;
+    ctrl.gastronomyData = [];
+    ctrl.transformRespond = function (Data) {
+        let Result = [];
+        let Columns = Data.columns;
+        let Rows = Data.rows
+
+        for (let i = 0; i < Rows.length; i++) {
+
+            let Value = {}
+
+            for (let j = 0; j < Columns.length; j++) {
+                let ColumnName = Columns[j];
+                Value[ColumnName] = Rows[i][j];
+            }
+            Result.push(Value);
+        }
+        return Result;
+    };
+
+    //Extension de los tipo array para hacer sumatoria por alguna propiedad
+    Array.prototype.sum = function (prop) {
+        let total = 0
+        for (let i = 0, _len = this.length; i < _len; i++) {
+            total += this[i][prop]
+        }
+        return total
+    }
+
+    //Funcion para calcular el total del footer
+    ctrl.calculateTotal = function () {
+        ctrl.gastronomyGrid.pinnedBottomRowData[0].TotalValue = $scope.data.sum("TotalValue");
+        ctrl.gastronomyGrid.api.refreshCells();
+    }
+
+    //Funcion para auto ajustar el tamano de columnas
+    ctrl.resizeGrid = function () {
+        $timeout(function () {
+            ctrl.gastronomyGrid.api.sizeColumnsToFit();
+        }, 400);
+    }
+
+    ctrl.getDataReligious = function () {
+        let StoredObjectParams =
+        {
+            "StoredParams": [{ "Name": "IdMunicipio", "Value": "-1" }, { "Name": "CodigoTipoSitio ", "Value": 'GTM' }],
+            "StoredProcedureName": "ObtenerSitiosTuristicos"
+        }
+
+        GeneralService.executeAjax({
+            url: 'https://localhost:44355/api/tourism/PostJWT',
+            data: StoredObjectParams,
+            success: function (response) {
+                if (response.exception == null) {
+                    ctrl.gastronomyGrid.api.setRowData([]);
+                    ctrl.gastronomyData = ctrl.transformRespond(response.value[0]);
+                    ctrl.gastronomyGrid.api.setRowData(ctrl.gastronomyData);
+                    ctrl.resizeGrid();
+                } else {
+                    ctrl.messageLoginInvalid = 'No se encontraron datos';
+                }
+            }
+        });
+    };
+
+    window.onresize = function (event) {
+        let offsetDivGrid = $("#divData").offset();
+        let heightPage = $(document).height();
+        document.getElementById("divData").style.height = (heightPage - offsetDivGrid.top - 15) + "px";
+    }
+
+    //Funcion para dar formatos de fechas
+    function shortDateFormat(data) {
+        return $filter('date')(data.value, 'MM/dd/yyyy')
+    }
 
     //Definicion de columnas
-    $scope.columns = [
+    ctrl.columns = [
         {
             headerName: '',
             field: 'Select',
@@ -24,24 +99,8 @@ function gastronomyController($scope, $window, $location, GeneralService) {
             maxWidth: 45,
         },
         {
-            headerName: "",
-            field: "Options",
-            width: 60,
-            cellStyle: { 'text-align': 'center' },
-            resizable: true,
-            editable: false,
-            sortable: false,
-            suppressMenu: true,
-            cellRenderer: function (params) {
-                if (params.node.rowPinned) {
-                    return '';
-                }
-                return '<span class="material-icons">create</span> <span class="material-icons">delete</span>'
-            }
-        },
-        {
             headerName: "Nombre",
-            field: "Nombre",
+            field: "NombreSitioTuristicoESP",
             width: 110,
             cellStyle: { 'text-align': 'center' },
             sortable: true,
@@ -50,7 +109,7 @@ function gastronomyController($scope, $window, $location, GeneralService) {
         },
         {
             headerName: "Descripcion",
-            field: "Descripcion",
+            field: "DescripcionESP",
             width: 120,
             cellStyle: { 'text-align': 'center' },
             sortable: true,
@@ -59,7 +118,7 @@ function gastronomyController($scope, $window, $location, GeneralService) {
         },
         {
             headerName: "Presentacion",
-            field: "Presentacion",
+            field: "PresentacionESP",
             width: 120,
             cellStyle: { 'text-align': 'left' },
             sortable: true,
@@ -73,13 +132,13 @@ function gastronomyController($scope, $window, $location, GeneralService) {
         },
         {
             headerName: "Como llegar",
-            field: "Ruta",
+            field: "RutaESP",
             width: 120,
             cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             filter: true,
-            tooltipField: "CustomerName",
+            tooltipField: "Ruta",
             cellEditor: 'agLargeTextCellEditor',
         },
         {
@@ -109,33 +168,30 @@ function gastronomyController($scope, $window, $location, GeneralService) {
             cellStyle: { 'text-align': 'right' },
             sortable: true,
             resizable: true,
-            valueFormatter: calculateCurrency,
             editable: false,
             filter: true
         },
         {
-            headerName: "Edicion",
-            field: "Edicion",
-            width: 150,
-            cellStyle: { 'text-align': 'left' },
-            sortable: true,
+            headerName: "",
+            field: "Options",
+            width: 200,
+            cellStyle: { 'text-align': 'center' },
             resizable: true,
-            valueFormatter: calculateCurrency,
             editable: false,
+            sortable: false,
+            suppressMenu: true,
             cellRenderer: function (params) {
-
                 if (params.node.rowPinned) {
                     return '';
                 }
-
-                return '<input class="gridInputText" type="textbox" />'
+                return '<span class="material-icons">update</span> <span class="material-icons">delete</span>'
             }
         },
     ]
 
     //Definicion del grid
-    $scope.myGrid = {
-        columnDefs: $scope.columns,
+    ctrl.gastronomyGrid = {
+        columnDefs: ctrl.columns,
         rowData: [],
         onGridReady: function (params) { },
         animateRows: true,
@@ -150,9 +206,17 @@ function gastronomyController($scope, $window, $location, GeneralService) {
         onColumnVisible: columnVisible,
     }
 
+    Array.prototype.sum = function (prop) {
+        let total = 0
+        for (let i = 0, _len = this.length; i < _len; i++) {
+            total += this[i][prop]
+        }
+        return total
+    }
+
     //Evento que se ejecuta cuando se selecciona una fila
     function onRowSelected() {
-        $scope.totalSelected = $scope.myGrid.api.getSelectedRows().sum('TotalValue');
+        $scope.totalSelected = ctrl.gastronomyGrid.api.getSelectedRows().sum('TotalValue');
         $scope.$apply();
     }
 
@@ -168,60 +232,6 @@ function gastronomyController($scope, $window, $location, GeneralService) {
     }
 
     angular.element(document).ready(function () {
-        $scope.getData();
+        ctrl.getDataReligious();;
     });
-
-    $scope.transformRespond = function (Data) {
-        var Result = [];
-        var Columns = Data.Columns;
-        var Rows = Data.Rows
-
-        for (var i = 0; i < Rows.length; i++) {
-
-            var Value = {}
-
-            for (var j = 0; j < Columns.length; j++) {
-
-                var ColumnName = Columns[j];
-                var ColumnIndex = j;
-
-                Value[ColumnName] = Rows[i][j];
-
-            }
-            Result.push(Value);
-        }
-        return Result;
-    }
-
-    Array.prototype.sum = function (prop) {
-        var total = 0
-        for (var i = 0, _len = this.length; i < _len; i++) {
-            total += this[i][prop]
-        }
-        return total
-    }
-
-    //Funcion para auto ajustar el tamano de columnas
-    $scope.resizeGrid = function () {
-        $timeout(function () {
-            $scope.myGrid.api.sizeColumnsToFit();
-        }, 400);
-    }
-
-
-    window.onresize = function (event) {
-        var offsetDivGrid = $("#divData").offset();
-        var heightPage = $(document).height();
-        document.getElementById("divData").style.height = (heightPage - offsetDivGrid.top - 15) + "px";
-    }
-
-    //Funcion para dar formato de dinero
-    function calculateCurrency(params) {
-        return $filter('currency')((params.value == null) ? 0 : params.value, '$', 2);
-    }
-
-    //Funcion para dar formatos de fechas
-    function shortDateFormat(data) {
-        return $filter('date')(data.value, 'MM/dd/yyyy')
-    }
 }

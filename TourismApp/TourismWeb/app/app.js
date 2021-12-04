@@ -10,7 +10,8 @@ angular
         'ngRoute',
         'agGrid'
     ])
-    .config(function ($routeProvider) {
+    .config(function ($routeProvider, $qProvider) {
+        $qProvider.errorOnUnhandledRejections(false);
         $routeProvider
             .when('/', {
                 controller: "loginController",
@@ -24,14 +25,18 @@ angular
             })
             .when('/religious', {
                 controller: "religiousController",
+                controllerAs: 'ctrl',
                 templateUrl: 'app/modules/general/religious/religious.html'
+              
             })
             .when('/hiking', {
                 controller: "hikingController",
+                controllerAs: 'ctrl',
                 templateUrl: 'app/modules/general/hiking/hiking.html'
             })
             .when('/gastronomy', {
                 controller: "gastronomyController",
+                controllerAs: 'ctrl',
                 templateUrl: 'app/modules/general/gastronomy/gastronomy.html'
             })
             .otherwise({
