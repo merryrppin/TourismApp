@@ -9,5 +9,17 @@
 	[Altitud] DECIMAL(12, 9) NULL,
 	[IconoMarcador] VARCHAR(250) NULL,
 	[Activo] BIT NOT NULL DEFAULT(0), 
-    CONSTRAINT [FK_tblSitioTuristico_tblMunicipio] FOREIGN KEY ([IdMunicipio]) REFERENCES [tblMunicipio]([IdMunicipio])
+	[DescripcionESP] VARCHAR(3000),
+	[DescripcionENG] VARCHAR(3000),
+	[PresentacionESP] VARCHAR(3000),
+	[PresentacionENG] VARCHAR(3000),
+	[RutaESP] VARCHAR(3000),
+	[RutaENG] VARCHAR(3000),
+	[IdTipoSitioTuristico] INT NOT NULL,
+	[CreadoPor] VARCHAR(250) NULL,
+	[FechaCreacion] DATETIME DEFAULT GETDATE(),
+	[ModificadoPor] VARCHAR(250) NULL,
+	[FechaModificacion] DATETIME NULL,
+    CONSTRAINT [FK_tblSitioTuristico_tblMunicipio] FOREIGN KEY ([IdMunicipio]) REFERENCES [tblMunicipio]([IdMunicipio]),
+	CONSTRAINT [FK_tblSitioTuristico_tblTipoSitioTuristico] FOREIGN KEY ([IdTipoSitioTuristico]) REFERENCES [tblTipoSitioTuristico]([IdTipoSitioTuristico])
 )

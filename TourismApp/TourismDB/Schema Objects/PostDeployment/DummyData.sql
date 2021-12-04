@@ -10,13 +10,39 @@ INSERT INTO [dbo].[tblMunicipio]([IdMunicipio], [NombreMunicipio], [Activo]) VAL
 
 SET IDENTITY_INSERT [dbo].[tblMunicipio] OFF
 
+
+SET IDENTITY_INSERT [dbo].[tblTipoSitioTuristico] ON
+--[dbo].[tblTipoSitioTuristico]
+INSERT INTO [tblTipoSitioTuristico] (IdTipoSitioTuristico,Nombre,[Codigo]) VALUES
+(1,'Religioso','RGS'),
+(2,'Senderismo','SDM'),
+(3,'Gastronomia','GTM')
+SET IDENTITY_INSERT [dbo].[tblTipoSitioTuristico] OFF
+
 --[dbo].[tblSitioTuristico]
 SET IDENTITY_INSERT [dbo].[tblSitioTuristico] ON
 
-INSERT INTO [dbo].[tblSitioTuristico]([IdSitioTuristico], [NombreSitioTuristicoESP], [IdMunicipio], [Latitud], [Longitud], [Activo]) VALUES
-(1, 'Parque Principal Girardota', 1, 6.3747376, -75.4499254, 1),
-(2, 'Placa Deportiva Barrio el Paraíso', 1, 6.3742815, -75.4463368, 1),
-(3, 'Comfama Girardota', 1, 6.3774803, -75.4505639, 1);
+INSERT INTO [dbo].[tblSitioTuristico](
+	[IdSitioTuristico],
+	[NombreSitioTuristicoESP],
+	[NombreSitioTuristicoENG],
+	[IdMunicipio],
+	[Latitud], 
+	[Longitud], 
+	[Activo],
+	[IconoMarcador],
+	[DescripcionESP],
+	[DescripcionENG],
+	[PresentacionESP],
+	[PresentacionENG],
+	[RutaESP],
+	[RutaENG],
+	[IdTipoSitioTuristico]
+	) VALUES
+(1, 'Parque Principal Girardota','principa park Girardota', 1, 6.3747376, -75.4499254, 1,'https://webflowers-wmalpha-rf.azurewebsites.net/Images/shopping-cart.png', 'Un sitio muy bonito','a very nice place','Presentando','Introducing','Voltiando en la esquina','Turning the corner',1),
+(2, 'Placa Deportiva Barrio el Paraíso','The paradise', 1, 6.3742815, -75.4463368, 1,'https://webflowers-wmalpha-rf.azurewebsites.net/Images/mailbox.png', 'Un sitio muy bonito','a very nice place','Presentando','Introducing','Voltiando en la esquina','Turning the corner',2),
+(3, 'Comfama Girardota','com.. Girardota', 1, 6.3774803, -75.4505639, 1,'https://webflowers-wmalpha-rf.azurewebsites.net/Images/placeholder.png', 'Un sitio muy bonito','a very nice place','Presentando','Introducing','Voltiando en la esquina','Turning the corner',3);
+
 
 SET IDENTITY_INSERT [dbo].[tblSitioTuristico] OFF
 
