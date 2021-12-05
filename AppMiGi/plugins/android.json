@@ -26,6 +26,10 @@
       "FACEBOOK_BROWSER_SDK_VERSION": "v11.0",
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
+    "cordova-plugin-geolocation": {
+      "GPS_REQUIRED": "true",
+      "PACKAGE_NAME": "io.ionic.appmigi"
+    },
     "cordova-plugin-googleplus": {
       "PLAY_SERVICES_VERSION": "15.0.1",
       "PACKAGE_NAME": "io.ionic.appmigi"
@@ -40,8 +44,13 @@
     "cordova-plugin-nativegeocoder": {
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
-    "cordova-plugin-geolocation": {
-      "GPS_REQUIRED": "true",
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "io.ionic.appmigi"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "io.ionic.appmigi"
+    },
+    "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "io.ionic.appmigi"
     }
   },
