@@ -5,4 +5,5 @@ export class UsuarioApp{
 	Email :string;
 	ImageUrl :string;
     IdSesion: string;
+    LoginType: string;
 }

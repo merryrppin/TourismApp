@@ -13,6 +13,10 @@ const routes: Routes = [
   },  {
     path: 'genericmap',
     loadChildren: () => import('./genericmap/genericmap.module').then( m => m.GenericmapPageModule)
+  },
+  {
+    path: 'perfil',
+    loadChildren: () => import('./modules/perfil/perfil.module').then( m => m.PerfilPageModule)
   }
 
 

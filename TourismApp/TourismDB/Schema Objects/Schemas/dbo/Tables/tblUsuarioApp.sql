@@ -5,5 +5,6 @@
     [GivenName] VARCHAR(150) NOT NULL, 
     [FamilyName] VARCHAR(150) NULL, 
     [Email] VARCHAR(150) NOT NULL, 
-    [ImageUrl] VARCHAR(250) NULL
+    [ImageUrl] VARCHAR(250) NULL,
+    [LoginType] VARCHAR(50) NULL,
 )

@@ -18,17 +18,18 @@ BEGIN
           GivenName VARCHAR(150) 'strict $.GivenName',
           FamilyName VARCHAR(150) 'strict $.FamilyName',
           Email VARCHAR(150) 'strict $.Email',
-          ImageUrl VARCHAR(250) 'strict $.ImageUrl'
+          ImageUrl VARCHAR(250) 'strict $.ImageUrl',
+          LoginType VARCHAR(50) 'strict $.LoginType'
         );
     
     MERGE [tblUsuarioApp] AS UsuarioApp
-    USING (SELECT IdToken, GivenName, FamilyName, Email, ImageUrl FROM #DatosUsuario) AS InputData
+    USING (SELECT IdToken, GivenName, FamilyName, Email, ImageUrl, LoginType FROM #DatosUsuario) AS InputData
     ON (UsuarioApp.IdToken = InputData.IdToken)
     WHEN MATCHED THEN
         UPDATE SET UsuarioApp.GivenName = InputData.GivenName, UsuarioApp.FamilyName = InputData.FamilyName, UsuarioApp.Email = InputData.Email, UsuarioApp.ImageUrl = InputData.ImageUrl
     WHEN NOT MATCHED THEN
-        INSERT(IdToken, GivenName, FamilyName, Email, ImageUrl)
-        VALUES(InputData.IdToken, InputData.GivenName, InputData.FamilyName, InputData.Email, InputData.ImageUrl)
+        INSERT(IdToken, GivenName, FamilyName, Email, ImageUrl, LoginType)
+        VALUES(InputData.IdToken, InputData.GivenName, InputData.FamilyName, InputData.Email, InputData.ImageUrl, InputData.LoginType)
     OUTPUT inserted.IdUsuario INTO @UserIdTable;
 
     SELECT @UserId = UserId FROM @UserIdTable;
