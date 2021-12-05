@@ -4,15 +4,16 @@ angular
     .module('tourismApp.religiousController', [])
     .controller('religiousController', religiousController);
 
-religiousController.$inject = ['$scope', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
+religiousController.$inject = ['$scope', '$rootScope', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
 
-function religiousController($scope, $window, $filter, $timeout, $location, GeneralService) {
+function religiousController($scope, $rootScope, $window, $filter, $timeout, $location, GeneralService) {
     let ctrl = this;
     ctrl.religiousData = [];
+    ctrl.CodeReligious = 'RGS';
     ctrl.transformRespond = function (Data) {
         let Result = [];
         let Columns = Data.columns;
-        let Rows = Data.rows
+        let Rows = Data.rows;
 
         for (let i = 0; i < Rows.length; i++) {
 
@@ -49,10 +50,19 @@ function religiousController($scope, $window, $filter, $timeout, $location, Gene
         }, 400);
     }
 
+    ctrl.addNewSite = function () {
+        let newSite = { 'Code': ctrl.CodeReligious, 'Name': 'Religioso'};
+        $location.path('/touristSite').search({ param: newSite });
+    }
+
+    ctrl.modifiedSite = function () {
+        $location.path('/touristSite').search({ param: ctrl.religiousData });
+    }
+
     ctrl.getDataReligious = function () {
         let StoredObjectParams =
         {
-            "StoredParams": [{ "Name": "IdMunicipio", "Value": "-1" }, { "Name": "CodigoTipoSitio ", "Value": 'RGS' }],
+            "StoredParams": [{ "Name": "IdMunicipio", "Value": "-1" }, { "Name": "CodigoTipoSitio ", "Value": ctrl.CodeReligious }],
             "StoredProcedureName": "ObtenerSitiosTuristicos"
         }
 
@@ -85,19 +95,7 @@ function religiousController($scope, $window, $filter, $timeout, $location, Gene
 
     //Definicion de columnas
     ctrl.columns = [
-        {
-            headerName: '',
-            field: 'Select',
-            headerCheckboxSelectionFilteredOnly: true,
-            suppressMenu: true,
-            headerCheckboxSelection: true,
-            sortable: false,
-            checkboxSelection: true,
-            width: 45,
-            cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
-            editable: false,
-            maxWidth: 45,
-        },
+ 
         {
             headerName: "Nombre",
             field: "NombreSitioTuristicoESP",

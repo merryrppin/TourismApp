@@ -39,6 +39,7 @@
     <script src="app/modules/general/religious/religiousCtrl.js"></script>
     <script src="app/modules/general/hiking/hikingCrtl.js"></script>
     <script src="app/modules/general/gastronomy/gastronomyCtrl.js"></script>
+    <script src="app/modules/general/touristSite/touristSiteCtrl.js"></script>
 
     <%-- stype pages --%>
     <link href="app/modules/general/home/home.css" rel="stylesheet" />
@@ -48,13 +49,7 @@
 
     <aside ng-include="ctrl.aside"></aside>
 
-    <div>
-        <div class="row">
-            <div ng-view>
-            </div>
-        </div>
-        <!--/row-->
-    </div>
+    <div class="contentView" ng-view></div>
 
 </body>
 </html>

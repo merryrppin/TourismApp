@@ -1,0 +1,154 @@
+﻿<div style="margin-left: 60px;" class="row">
+    <div class="columna col-12 col-lg-9">
+        <h4 class="titulo"></h4>
+
+        <div class="col-6">
+            <a href="#contenido-1"
+               type="button"
+               class="btn btn-primary"
+               data-bs-toggle="collapse"
+               aria-expanded="false"
+               aria-controls="contenido-1">Información</a>
+            <div class="collapse mt-3" id="contenido-1">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ctrl.title}}</h2>
+                        <p class="card-text">En la primera sección del lado izquierdo se agrega la información del sitio turistico en español, en la parte derecha se llenara esta misma en lenguaje ingles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-6">
+
+                <h3>Español</h3>
+
+                <div class="mb-2">
+                    <label for="correo" class="form-floating form-label">Nombre</label>
+                    <input ng-model="ctrl.siteNameESP" type="text" class="form-control" id="correo" aria-describedby="ayuda-correo">
+                    <div id="ayuda-correo" class="form-text">
+                        Digite el nombre del sitio turistico en lenguaje español.
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <label for="mensaje" class="form-label">Presentación</label>
+                    <textarea ng-model="ctrl.presentationNameESP" class="form-control" name="mensaje" id="mensaje"></textarea>
+                    <div id="ayuda-correo" class="form-text">
+                        Digite la descripción del sitio turistico en lenguaje español.
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <label for="mensaje" class="form-label">Descripción</label>
+                    <textarea ng-model="ctrl.descriptionESP" class="form-control" name="mensaje" id="mensaje"></textarea>
+                    <div id="ayuda-correo" class="form-text">
+                        Digite la descripción del sitio turistico en lenguaje español.
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <label for="mensaje" class="form-label">Como llegar</label>
+                    <textarea ng-model="ctrl.routeESP" class="form-control" name="mensaje" id="mensaje"></textarea>
+                    <div id="ayuda-correo" class="form-text">
+                        Digite la descripción de como llegar al sitio turistico en lenguaje español.
+                    </div>
+                </div>
+
+                <div class="input-group mb-2">
+                    <span class="input-group-text">Latitud</span>
+                    <input ng-model="ctrl.routeLatitude" type="text" class="form-control" aria-label="Latitud">
+
+                    <span class="input-group-text">Longitud</span>
+                    <input ng-model="ctrl.RouteLength" type="text" class="form-control" aria-label="Longitud">
+                    <div id="ayuda-correo" class="form-text">
+                        Digite la la longitud y latitud, solo se permiten valores númericos.
+                    </div>
+                </div>
+
+                <div class=" mb-2">
+                    <select name="pais" id="pais" class="form-select">
+                        <option selected>Selecciona una municipio</option>
+                        <option value="mexico">Girardota</option>
+                        <option value="argentina">Sabaneta</option>
+                        <option value="peru">Copacabana</option>
+                    </select>
+                    <div id="ayuda-correo" class="form-text">
+                        Expande el menu para seleccionar un municipio.
+                    </div>
+                </div>
+
+                <div class="input-group mb-2">
+                    <span class="input-group-text">Día</span>
+                    <select name="pais" id="pais" class="form-select">
+
+                        <option selected>Selecciona un día de la semana</option>
+                        <option value="">Lunes</option>
+                        <option value="">Martes</option>
+                        <option value="">Miercoles</option>
+                        <option value="">Jueves</option>
+                        <option value="">Viernes</option>
+                        <option value="">Sabado</option>
+                    </select>
+
+                    <span class="input-group-text">Horario</span>
+                    <input type="text" class="form-control" aria-label="Longitud">
+                    <div id="ayuda-correo" class="form-text">
+                        Seleccione un día y agregue los horarios disponibles separados por coma.
+                    </div>
+                </div>
+
+                <button ng-click="ctrl.saveTouristSite()" type="button" class="btn btn-primary">
+                    Guardar cambios
+                </button>
+
+            </div>
+
+            <div class="col-6">
+                <h3>Ingles</h3>
+                <div class="mb-2">
+                    <label for="correo" class="form-label">Nombre</label>
+                    <input ng-model="ctrl.siteNameENG" type="text" class="form-control" id="correo" aria-describedby="ayuda-correo">
+                    <div id="ayuda-correo" class="form-text">
+                        Digite el nombre del sitio turistico en lenguaje ingles.
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <label for="mensaje" class="form-label">Presentación</label>
+                    <textarea ng-model="ctrl.presentationNameENG" class="form-control" name="mensaje" id="mensaje"></textarea>
+                    <div id="ayuda-correo" class="form-text">
+                        Digite la descripción del sitio turistico en lenguaje ingles.
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <label for="mensaje" class="form-label">Descripción</label>
+                    <textarea ng-model="ctrl.descriptionENG" class="form-control" name="mensaje" id="mensaje"></textarea>
+                    <div id="ayuda-correo" class="form-text">
+                        Digite la descripción del sitio turistico en lenguaje ingles.
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <label for="mensaje" class="form-label">Como llegar</label>
+                    <textarea ng-model="ctrl.routeENG" class="form-control" name="mensaje" id="mensaje"></textarea>
+                    <div id="ayuda-correo" class="form-text">
+                        Digite la descripción de como llegar al sitio turistico en lenguaje ingles.
+                    </div>
+                </div>
+
+                <input type="file" class="form-control" name="" id="">
+                <div id="ayuda-correo" class="form-text">
+                    Archivo galeria fotos
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+

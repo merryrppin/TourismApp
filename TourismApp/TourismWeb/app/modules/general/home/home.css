@@ -42,7 +42,7 @@ a {
 	}
 
 		.barra-lateral .menu a:hover {
-			background: #35ae6b;
+			background: #025aa5;
 		}
 
 		.barra-lateral .menu a svg {
@@ -84,8 +84,8 @@ a {
 
 
 	.main .nueva_entrada form textarea {
-		height: 400px;
-		min-height: 200px;
+		height: 110px;
+		min-height: 50px;
 		max-width: 100%;
 		min-width: 100%;
 	}
@@ -270,4 +270,19 @@ a {
 
 /* Dispositivo xxl */
 @media screen and (max-width: 1400px) {
+}
+
+
+.contentView {
+	position: absolute;
+	top: 71px;
+	width: 80% !important;
+	height: 100%;
+	left: 250px;
+	overflow-y: scroll;
+}
+
+#contentGrid {
+	margin-left: 30px;
+	margin-top: 0px;
 }

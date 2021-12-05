@@ -7,6 +7,7 @@ angular
         'tourismApp.religiousController',
         'tourismApp.gastronomyController',
         'tourismApp.hikingController',
+        'tourismApp.touristSiteController',
         'ngRoute',
         'agGrid'
     ])
@@ -38,6 +39,11 @@ angular
                 controller: "gastronomyController",
                 controllerAs: 'ctrl',
                 templateUrl: 'app/modules/general/gastronomy/gastronomy.html'
+            })
+            .when('/touristSite', {
+                controller: "touristSiteController",
+                controllerAs: 'ctrl',
+                templateUrl: 'app/modules/general/touristSite/touristSite.html'
             })
             .otherwise({
                 redirectTo: '/'
