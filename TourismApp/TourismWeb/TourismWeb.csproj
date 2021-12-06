@@ -91,6 +91,8 @@
     <Content Include="app\modules\general\templates\aside.html" />
     <Content Include="app\modules\general\templates\footer.html" />
     <Content Include="app\modules\general\templates\header.html" />
+    <Content Include="app\modules\general\touristSite\touristSite.html" />
+    <Content Include="app\modules\general\touristSite\touristSiteCtrl.js" />
     <Content Include="Icons\mailbox.png" />
     <Content Include="Icons\placeholder.png" />
     <Content Include="Icons\push-pin.png" />

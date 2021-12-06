@@ -86,19 +86,6 @@ function gastronomyController($scope, $window, $filter, $timeout, $location, Gen
     //Definicion de columnas
     ctrl.columns = [
         {
-            headerName: '',
-            field: 'Select',
-            headerCheckboxSelectionFilteredOnly: true,
-            suppressMenu: true,
-            headerCheckboxSelection: true,
-            sortable: false,
-            checkboxSelection: true,
-            width: 45,
-            cellStyle: { "display": "flex", "justify-content": "center", "align-items": "center", 'cursor': 'pointer' },
-            editable: false,
-            maxWidth: 45,
-        },
-        {
             headerName: "Nombre",
             field: "NombreSitioTuristicoESP",
             width: 110,
