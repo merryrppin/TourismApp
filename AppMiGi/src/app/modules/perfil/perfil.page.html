@@ -4,7 +4,19 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-content fullscreen="true" slot="fixed">
+  <div class="card">
+    <div class="header">
+      <div class="avatar">
+        <img src="{{user.ImageUrl}}" alt="">
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="user-meta ion-text-center">
+      <h3 class="name">{{user.GivenName}} {{user.FamilyName}}</h3>
+      <h5 class="email">{{user.Email}}</h5>
+    </div>
+    <ion-button (click)="cerrarSesion()" expand="block" color="danger">{{txtCerrarSesion}}</ion-button>
+  </div>
 <ion-content>
-{{user}}
-<ion-button (click)="cerrarSesion()" expand="block" color="danger">Cerrar sesion</ion-button>
-</ion-content>

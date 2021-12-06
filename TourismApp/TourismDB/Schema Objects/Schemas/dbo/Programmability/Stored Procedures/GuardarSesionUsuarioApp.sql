@@ -3,15 +3,15 @@
 	@IdSesion VARCHAR(100)
 AS
 BEGIN
-    CREATE TABLE #DatosUsuario([IdToken] VARCHAR(MAX), [GivenName] VARCHAR(150), [FamilyName] VARCHAR(150), [Email] VARCHAR(150), ImageUrl VARCHAR(250))
+    CREATE TABLE #DatosUsuario([IdToken] VARCHAR(MAX), [GivenName] VARCHAR(150), [FamilyName] VARCHAR(150), [Email] VARCHAR(150), ImageUrl VARCHAR(250), LoginType VARCHAR(50))
         
     DECLARE @UserId AS INT;
     DECLARE @UserIdTable AS TABLE (UserId INT);
     DECLARE @SavedSesionIdTable AS TABLE (SavedSesionId UNIQUEIDENTIFIER);
     DECLARE @NewIdSession UNIQUEIDENTIFIER = (SELECT NEWID());
 
-    INSERT INTO #DatosUsuario([IdToken], [GivenName], [FamilyName], [Email])
-    SELECT IdToken, GivenName, FamilyName, Email
+    INSERT INTO #DatosUsuario([IdToken], [GivenName], [FamilyName], [Email], LoginType)
+    SELECT IdToken, GivenName, FamilyName, Email, LoginType
     FROM OPENJSON(@jsonDatosUsuario)
         WITH (
           IdToken VARCHAR(MAX) 'strict $.IdToken',
