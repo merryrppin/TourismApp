@@ -70,15 +70,29 @@
     <Content Include="app\app.js" />
     <Content Include="app\config.js" />
     <Content Include="app\directives.js" />
+    <Content Include="app\factories.js" />
     <Content Include="app\interceptors.js" />
     <Content Include="app\modules\general\error\404.html" />
     <Content Include="app\modules\general\error\errorCtrl.js" />
+    <Content Include="app\modules\general\gastronomy\gastronomy.html" />
+    <Content Include="app\modules\general\gastronomy\gastronomyCtrl.js" />
     <Content Include="app\modules\general\generalCtrl.js" />
     <Content Include="app\modules\general\generalSvc.js" />
+    <Content Include="app\modules\general\hiking\hiking.html" />
+    <Content Include="app\modules\general\hiking\hikingCrtl.js" />
+    <Content Include="app\modules\general\home\home.css" />
     <Content Include="app\modules\general\home\Home.html" />
     <Content Include="app\modules\general\home\homeCtrl.js" />
+    <Content Include="app\modules\general\login\Login.html" />
     <Content Include="app\modules\general\login\loginCtrl.js" />
+    <Content Include="app\modules\general\religious\religious.html" />
+    <Content Include="app\modules\general\religious\religiousCtrl.js" />
     <Content Include="app\modules\general\sessionSvc.js" />
+    <Content Include="app\modules\general\templates\aside.html" />
+    <Content Include="app\modules\general\templates\footer.html" />
+    <Content Include="app\modules\general\templates\header.html" />
+    <Content Include="app\modules\general\touristSite\touristSite.html" />
+    <Content Include="app\modules\general\touristSite\touristSiteCtrl.js" />
     <Content Include="Icons\mailbox.png" />
     <Content Include="Icons\placeholder.png" />
     <Content Include="Icons\push-pin.png" />
@@ -86,6 +100,14 @@
     <Content Include="Icons\user.png" />
     <Content Include="Images\Logos\Logo_alcaldia_01.png" />
     <Content Include="Index.aspx" />
+    <Content Include="Libs\ag-grid\ag-grid-enterprise.js" />
+    <Content Include="Libs\ag-grid\ag-grid-style.css" />
+    <Content Include="Libs\ag-grid\v17.1.1\ag-grid.css" />
+    <Content Include="Libs\ag-grid\v17.1.1\themes\ag-theme-balham.css" />
+    <Content Include="Libs\ag-grid\v17.1.1\themes\ag-theme-fresh.css" />
+    <Content Include="Libs\ag-grid\v17.1.1\themes\ag-theme-material.css" />
+    <Content Include="Libs\AngularJS-1.8.2\angular-route.js" />
+    <Content Include="Libs\AngularJS-1.8.2\angular-route.min.js" />
     <Content Include="Libs\AngularJS-1.8.2\angular.min.js" />
     <Content Include="Libs\bootstrap-5.1.0\css\bootstrap-grid.css" />
     <Content Include="Libs\bootstrap-5.1.0\css\bootstrap-grid.min.css" />
@@ -145,6 +167,7 @@
     <Content Include="Libs\bootstrap-5.1.0\js\bootstrap.esm.min.js.map" />
     <Content Include="Libs\bootstrap-5.1.0\js\bootstrap.js.map" />
     <Content Include="Libs\bootstrap-5.1.0\js\bootstrap.min.js.map" />
+    <Content Include="Libs\ag-grid\v17.1.1\ag-grid.min.js" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -169,7 +192,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>58895</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44397/</IISUrl>
+          <IISUrl>http://localhost:8080/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

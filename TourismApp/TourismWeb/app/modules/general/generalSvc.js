@@ -22,6 +22,7 @@ function GeneralService($http, $rootScope, $window) {
             'mapData': true,
             'dataType': 'json',
             'contentType': 'application/json'
+            , 'Authorization': $window.localStorage.getItem('token')
         }, data);
         $http({
             method: options.method,
@@ -31,6 +32,7 @@ function GeneralService($http, $rootScope, $window) {
             data: options.data,
             headers: {
                 'Content-Type': options.contentType
+                , 'Authorization': `Bearer  ${options.Authorization}`
             },
             dataType: options.dataType,
         }).then(function (response) {

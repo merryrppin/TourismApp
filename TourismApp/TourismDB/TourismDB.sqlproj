@@ -97,6 +97,12 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblSitiosGastronomicosDetalle.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblUsuarioWeb.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\ObtenerUsuario.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblTipoSitioTuristico.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblHorarios.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblDiaHorarioSitioTuristico.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblGaleriaFotos.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblLogSitioTuristico.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\GuardarSitiosTuristicos.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Objects\PostDeployment\Postdeployment.sql" />

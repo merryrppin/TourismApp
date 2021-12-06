@@ -1,8 +1,40 @@
-﻿CREATE PROCEDURE [dbo].[ObtenerSitiosTuristicos]
-	@IdMunicipio INT
+﻿CREATE PROCEDURE [ObtenerSitiosTuristicos] (@IdMunicipio INT = -1,@CodigoTipoSitio VARCHAR(10) = NULL)
 AS BEGIN
-	SELECT st.IdSitioTuristico, ist.Titulo, ISNULL(TituloENG, ist.Titulo) AS TituloENG, st.NombreSitioTuristicoESP, st.IdMunicipio, st.Latitud, st.Longitud, ist.DescripcionESP, ISNULL(ist.DescripcionENG, ist.DescripcionESP) AS DescripcionENG, ist.Imagen, ist.Orden, st.IconoMarcador
-	FROM tblSitioTuristico AS st
-	LEFT JOIN tblInfoSitioTuristico AS ist ON st.IdSitioTuristico = ist.IdSitioTuristico
-	WHERE IdMunicipio = @IdMunicipio
+
+	DECLARE @SQL nvarchar(MAX)
+
+	SET @SQL = N'
+			SELECT
+				sitioT.IdSitioTuristico,
+				sitioT.NombreSitioTuristicoESP,
+				sitioT.NombreSitioTuristicoENG,
+				sitioT.IdMunicipio,
+				sitioT.Latitud,
+				sitioT.Longitud,
+				sitioT.Altitud,
+				sitioT.IconoMarcador,
+				sitioT.Activo,
+				sitioT.DescripcionESP,
+				sitioT.DescripcionENG,
+				sitioT.PresentacionESP,
+				sitioT.PresentacionENG,
+				sitioT.RutaESP,
+				sitioT.RutaENG,
+				sitioT.IdTipoSitioTuristico,
+				tipoSitio.Nombre
+			FROM tblSitioTuristico AS sitioT
+				INNER JOIN tblTipoSitioTuristico AS tipoSitio ON sitioT.IdTipoSitioTuristico = tipoSitio.IdTipoSitioTuristico
+			WHERE 1 = 1 '
+
+	IF  @CodigoTipoSitio IS NOT NULL
+	BEGIN
+		SET @SQL+=	' AND tipoSitio.Codigo = @CodigoTipoSitio '
+	END
+
+	IF  @IdMunicipio != -1
+	BEGIN
+		SET @SQL+=	' AND sitioT.IdMunicipio = @IdMunicipio '
+	END
+
+	EXEC sp_executesql @SQL, N'@CodigoTipoSitio VARCHAR(10), @IdMunicipio INT', @CodigoTipoSitio = @CodigoTipoSitio, @IdMunicipio = @IdMunicipio; 
 END

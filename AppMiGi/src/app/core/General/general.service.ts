@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { ToastOptions } from "@ionic/core";
+import { StorageService } from '../services/storage/storage.service';
 
 
 export interface IOptionLoading {
@@ -12,8 +13,8 @@ export interface IOptionLoading {
 interface IOptionToast {
   position?: "top" | "bottom" | "middle";
   duration?: number;
-  color?: "primary" | "success" | "warning" | "danger" | "dark" ;
-  cssClass?:"toastStyle";
+  color?: "primary" | "success" | "warning" | "danger" | "dark";
+  cssClass?: "toastStyle";
 }
 interface IOptionAlertConfirm {
   message: string;
@@ -27,12 +28,20 @@ interface IOptionAlertConfirm {
   providedIn: 'root'
 })
 export class GeneralService {
-  public currentLanguage: string = "ESP";//TODO: Valor por defecto, al cambiar se debe mantener en el storage de la aplicación y cargar desde ahí
+  public currentLanguage: string = "ESP";
   private _toast: HTMLIonToastElement;
   readonly limitToast: number = 3000;
   private messageSource = new BehaviorSubject("Marcacion SEF");
   currentMessage = this.messageSource.asObservable();
-  constructor(private loadingController: LoadingController, private toastCtrl: ToastController,private alertController: AlertController) { }
+  constructor(
+    private loadingController: LoadingController,
+    private toastCtrl: ToastController,
+    private alertController: AlertController,
+    private storage: StorageService) {
+      this.storage.getIdioma("lang").then((obj) => {
+        this.currentLanguage = obj.value;
+      });
+     }
 
   toastDissmiss() {
     setTimeout(() => {
@@ -56,7 +65,7 @@ export class GeneralService {
   async showMessage(
     message: string,
     showButtonDismiss: boolean = false,
-    opt: IOptionToast = { position: "top", color: "dark"}
+    opt: IOptionToast = { position: "top", color: "dark" }
   ): Promise<HTMLIonToastElement> {
     opt.color = "dark";
     return this.toastMessage(message, showButtonDismiss, opt);
@@ -114,11 +123,11 @@ export class GeneralService {
     return this._toast;
   }
 
-  showToastSuccess(message:string,duration:number) {
+  showToastSuccess(message: string, duration: number) {
     this.toastCtrl.create({
       message: message,
       position: 'bottom',
-      duration:duration,
+      duration: duration,
       cssClass: 'my-custom-class',
       buttons: [
         {
@@ -135,11 +144,11 @@ export class GeneralService {
     });
   }
 
-  showToastError(message:string,duration:number) {
+  showToastError(message: string, duration: number) {
     this.toastCtrl.create({
       message: message,
       position: 'bottom',
-      duration:duration,
+      duration: duration,
       cssClass: 'my-custom-class',
       buttons: [
         {
@@ -156,11 +165,11 @@ export class GeneralService {
     });
   }
 
-  showToastInfo(message:string,duration:number) {
+  showToastInfo(message: string, duration: number) {
     this.toastCtrl.create({
       message: message,
       position: 'bottom',
-      duration:duration,
+      duration: duration,
       cssClass: 'my-custom-class',
       buttons: [
         {
@@ -233,7 +242,8 @@ export class GeneralService {
     return this.currentLanguage;
   }
 
-  setCurrentLanguage(language:string) {
+  setCurrentLanguage(language: string) {
+    this.storage.setIdioma("lang", language);
     this.currentLanguage = language;
   }
 }
