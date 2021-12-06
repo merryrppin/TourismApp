@@ -8,6 +8,7 @@ gastronomyController.$inject = ['$scope', '$window', '$filter', '$timeout', '$lo
 
 function gastronomyController($scope, $window, $filter, $timeout, $location, GeneralService) {
     let ctrl = this;
+    ctrl.CodeGastronomy = 'GTM';
     ctrl.gastronomyData = [];
     ctrl.transformRespond = function (Data) {
         let Result = [];
@@ -49,10 +50,19 @@ function gastronomyController($scope, $window, $filter, $timeout, $location, Gen
         }, 400);
     }
 
-    ctrl.getDataReligious = function () {
+    ctrl.addNewSite = function () {
+        let newSite = { 'Code': ctrl.Codegastronomy, 'Name': 'gastronomicos' };
+        $location.path('/touristSite').search({ param: newSite });
+    }
+
+    ctrl.modifiedSite = function () {
+        $location.path('/touristSite').search({ param: ctrl.religiousData });
+    }
+
+    ctrl.getDatastronomy = function () {
         let StoredObjectParams =
         {
-            "StoredParams": [{ "Name": "IdMunicipio", "Value": "-1" }, { "Name": "CodigoTipoSitio ", "Value": 'GTM' }],
+            "StoredParams": [{ "Name": "IdMunicipio", "Value": "-1" }, { "Name": "CodigoTipoSitio ", "Value": ctrl.CodeGastronomy  }],
             "StoredProcedureName": "ObtenerSitiosTuristicos"
         }
 
@@ -219,6 +229,6 @@ function gastronomyController($scope, $window, $filter, $timeout, $location, Gen
     }
 
     angular.element(document).ready(function () {
-        ctrl.getDataReligious();;
+        ctrl.getDatastronomy();;
     });
 }

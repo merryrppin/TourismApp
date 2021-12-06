@@ -9,6 +9,7 @@ hikingController.$inject = ['$scope', '$window', '$filter', '$timeout', '$locati
 function hikingController($scope, $window, $filter, $timeout, $location, GeneralService) {
     let ctrl = this;
     ctrl.hikingData = [];
+    ctrl.CodeHiking = 'SDM';
     ctrl.transformRespond = function (Data) {
         let Result = [];
         let Columns = Data.columns;
@@ -49,10 +50,19 @@ function hikingController($scope, $window, $filter, $timeout, $location, General
         }, 400);
     }
 
-    ctrl.getDataReligious = function () {
+    ctrl.addNewSite = function () {
+        let newSite = { 'Code': ctrl.Codehiking, 'Name': 'Senderismo' };
+        $location.path('/touristSite').search({ param: newSite });
+    }
+
+    ctrl.modifiedSite = function () {
+        $location.path('/touristSite').search({ param: ctrl.religiousData });
+    }
+
+    ctrl.getDataHiking = function () {
         let StoredObjectParams =
         {
-            "StoredParams": [{ "Name": "IdMunicipio", "Value": "-1" }, { "Name": "CodigoTipoSitio ", "Value": 'SDM' }],
+            "StoredParams": [{ "Name": "IdMunicipio", "Value": "-1" }, { "Name": "CodigoTipoSitio ", "Value": ctrl.CodeHiking  }],
             "StoredProcedureName": "ObtenerSitiosTuristicos"
         }
 
@@ -219,6 +229,6 @@ function hikingController($scope, $window, $filter, $timeout, $location, General
     }
 
     angular.element(document).ready(function () {
-        ctrl.getDataReligious();;
+        ctrl.getDataHiking();;
     });
 }
