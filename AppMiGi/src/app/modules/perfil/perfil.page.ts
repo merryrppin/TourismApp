@@ -16,6 +16,7 @@ export class PerfilPage implements OnInit {
   loading: any;
   user: any;
   lang: string;
+  txtCerrarSesion: string;
 
   constructor(
     private generalService: GeneralService,
@@ -26,8 +27,14 @@ export class PerfilPage implements OnInit {
     private storage: StorageService) { }
 
   ngOnInit() {
+    this.emptyUser();
     this.lang = this.generalService.getCurrentLanguage();
-    this.loadUser();
+    this.txtCerrarSesion = this.lang == 'ENG' ? "LOGOUT" : "CERRAR SESIÓN",
+      this.loadUser();
+  }
+
+  emptyUser() {
+    this.user = { Email: '', FamilyName: '', GivenName: '', ImageUrl: '', LoginType: '' };
   }
 
   async loadUser() {
@@ -40,6 +47,9 @@ export class PerfilPage implements OnInit {
         this.storage.setUser("User", null);
         this.goToLoginPage();
       }
+    } else {
+      this.emptyUser();
+      this.goToLoginPage();
     }
   }
 
@@ -61,6 +71,7 @@ export class PerfilPage implements OnInit {
     }
   }
 
+
   async openLoading() {
     this.loading = await this.generalService.presentLoading({
       message: this.lang == 'ENG' ? "Please wait..." : "Por favor espere...",
@@ -73,12 +84,12 @@ export class PerfilPage implements OnInit {
     this.fb.logout()
       .then(function (resp) {
         objThis.storage.setUser("User", null);
-        this.loading.dismiss();
-        this.goToLoginPage();
+        objThis.loading.dismiss();
+        objThis.goToLoginPage();
       })
       .catch(function (err) {
-        this.loading.dismiss();
-        this.showErrorMessage(err);
+        objThis.loading.dismiss();
+        objThis.showErrorMessage(err);
       })
   }
 
@@ -91,12 +102,12 @@ export class PerfilPage implements OnInit {
     this.googlePlus.logout()
       .then(function (resp) {
         objThis.storage.setUser("User", null);
-        this.loading.dismiss();
-        this.goToLoginPage();
+        objThis.loading.dismiss();
+        objThis.goToLoginPage();
       })
       .catch(function (err) {
-        this.loading.dismiss();
-        this.showErrorMessage(err);
+        objThis.loading.dismiss();
+        objThis.showErrorMessage(err);
       })
   }
 
