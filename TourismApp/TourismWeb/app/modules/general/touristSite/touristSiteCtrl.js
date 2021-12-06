@@ -34,7 +34,7 @@ function touristSiteController($scope, $rootScope, $window, $filter, $timeout, $
 
         let objTouristSite = [
             {
-                "IdSitioTuristico": 1,
+                "IdSitioTuristico": 4,
                 "NombreSitioTuristicoESP": ctrl.siteNameESP,
                 "NombreSitioTuristicoENG": ctrl.siteNameENG,
                 "IdMunicipio": 1,
@@ -98,7 +98,14 @@ function touristSiteController($scope, $rootScope, $window, $filter, $timeout, $
 
         let StoredObjectParams =
         {
-            "StoredParams": [{ "Name": "jsonSitioTuristico", "Value": objTouristSite }, { "Name": "jsonHorarios ", "Value": objTimes }, { "Name": "jsonFotos ", "Value": objPhotoGallery }],
+            "StoredParams": [
+                { "Name": "jsonSitioTuristico", "Value": JSON.stringify(objTouristSite) },
+                { "Name": "jsonHorarios ", "Value": JSON.stringify(objTimes) },
+                { "Name": "jsonFotos ", "Value": JSON.stringify(objPhotoGallery) },
+                { "Name": "CodigoTipoSitio", "Value": $location.$$search.param.Code },
+                { "Name": "Usuario", "Value": "jsanchez" }
+                
+            ],
             "StoredProcedureName": "GuardarSitiosTuristicos"
         }
 
