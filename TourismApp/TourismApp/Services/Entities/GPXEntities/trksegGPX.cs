@@ -5,7 +5,7 @@ namespace TourismApp.Services.Entities.GPXEntities
 {
     public class trksegGPX
     {
-        [JsonProperty("trkseg")]
+        [JsonProperty("trkpt")]
         public List<trkptGPX> TrkSegList { get; set; }
     }
 }

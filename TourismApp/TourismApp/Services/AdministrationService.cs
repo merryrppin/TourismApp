@@ -104,19 +104,29 @@ namespace TourismApp.Services
         #endregion
 
         #region GPX
+        public string procesar(int IdSitioTuristico)
+        {
+            string res = ProcPathGPX(IdSitioTuristico);
+            return res;
+        }
         public string ProcPathGPX(int IdSitioTuristico)
         {
             ProcessGPX processGPX = new ProcessGPX();
             GpxCls gpxCls = processGPX.ProcessFileFromName(IdSitioTuristico + ".gpx");
-            string jsonTrkSeg = string.Join(", ", gpxCls.TrkGPX.TrksegGPX.TrkSegList);
+            string jsonTrkSeg = string.Join(", ", gpxCls.gpx.TrkGPX.TrksegGPX.TrkSegList);
 
-            StoredParams StoredParam = new StoredParams
+            StoredParams jsonTrkSegParam = new StoredParams
             {
                 Name = "jsonTrkSeg",
                 Value = jsonTrkSeg
             };
+            StoredParams IdSitioTuristicoParam = new StoredParams
+            {
+                Name = "IdSitioTuristico",
+                Value = IdSitioTuristico.ToString()
+            };
 
-            List<StoredParams> StoredParams = new List<StoredParams> { StoredParam };
+            List<StoredParams> StoredParams = new List<StoredParams> { jsonTrkSegParam, IdSitioTuristicoParam };
             StoredObjectParams StoredObjectParams = new StoredObjectParams
             {
                 StoredProcedureName = "GuardarPuntosSenderismo",

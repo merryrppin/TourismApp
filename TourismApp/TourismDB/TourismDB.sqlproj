@@ -103,6 +103,7 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblGaleriaFotos.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblLogSitioTuristico.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\GuardarSitiosTuristicos.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\GuardarPuntosSenderismo.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Objects\PostDeployment\Postdeployment.sql" />

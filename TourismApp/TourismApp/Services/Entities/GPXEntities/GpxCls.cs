@@ -4,7 +4,7 @@ namespace TourismApp.Services.Entities.GPXEntities
 {
     public class GpxCls
     {
-        [JsonProperty("trk")]
-        public trkGPX TrkGPX { get; set; }
+        [JsonProperty("gpx")]
+        public gpxGPX gpx { get; set; }
     }
 }
