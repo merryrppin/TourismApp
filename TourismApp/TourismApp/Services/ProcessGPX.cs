@@ -13,8 +13,7 @@ namespace TourismApp.Services
         {
             string fileInfoXML = DeserializeFileGPX(fileName);
             string jsonFromXML = ConvertXMLtoJSON(fileInfoXML);
-            GpxCls GpxObject = JsonToObject(jsonFromXML);
-            return GpxObject;
+            return JsonToObject(jsonFromXML);
         }
 
         private string DeserializeFileGPX(string fileName)
@@ -39,15 +38,12 @@ namespace TourismApp.Services
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
-            string jsonText = JsonConvert.SerializeXmlNode(doc);
-
-            return jsonText;
+            return JsonConvert.SerializeXmlNode(doc);
         }
 
         private GpxCls JsonToObject(string json)
         {
-            GpxCls GpxClsObj = (GpxCls)JsonConvert.DeserializeObject(json);
-            return GpxClsObj;
+            return (GpxCls)JsonConvert.DeserializeObject(json);
         }
     }
 }

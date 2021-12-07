@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using TourismApp.Services.Entities.GoogleDirectionsEntities;
+using TourismApp.Services.Entities.GPXEntities;
 using TourismApp.Services.Entities.StoredEntities;
 using static TourismApp.Services.Enums.Enums;
 
@@ -99,6 +100,30 @@ namespace TourismApp.Services
                 default:
                     return SqlDbType.VarChar;
             }
+        }
+        #endregion
+
+        #region GPX
+        public string ProcPathGPX(int IdSitioTuristico)
+        {
+            ProcessGPX processGPX = new ProcessGPX();
+            GpxCls gpxCls = processGPX.ProcessFileFromName(IdSitioTuristico + ".gpx");
+            string jsonTrkSeg = string.Join(", ", gpxCls.TrkGPX.TrksegGPX.TrkSegList);
+
+            StoredParams StoredParam = new StoredParams
+            {
+                Name = "jsonTrkSeg",
+                Value = jsonTrkSeg
+            };
+
+            List<StoredParams> StoredParams = new List<StoredParams> { StoredParam };
+            StoredObjectParams StoredObjectParams = new StoredObjectParams
+            {
+                StoredProcedureName = "GuardarPuntosSenderismo",
+                StoredParams = StoredParams
+            };
+            StoredObjectResponse storedObjectResponse = ExecuteStoredProcedure(StoredObjectParams);
+            return storedObjectResponse.ValueResponse;
         }
         #endregion
 
