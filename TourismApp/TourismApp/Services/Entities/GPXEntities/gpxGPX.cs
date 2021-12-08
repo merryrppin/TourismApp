@@ -10,5 +10,8 @@ namespace TourismApp.Services.Entities.GPXEntities
     {
         [JsonProperty("trk")]
         public trkGPX TrkGPX { get; set; }
+        [JsonProperty("wpt")]
+        public List<wptGPX> WptGPX { get; set; }
+        
     }
 }
