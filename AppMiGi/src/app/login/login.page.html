@@ -1,32 +1,20 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header> -->
-
-<ion-content>
+<ion-content padding>
   <ion-grid id="mainGrid">
     <ion-row class="ionRowTop">
-      <ion-col>
-        <ion-thumbnail class="thumbnailIconTop">
-          <img class="imgTop" src="../../assets/logos/Logoapp.png">
-        </ion-thumbnail>
+      <ion-col class="thumbnailIcon">       
+          <img id="logoapp" class="logoapp" src="../../assets/logos/Logoapp.png" />
       </ion-col>
     </ion-row>
-
     <ion-row>
       <ion-col align-self-center>
         <ion-button (click)="loginGoogle()" expand="block" color="danger">Google</ion-button>
         <ion-button (click)="loginFacebook()" expand="block" color="primary">facebook</ion-button>
-
         <ion-button (click)="goToHomePage()" color="warning">):< Obligame prro</ion-button>
       </ion-col>
     </ion-row>
-    <ion-row class="ionRowBottom">
+    <ion-row class="ionRowBot">
       <ion-col>
-        <ion-thumbnail class="thumbnailIconBot">
-          <img class="imgBot" src="../../assets/logos/LogosAlcaldia.png">
-        </ion-thumbnail>
+        <img class="clsLogos" src="../../assets/splashscreen/LogosAlcaldia.svg" />
       </ion-col>
     </ion-row>
   </ion-grid>

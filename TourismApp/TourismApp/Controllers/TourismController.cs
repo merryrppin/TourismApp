@@ -85,6 +85,8 @@ namespace TourismApp.Controllers
         [HttpGet]
         public string Get()
         {
+            int IdSitioTuristico = 2;
+            _AdministrationService.procesar(IdSitioTuristico);
             return "Ver. " + _Configuration.GetValue<string>("Version");
         }
 

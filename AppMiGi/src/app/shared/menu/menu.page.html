@@ -5,27 +5,27 @@
     <ion-tab-bar slot="bottom">
       <ion-tab-button tab="inicio">
         <ion-icon src="../../assets/icon_home.svg"></ion-icon>
-        <ion-label>Inicio</ion-label>
+        <ion-label class="menuText">Inicio</ion-label>
       </ion-tab-button>
    
-      <ion-tab-button tab="religioso">
+      <ion-tab-button tab="religioso" (click)="enviarParametroGeneral('RGS')">
         <ion-icon src="../../assets/icon_religioso.svg"></ion-icon>
-        <ion-label>Religioso</ion-label>
+        <ion-label class="menuText">Religioso</ion-label>
       </ion-tab-button>
    
-      <ion-tab-button tab="senderismo">
+      <ion-tab-button tab="senderismo" (click)="enviarParametroGeneral('SDM')">
         <ion-icon src="../../assets/icon_Senderismo.svg"></ion-icon>
-        <ion-label>Senderismo</ion-label>
+        <ion-label class="menuText">Senderismo</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button tab="gastronomico">
+      <ion-tab-button tab="gastronomico" (click)="enviarParametroGeneral('GTM')">
         <ion-icon src="../../assets/icon_gastronomia.svg"></ion-icon>
-        <ion-label>Gastronomico</ion-label>
+        <ion-label class="menuText">Gastronomico</ion-label>
       </ion-tab-button>
 
       <ion-tab-button tab="perfil">
         <ion-icon src="../../assets/icon_miperfil.svg"></ion-icon>
-        <ion-label>Mi perfil</ion-label>
+        <ion-label class="menuText">Mi perfil</ion-label>
       </ion-tab-button>
     </ion-tab-bar>
    

@@ -1,0 +1,113 @@
+.ios,
+.md {
+  page-home {
+    .scroll-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+#mainGrid{
+    height: 100%;
+    display: block;
+}
+.thumbnailIcon{
+    padding: 0px;
+    text-align: center;
+}
+.ionRowTop{
+    padding-top: 25vh;
+    padding-bottom: 0px;
+}
+.ionRowMiddle{
+    padding-top: 0px;
+}
+.ionRowBot{
+  height: 100%;
+}
+.ionColBot{
+  text-align: end;
+}
+
+.iconLogo{
+    padding: 0px;
+    height: 35px;
+    width: 35px;
+    text-align: center;
+}
+
+#logoapp {
+    height: 100%;
+    max-width: 100%;
+    opacity: 0;
+    transform: rotate3d(1, 1, 0, 50deg);
+    animation: 1.5s 0.2s ease fadeInAndSpin;
+    animation-fill-mode: forwards;
+    animation-delay: 1.5s;
+}
+.clsManos{
+  height: 100%;
+  max-width: 100%;
+  opacity: 0;
+  animation: 0.5s 0.2s ease fadeIn, 1s scaleUp, 1s scaleDown;
+  animation-fill-mode: forwards;
+  animation-delay: 0s;
+}
+.clsPlanta{
+    height: 100%;
+    max-width: 100%;
+    opacity: 0;
+    animation: 0.5s 0.2s ease fadeIn, 1s scaleUp, 1s scaleDown;
+    animation-fill-mode: forwards;
+    animation-delay: 0.5s;
+}
+.clsComida{
+    height: 100%;
+    max-width: 100%;
+    opacity: 0;
+    animation: 0.5s 0.2s ease fadeIn, 1s scaleUp, 1s scaleDown;
+    animation-fill-mode: forwards;
+    animation-delay: 1s;
+}
+.clsLogos{
+    height: 100%;
+    max-width: 100%;
+    opacity: 0;
+    transform: rotate3d(1, 1, 0, 50deg);
+    animation: 1.5s 0.2s ease fadeInAndSpin;
+    animation-fill-mode: forwards;
+    animation-delay: 1.5s;
+}
+.mainGrid{
+    animation: 1s 0.2s ease fadeOut;
+    animation-fill-mode: forwards;
+    animation-delay: 5.5s;
+}
+
+@keyframes fadeInAndSpin {
+  100% {
+    opacity: 1;
+    transform: rotate3d(1, 1, 0, 0deg);
+  }
+}
+@keyframes scaleUp {
+  100% {
+   transform: scale(2);
+  }
+}
+@keyframes scaleDown {
+  100% {
+   transform: scale(1);
+  }
+}
+@keyframes fadeIn {
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  100% {
+    opacity: 0;
+  }
+}

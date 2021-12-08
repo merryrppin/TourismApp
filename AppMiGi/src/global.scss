@@ -24,3 +24,72 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+@font-face{
+    font-family:'Poppins-regular';
+    src:url('./assets/Poppins/Poppins-Regular.otf');
+}
+
+@font-face{
+    font-family:'Poppins-SemiBold';
+    src:url('./assets/Poppins/Poppins-SemiBold.otf');
+}
+
+
+@font-face{
+    font-family:'Poppins-Bold';
+    src:url('./assets/Poppins/Poppins-Bold.otf');
+}
+
+@font-face{
+    font-family:'Poppins-Light';
+    src:url('./assets/Poppins/Poppins-Light.otf');
+}
+
+
+
+@font-face{
+    font-family:'Poppins-Medium';
+    src:url('./assets/Poppins/Poppins-Medium.otf');
+}
+
+
+.mainTitle{
+
+    font-family: Poppins-Bold;
+    font-size: 36pt;
+    --color :  #3F3F3F;
+}
+
+.mainToDo{
+
+    font-family: Poppins-SemiBold;
+    font-size: 55pt;
+}
+
+.mainBanner{
+
+    font-family: Poppins-Light;
+    font-size: 28pt;
+}
+
+.mainResume{
+
+    font-family: Poppins-Light;
+    font-size: 18pt;
+    --color :  #3F3F3F;
+}
+
+.mainSubtitle{
+
+    font-family: Poppins-SemiBold;
+    font-size: 24pt;
+    --color	:  #216CA7;
+}
+
+.menuText {
+    font-family: Poppins-Medium;
+    font-size: 16pt;
+}
+
