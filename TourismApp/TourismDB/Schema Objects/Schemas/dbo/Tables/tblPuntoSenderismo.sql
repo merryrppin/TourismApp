@@ -1,10 +1,11 @@
 ﻿CREATE TABLE [dbo].[tblPuntoSenderismo]
 (
 	[IdPuntoSendersimo] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Latitud] FLOAT NOT NULL,
-	[Longitud] FLOAT NOT NULL,
+	[Latitud] DECIMAL(8, 6) NOT NULL,
+	[Longitud] DECIMAL(9, 6) NOT NULL,
 	[Altitud] FLOAT,
-	[IdRutaAlternativa] INT NOT NULL,
+	[IdSitioTuristico] INT NOT NULL,
 	[Orden] INT NOT NULL,
-    CONSTRAINT [FK_tblPuntoSenderismo_tblRutaAlternativa] FOREIGN KEY ([IdRutaAlternativa]) REFERENCES [tblRutaAlternativa]([IdRutaAlternativa])
+	[TimeRec] VARCHAR(50) NOT NULL,
+    CONSTRAINT [FK_tblPuntoSenderismo_tblSitioTuristico] FOREIGN KEY ([IdSitioTuristico]) REFERENCES [tblSitioTuristico]([IdSitioTuristico])
 )
