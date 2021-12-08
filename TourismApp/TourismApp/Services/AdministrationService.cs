@@ -104,22 +104,28 @@ namespace TourismApp.Services
         #endregion
 
         #region GPX
-        public string procesar(int IdSitioTuristico)
+        public StoredObjectResponse procesar(int IdSitioTuristico)
         {
-            string res = ProcPathGPX(IdSitioTuristico);
-            return res;
+            return ProcPathGPX(IdSitioTuristico);
         }
-        public string ProcPathGPX(int IdSitioTuristico)
+        public StoredObjectResponse ProcPathGPX(int IdSitioTuristico)
         {
             ProcessGPX processGPX = new ProcessGPX();
             GpxCls gpxCls = processGPX.ProcessFileFromName(IdSitioTuristico + ".gpx");
             string jsonTrkSeg = string.Join(", ", gpxCls.gpx.TrkGPX.TrksegGPX.TrkSegList);
+            string jsonWptGPX = string.Join(", ", gpxCls.gpx.WptGPX);
             jsonTrkSeg = "[" + jsonTrkSeg + "]";
+            jsonWptGPX = "[" + jsonWptGPX + "]";
 
             StoredParams jsonTrkSegParam = new StoredParams
             {
                 Name = "jsonTrkSeg",
                 Value = jsonTrkSeg
+            };
+            StoredParams jsonWptGPXParam = new StoredParams
+            {
+                Name = "jsonWptGPX",
+                Value = jsonWptGPX
             };
             StoredParams IdSitioTuristicoParam = new StoredParams
             {
@@ -127,14 +133,14 @@ namespace TourismApp.Services
                 Value = IdSitioTuristico.ToString()
             };
 
-            List<StoredParams> StoredParams = new List<StoredParams> { jsonTrkSegParam, IdSitioTuristicoParam };
+            List<StoredParams> StoredParams = new List<StoredParams> { jsonTrkSegParam, jsonWptGPXParam, IdSitioTuristicoParam };
             StoredObjectParams StoredObjectParams = new StoredObjectParams
             {
                 StoredProcedureName = "GuardarPuntosSenderismo",
                 StoredParams = StoredParams
             };
             StoredObjectResponse storedObjectResponse = ExecuteStoredProcedure(StoredObjectParams);
-            return storedObjectResponse.ValueResponse;
+            return storedObjectResponse;
         }
         #endregion
 
