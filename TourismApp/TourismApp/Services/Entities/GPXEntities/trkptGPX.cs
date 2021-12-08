@@ -15,7 +15,7 @@ namespace TourismApp.Services.Entities.GPXEntities
 
         public override string ToString()
         {
-            return "{" + string.Format("'Latitude':'{0}','Longitude':'{1}','Elevation':'{2}','TimeRec':'{3}'", Latitude, Longitude, Elevation, TimeRec) + "}";
+            return "{" + string.Format(@"""Latitude"":""{0}"", ""Longitude"":""{1}"", ""Elevation"":""{2}"", ""TimeRec"":""{3}""", Latitude, Longitude, Elevation, TimeRec) + "}";
         }
     }
 }

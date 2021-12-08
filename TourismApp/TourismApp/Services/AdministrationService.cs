@@ -114,6 +114,7 @@ namespace TourismApp.Services
             ProcessGPX processGPX = new ProcessGPX();
             GpxCls gpxCls = processGPX.ProcessFileFromName(IdSitioTuristico + ".gpx");
             string jsonTrkSeg = string.Join(", ", gpxCls.gpx.TrkGPX.TrksegGPX.TrkSegList);
+            jsonTrkSeg = "[" + jsonTrkSeg + "]";
 
             StoredParams jsonTrkSegParam = new StoredParams
             {

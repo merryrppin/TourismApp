@@ -21,8 +21,8 @@ BEGIN
 		
 		DELETE FROM tblPuntoSenderismo WHERE IdSitioTuristico = @IdSitioTuristico;
 		
-		INSERT INTO tblPuntoSenderismo([Latitud], [Longitud], [Altitud], [IdSitioTuristico], [Orden])
-		SELECT Latitude, Longitude, Elevation, @IdSitioTuristico, Position
+		INSERT INTO tblPuntoSenderismo([Latitud], [Longitud], [Altitud], [IdSitioTuristico], [Orden], [TimeRec])
+		SELECT Latitude, Longitude, Elevation, @IdSitioTuristico, Position, TimeRec
 		FROM #tmpPuntos;
 		
 		COMMIT TRANSACTION
