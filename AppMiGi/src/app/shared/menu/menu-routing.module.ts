@@ -24,7 +24,7 @@ const routes: Routes = [
         children:[
           {
             path: '',
-            loadChildren: () => import('../../modules/religioso/religioso.module').then(m => m.ReligiosoPageModule)
+            loadChildren: () => import('../../modules/menu-categorias/menu-categorias.module').then(m => m.MenuCategoriasPageModule)
           }
 
         ]
@@ -34,7 +34,7 @@ const routes: Routes = [
         children:[
           {
             path: '',
-            loadChildren: () => import('../../modules/inicio/inicio.module').then(m => m.InicioPageModule)
+            loadChildren: () => import('../../modules/menu-categorias/menu-categorias.module').then(m => m.MenuCategoriasPageModule)
           }
 
         ]
@@ -44,7 +44,7 @@ const routes: Routes = [
         children:[
           {
             path: '',
-            loadChildren: () => import('../../modules/inicio/inicio.module').then(m => m.InicioPageModule)
+            loadChildren: () => import('../../modules/menu-categorias/menu-categorias.module').then(m => m.MenuCategoriasPageModule)
           }
 
         ]
@@ -54,7 +54,7 @@ const routes: Routes = [
         children:[
           {
             path: '',
-            loadChildren: () => import('../../modules/inicio/inicio.module').then(m => m.InicioPageModule)
+            loadChildren: () => import('../../modules/perfil/perfil.module').then(m => m.PerfilPageModule)
           }
 
         ]

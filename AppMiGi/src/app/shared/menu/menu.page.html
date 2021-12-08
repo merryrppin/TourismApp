@@ -8,17 +8,17 @@
         <ion-label>Inicio</ion-label>
       </ion-tab-button>
    
-      <ion-tab-button tab="religioso">
+      <ion-tab-button tab="religioso" (click)="enviarParametroGeneral('RGS')">
         <ion-icon src="../../assets/icon_religioso.svg"></ion-icon>
         <ion-label>Religioso</ion-label>
       </ion-tab-button>
    
-      <ion-tab-button tab="senderismo">
+      <ion-tab-button tab="senderismo" (click)="enviarParametroGeneral('SDM')">
         <ion-icon src="../../assets/icon_Senderismo.svg"></ion-icon>
         <ion-label>Senderismo</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button tab="gastronomico">
+      <ion-tab-button tab="gastronomico" (click)="enviarParametroGeneral('GTM')">
         <ion-icon src="../../assets/icon_gastronomia.svg"></ion-icon>
         <ion-label>Gastronomico</ion-label>
       </ion-tab-button>
