@@ -8,6 +8,7 @@ angular
         'tourismApp.gastronomyController',
         'tourismApp.hikingController',
         'tourismApp.touristSiteController',
+        'ngTagsInput',
         'ngRoute',
         'agGrid'
     ])
