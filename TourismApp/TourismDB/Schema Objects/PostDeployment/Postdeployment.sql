@@ -45,3 +45,23 @@ INSERT INTO [dbo].[tblFiltroSenderismo]([NombreFiltroSenderismo], [NombreFiltroS
 ('Duración', 'Duration', 600);
 
 SET IDENTITY_INSERT [dbo].[tblFiltroSenderismo] OFF
+
+SET IDENTITY_INSERT [dbo].[tblTipoSitioTuristico] ON
+--[dbo].[tblTipoSitioTuristico]
+INSERT INTO [tblTipoSitioTuristico] (IdTipoSitioTuristico,Nombre,[Codigo]) VALUES
+(1,'Religioso','RGS'),
+(2,'Senderismo','SDM'),
+(3,'Gastronomia','GTM')
+SET IDENTITY_INSERT [dbo].[tblTipoSitioTuristico] OFF
+
+--[tblUsuarioWeb] Password : 123456
+insert into tblUsuarioWeb (UserName,Email,[Password])
+select 'admin','admin@correo.com','wEW6Tok99ik='
+
+--[dbo].[tblMunicipio]
+SET IDENTITY_INSERT [dbo].[tblMunicipio] ON
+
+INSERT INTO [dbo].[tblMunicipio]([IdMunicipio], [NombreMunicipio], [Activo]) VALUES
+(1, 'Girardota', 1);
+
+SET IDENTITY_INSERT [dbo].[tblMunicipio] OFF

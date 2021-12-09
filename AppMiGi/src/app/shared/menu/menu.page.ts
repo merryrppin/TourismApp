@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { GeneralService } from '../../core/General/general.service';
 
 @Component({
   selector: 'app-menu',
@@ -9,8 +9,11 @@ import { Component } from '@angular/core';
 
 
 export class MenuPage  {
-  constructor() { 
 
+  constructor(private generalService:GeneralService) { }
+  
+  enviarParametroGeneral(categoria:string){
+    this.generalService.setCategoria(categoria);
   }
 
 

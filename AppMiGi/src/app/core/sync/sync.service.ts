@@ -76,8 +76,26 @@ export class SyncService {
     return data;
   }
 
+  async obtenerInformacionSP(infoSP:string)
+  {
+    const dataSync = infoSP;
+    const sasUriBlob = this.urlApi + "";
+    let header = new HttpHeaders();
+    header = header.set("Content-Type", "application/json; charset=UTF-8");
+    let data = await this.http.post<any>(
+      {
+        Uri: sasUriBlob,
+        controller: "",
+        action: "",
+        body: dataSync,
+        headers: header
+      }
+    )
+    return this.arrayMap(data.value[0].rows, data.value[0].columns);
+  }
+
   async descargarDatosMunicipio() {
-    const dataSync = '{    "StoredParams":[{"Name":"IdMunicipio", "Value":"1"}],"StoredProcedureName":"ObtenerCulturaGeneralMunicipio"}';
+    const dataSync = '{"StoredParams":[{"Name":"IdMunicipio", "Value":"1"}],"StoredProcedureName":"ObtenerCulturaGeneralMunicipio"}';
     const sasUriBlob = this.urlApi + "";
     let header = new HttpHeaders();
     header = header.set("Content-Type", "application/json; charset=UTF-8");
@@ -128,6 +146,29 @@ export class SyncService {
       }
     )
     return this.arrayMap(data.value[0].rows, data.value[0].columns);
+  }
+
+  async ObtenerPuntosSenderismo(IdSitioTuristico: number) {
+    const dataSync = '{"StoredParams":[{ "Name":"IdSitioTuristico", "Value":"' + IdSitioTuristico + '"}],"StoredProcedureName":"ObtenerPuntosSenderismo"}';
+    const sasUriBlob = this.urlApi + "";
+    let header = new HttpHeaders();
+    header = header.set("Content-Type", "application/json; charset=UTF-8");
+    let data = await this.http.post<any>(
+      {
+        Uri: sasUriBlob,
+        controller: "",
+        action: "",
+        body: dataSync,
+        headers: header
+      }
+    );
+    let objPuntosSenderismo = {
+      objPuntosSenderismo : this.arrayMap(data.value[0].rows, data.value[0].columns),
+      valoreSPuntosSenderismo : this.arrayMap(data.value[1].rows, data.value[1].columns),
+      objPuntosReferenciaSenderismo : this.arrayMap(data.value[2].rows, data.value[2].columns),
+      valoresPuntosReferenciaSenderismo : this.arrayMap(data.value[3].rows, data.value[3].columns)
+    };
+    return objPuntosSenderismo;
   }
 
   arrayMap(aRows: any[], aColumns: any[]): any[] {

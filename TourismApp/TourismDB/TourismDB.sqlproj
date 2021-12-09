@@ -84,15 +84,8 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblSesionUsuarioApp.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\GuardarSesionUsuarioApp.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\ObtenerSesionUsuarioApp.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\tblFiltroSenderismo.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\tblValorFiltroSenderismo.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\tblRutaAlternativa.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\tblRutaSenderismo.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblPuntoSenderismo.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblPuntoReferencia.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\tblRutaAlternativa_tblPuntoReferencia.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\tblFotoPuntoSenderismo.sql" />
-    <Build Include="Schema Objects\Schemas\dbo\Tables\tblFotoPuntoReferencia.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblSitiosGastronomico.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblSitiosGastronomicosDetalle.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblUsuarioWeb.sql" />
@@ -103,6 +96,9 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblGaleriaFotos.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblLogSitioTuristico.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\GuardarSitiosTuristicos.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\GuardarPuntosSenderismo.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\ObtenerPuntosSenderismo.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\ObtenerDiasSemana.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Objects\PostDeployment\Postdeployment.sql" />

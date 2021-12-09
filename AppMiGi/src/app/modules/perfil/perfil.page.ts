@@ -71,7 +71,6 @@ export class PerfilPage implements OnInit {
     }
   }
 
-
   async openLoading() {
     this.loading = await this.generalService.presentLoading({
       message: this.lang == 'ENG' ? "Please wait..." : "Por favor espere...",

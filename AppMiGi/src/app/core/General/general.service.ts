@@ -31,6 +31,7 @@ export class GeneralService {
   public currentLanguage: string = "ESP";
   private _toast: HTMLIonToastElement;
   readonly limitToast: number = 3000;
+  public categoriaActual:string ="";
   private messageSource = new BehaviorSubject("Marcacion SEF");
   currentMessage = this.messageSource.asObservable();
   constructor(
@@ -40,6 +41,9 @@ export class GeneralService {
     private storage: StorageService) {
       this.storage.getIdioma("lang").then((obj) => {
         this.currentLanguage = obj.value;
+      });
+      this.storage.getIdioma("categoria").then((obj) => {
+        this.categoriaActual = obj.value;
       });
      }
 
@@ -245,5 +249,12 @@ export class GeneralService {
   setCurrentLanguage(language: string) {
     this.storage.setIdioma("lang", language);
     this.currentLanguage = language;
+  }
+  getCategoriaActual():string{
+    return this.categoriaActual;
+  }
+  setCategoria(categoria: string) {
+    this.storage.setIdioma("categoria", categoria);
+    this.categoriaActual = categoria;
   }
 }

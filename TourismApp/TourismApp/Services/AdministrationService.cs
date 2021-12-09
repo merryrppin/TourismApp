@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using TourismApp.Services.Entities.GoogleDirectionsEntities;
+using TourismApp.Services.Entities.GPXEntities;
 using TourismApp.Services.Entities.StoredEntities;
 using static TourismApp.Services.Enums.Enums;
 
@@ -99,6 +100,47 @@ namespace TourismApp.Services
                 default:
                     return SqlDbType.VarChar;
             }
+        }
+        #endregion
+
+        #region GPX
+        public StoredObjectResponse procesar(int IdSitioTuristico)
+        {
+            return ProcPathGPX(IdSitioTuristico);
+        }
+        public StoredObjectResponse ProcPathGPX(int IdSitioTuristico)
+        {
+            ProcessGPX processGPX = new ProcessGPX();
+            GpxCls gpxCls = processGPX.ProcessFileFromName(IdSitioTuristico + ".gpx");
+            string jsonTrkSeg = string.Join(", ", gpxCls.gpx.TrkGPX.TrksegGPX.TrkSegList);
+            string jsonWptGPX = string.Join(", ", gpxCls.gpx.WptGPX);
+            jsonTrkSeg = "[" + jsonTrkSeg + "]";
+            jsonWptGPX = "[" + jsonWptGPX + "]";
+
+            StoredParams jsonTrkSegParam = new StoredParams
+            {
+                Name = "jsonTrkSeg",
+                Value = jsonTrkSeg
+            };
+            StoredParams jsonWptGPXParam = new StoredParams
+            {
+                Name = "jsonWptGPX",
+                Value = jsonWptGPX
+            };
+            StoredParams IdSitioTuristicoParam = new StoredParams
+            {
+                Name = "IdSitioTuristico",
+                Value = IdSitioTuristico.ToString()
+            };
+
+            List<StoredParams> StoredParams = new List<StoredParams> { jsonTrkSegParam, jsonWptGPXParam, IdSitioTuristicoParam };
+            StoredObjectParams StoredObjectParams = new StoredObjectParams
+            {
+                StoredProcedureName = "GuardarPuntosSenderismo",
+                StoredParams = StoredParams
+            };
+            StoredObjectResponse storedObjectResponse = ExecuteStoredProcedure(StoredObjectParams);
+            return storedObjectResponse;
         }
         #endregion
 

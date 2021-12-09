@@ -14,7 +14,7 @@ export class SplashScreenPage implements OnInit {
     var objThis = this;
     setTimeout(function(){
       objThis.navController.navigateRoot(["/login"]).then(() => { })
-    }, 6000);
+    }, 3500);
   }
 
 }
