@@ -5,12 +5,16 @@
     <ion-icon slot="end" class="icon-heart" name="heart-outline"></ion-icon>
     <img class="card-img" src="{{item.IconoMarcador}}" />
     <ion-item lines="none">
-      <h1>{{item.NombreSitioTuristicoESP}}</h1>
+      <h1>{{lang == 'ENG' ? item.NombreSitioTuristicoENG : item.NombreSitioTuristicoESP}}</h1>
       <ion-icon slot="end" name="star-outline"></ion-icon>
     </ion-item>
     <ion-item lines="none">
-      <p>{{item.DescripcionESP}}</p>
+      <p>{{lang == 'ENG' ? item.DescripcionENG : item.DescripcionESP}}</p>
     </ion-item>
+    <ion-button expand="block" color="primary" (click)="mejorRuta(item)" icon-start>
+      <ion-icon name="star"></ion-icon>
+      {{txtMejorRuta}}
+    </ion-button>
   </ion-list>
 
 </div>

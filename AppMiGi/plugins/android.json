@@ -52,6 +52,10 @@
     },
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "io.ionic.appmigi"
+    },
+    "cordova-plugin-request-location-accuracy": {
+      "PLAY_SERVICES_LOCATION_VERSION": "16.+",
+      "PACKAGE_NAME": "io.ionic.appmigi"
     }
   },
   "dependent_plugins": {
