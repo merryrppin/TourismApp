@@ -68,36 +68,38 @@
                 </div>
 
                 <div class=" mb-2">
-                    <select name="pais" id="pais" class="form-select">
-                        <option selected>Selecciona una municipio</option>
-                        <option value="mexico">Girardota</option>
-                        <option value="argentina">Sabaneta</option>
-                        <option value="peru">Copacabana</option>
-                    </select>
+                    <label for="mensaje" class="form-label">Municipio</label>
+                    <select name="mySelect" id="mySelect" class="form-select"
+                            ng-options="option.NombreMunicipio for option in  ctrl.towns track by option.IdMunicipio"
+                            ng-model="ctrl.selectedOptionTown"></select>
                     <div id="ayuda-correo" class="form-text">
                         Expande el menu para seleccionar un municipio.
                     </div>
                 </div>
 
-                <div class="input-group mb-2">
-                    <span class="input-group-text">Día</span>
-                    <select name="pais" id="pais" class="form-select">
+                <i class='material-icons' style='font-size:19px !important; font-weight: bold' ng-click='ctrl.AddTime()'>add</i>
+                <div ng-repeat="(i, time) in ctrl.newTimes track by $index">
+                    <div class="input-group mb-4">
+                        <span class="input-group-text">Día</span>
+                        <tags-input data-ng-model="ctrl.selectedDays[i]" on-tag-added="ctrl.onTagAdded($tag)"
+                                    key-property="IdDiaSemana"
+                                    placeholder="Agregar día"
+                                    replace-spaces-with-dashes="false"
+                                    add-from-autocomplete-only="true"
+                                    class="form-row29"
+                                    display-property="NombreDiaESP"
+                                    style="height: 50px; width: 120px; min-width: 120px; margin-top: 0px !important; background-color: transparent; ">
+                            <auto-complete source="ctrl.invoiceSingleSelectionaccountlist"></auto-complete>
+                        </tags-input>
 
-                        <option selected>Selecciona un día de la semana</option>
-                        <option value="">Lunes</option>
-                        <option value="">Martes</option>
-                        <option value="">Miercoles</option>
-                        <option value="">Jueves</option>
-                        <option value="">Viernes</option>
-                        <option value="">Sabado</option>
-                    </select>
-
-                    <span class="input-group-text">Horario</span>
-                    <input type="text" class="form-control" aria-label="Longitud">
-                    <div id="ayuda-correo" class="form-text">
-                        Seleccione un día y agregue los horarios disponibles separados por coma.
+                        <span class="input-group-text">Horario</span>
+                        <input data-ng-model="ctrl.selectedHours[i]" type="text" class="form-control" aria-label="Longitud">
+                        <div id="ayuda-correo" class="form-text">
+                            Seleccione un día y agregue los horarios disponibles separados por coma.
+                        </div>
                     </div>
                 </div>
+
 
                 <button ng-click="ctrl.saveTouristSite()" type="button" class="btn btn-primary">
                     Guardar cambios

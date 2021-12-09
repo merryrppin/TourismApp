@@ -1,0 +1,4 @@
+﻿CREATE PROCEDURE ObtenerDiasSemana
+AS BEGIN
+	SELECT * FROM tblDiaSemana
+END
