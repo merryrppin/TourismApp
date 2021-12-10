@@ -31,15 +31,15 @@ export class MenuCategoriasPage implements OnInit {
     let result = await this.syncService.obtenerInformacionSP(data);
     this.menu = result;
   }
-  
-  mejorRuta(item:any){
+  sitioTuristico(item:any)
+  {
     let navigationExtras: NavigationExtras = {
       queryParams: {
           itemData: JSON.stringify(item),
           categoria: this.categoria
       }
     };
-    this.navController.navigateRoot(["/genericmap"], navigationExtras);
-
+    this.navController.navigateRoot(["/sitio-turistico"], navigationExtras);
   }
+  
 }

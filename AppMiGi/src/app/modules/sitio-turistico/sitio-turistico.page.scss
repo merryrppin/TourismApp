@@ -1,0 +1,80 @@
+.home-toolbar {
+    padding: 1px !important;
+  }
+  .swiper-slide {
+    overflow-y: scroll;
+    display: block;
+  }
+  .card-img {
+    width: 100%;
+    margin: 3px 0 3px !important;
+  }
+  ion-icon {
+   fill:white;
+  }
+  ion-content ion-toolbar {
+    --background: translucent;
+  }
+  ion-slides {
+    height: auto;
+  }
+  
+  .swiper-slide {
+    display: block;
+  }
+  
+  .swiper-slide h2 {
+    margin-top: 2.8rem;
+  }
+  .ion-img-h2 {
+    margin-top: 10px !important;
+  }
+  .ion-img-internal {
+    max-height: 80% !important;
+    max-width: 80% !important;
+    margin: 13px 0 13px !important;
+    pointer-events: none !important;
+  }
+  
+  .swiper-slide img {
+    margin: 60px 0 40px;
+    pointer-events: none;
+  }
+  
+  .icon-arrow{
+    position: absolute;
+    top: 35px;
+    left: 25px;
+    z-index: 1;
+    color:white;
+  }
+  .icon-share{
+    position: absolute;
+    top: 35px;
+    right: 45px;
+    z-index: 1;
+    color:white;
+  }
+  .icon-heart{
+    position: absolute;
+    top: 35px;
+    right:25px;
+    z-index: 1;
+    color:white;
+  }
+  h1{
+    font-size: 20pt;
+    text-align: left;
+    color:#3f3f3f;
+    margin-right:17px;
+  }
+  p{
+    font-size: 12pt;
+    color:#000000;
+    text-align: justify;
+    margin-right:17px;
+  }
+.accordionContent{
+  margin-left:17px;
+  margin-right:17px;
+}
