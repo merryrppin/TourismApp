@@ -2,19 +2,16 @@
   <ion-slides #slides effect="coverflow" (ionSlideAfterInit)="ionSlideAfterInit()"
     (ionSlideDidChange)="slideChanged(slides)">
     <ion-slide *ngFor="let item of mainPredictionArray">
-      <ion-icon slot="start" class="icon-arrow" name="arrow-back-outline"></ion-icon>
-      <ion-icon slot="end" class="icon-share" name="share-social-outline"></ion-icon>
-      <ion-icon slot="end" class="icon-heart" name="heart-outline"></ion-icon>
       <img class="card-img" src="{{item.predictionImageURL}}" />
-      <ion-item lines="none">
-        <h1 class="mainTitle">{{lang == 'ENG' ? itemData.NombreSitioTuristicoENG : itemData.NombreSitioTuristicoESP}}</h1>
-        <ion-icon slot="end" name="star-outline"></ion-icon>
-      </ion-item>
-      <ion-item lines="none">
-        <p class="mainResume">{{lang == 'ENG' ? itemData.DescripcionENG : itemData.DescripcionESP}}</p>
-      </ion-item>
     </ion-slide>
   </ion-slides>
+  <ion-item lines="none">
+    <h1 class="mainTitle">{{lang == 'ENG' ? itemData.NombreSitioTuristicoENG : itemData.NombreSitioTuristicoESP}}</h1>
+    <ion-icon slot="end" name="star-outline"></ion-icon>
+  </ion-item>
+  <ion-item lines="none">
+    <p class="mainResume">{{lang == 'ENG' ? itemData.DescripcionENG : itemData.DescripcionESP}}</p>
+  </ion-item>
   <ion-accordion title="Presentacion" openIcon="arrow-up" closeIcon="arrow-down" classTitle="border-header" class="accordion mainSubtitle">
     <div class="accordionContent">
       <ion-label>{{lang == 'ENG' ? itemData.PresentacionENG : itemData.PresentacionESP}}</ion-label>
