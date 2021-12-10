@@ -98,7 +98,6 @@ export class GenericmapPage implements OnInit {
     });
   }
 
-  // let routePoints: any[] = route.routes[0].legs[0].steps;
   drawRoute(routePoints: any) {
     let coordinates: any[] = [];
     let origin: any;
@@ -118,12 +117,6 @@ export class GenericmapPage implements OnInit {
     let objPuntosSenderismo = await this.syncService.ObtenerPuntosSenderismo(IdSitioTuristico);
     this.drawRoute(objPuntosSenderismo.objPuntosSenderismo);
     this.loading.dismiss();
-    // let objPuntosSenderismo = {
-    //   objPuntosSenderismo : this.arrayMap(data.value[0].rows, data.value[0].columns),
-    //   valoreSPuntosSenderismo : this.arrayMap(data.value[1].rows, data.value[1].columns),
-    //   objPuntosReferenciaSenderismo : this.arrayMap(data.value[2].rows, data.value[2].columns),
-    //   valoresPuntosReferenciaSenderismo : this.arrayMap(data.value[3].rows, data.value[3].columns)
-    // }
   }
 
   routePath: any = null;
@@ -176,24 +169,5 @@ export class GenericmapPage implements OnInit {
     } else {
       this.ObtenerRuta(this.itemData);
     }
-    //OBTENEMOS LAS COORDENADAS DESDE EL TELEFONO.
-    // this.geolocation.getCurrentPosition()
-    // .then((resp) => {
-    //   let latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
-    //   let mapOptions = {
-    //     center: latLng,
-    //     zoom: 15,
-    //     mapTypeId: google.maps.MapTypeId.ROADMAP
-    //   } 
-
-    //   this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions); 
-    //   this.map.addListener('tilesloaded', () => {
-    //     console.log('accuracy',this.map, this.map.center.lat());
-    //     this.lat = this.map.center.lat()
-    //     this.long = this.map.center.lng()
-    //   }); 
-    // }).catch((error) => {
-    //   console.log('Error getting location', error);
-    // });
   }
 }
