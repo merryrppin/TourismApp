@@ -18,6 +18,9 @@ export class MenuCategoriasPage implements OnInit {
     private generalService:GeneralService,
     private navController: NavController) { 
     this.lang = this.generalService.getCurrentLanguage();
+    this.generalService.languageChangeSubject.subscribe((value) =>{
+      this.lang = value;
+    });
     this.categoria = this.generalService.getCategoriaActual();
     this.getMenu();
     this.txtMejorRuta = this.lang == "ENG" ? "Best route" : "Mejor ruta";

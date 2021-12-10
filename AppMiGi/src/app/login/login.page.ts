@@ -27,6 +27,9 @@ export class LoginPage {
     private storage: StorageService) {
     this.loadUser();
     this.lang = this.generalService.getCurrentLanguage();
+    this.generalService.languageChangeSubject.subscribe((value) =>{
+      this.lang = value;
+    });
   }
 
   async openLoading() {

@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>inicio</ion-title>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6"><img class="logosAlcaldiaHeader" src="../../../assets/splashscreen/logoapp.svg" /></ion-col>
+        <ion-col size="4"><img class="logosAlcaldiaHeader" src="../../../assets/splashscreen/LogosAlcaldia.svg" /></ion-col>
+        <ion-col size="2"><ion-button (click)="cambiarIdioma()" class="btnLang">{{lang}}</ion-button></ion-col>
+      </ion-row>
+    </ion-grid>    
   </ion-toolbar>
 </ion-header>
 
@@ -13,7 +19,7 @@
       <ion-card>
         <ion-icon src="../../assets/icon_informacion.png" style="height: 100%; width: 100%;"></ion-icon>
  
-        <ion-label class="menuText">Información General</ion-label>
+        <ion-label class="menuText">{{lang==="ENG" ? "General Information" : "Información General"}}</ion-label>
       </ion-card>
 
     </ion-col>  
@@ -24,7 +30,7 @@
              
         <ion-card-content>
           <ion-icon src="../../assets/icon_imperdibles.png" style="height: 100%; width: 100%;"></ion-icon>
-          <ion-label class="menuText">Lugares Imperdibles</ion-label>
+          <ion-label class="menuText">{{lang==="ENG" ? "Unmissable Places" : "Lugares Imperdibles"}}</ion-label>
         </ion-card-content>
       </ion-card>
 
@@ -38,7 +44,7 @@
              
         <ion-card-content>
           <ion-icon src="../../assets/icon_fiestas.png" style="height: 100%; width: 100%;"></ion-icon>
-          <ion-label class="menuText">Fiestas Oficiales</ion-label>
+          <ion-label class="menuText">{{lang==="ENG" ? "Official Parties" : "Fiestas Oficiales"}}</ion-label>
         </ion-card-content>
       </ion-card>
 

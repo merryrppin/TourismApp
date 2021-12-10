@@ -42,6 +42,9 @@ export class GenericmapPage implements OnInit {
     var objThis = this;
     this.openLoading();
     this.lang = this.generalService.getCurrentLanguage();
+    this.generalService.languageChangeSubject.subscribe((value) =>{
+      this.lang = value;
+    });
     this.route.queryParams.subscribe(params => {
       this.itemData = JSON.parse(params["itemData"]);
       this.categoria = params["categoria"];

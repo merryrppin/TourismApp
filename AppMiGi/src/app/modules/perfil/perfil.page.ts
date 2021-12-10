@@ -27,8 +27,11 @@ export class PerfilPage implements OnInit {
     private storage: StorageService) { }
 
   ngOnInit() {
-    this.emptyUser();
+    this.emptyUser();    
     this.lang = this.generalService.getCurrentLanguage();
+    this.generalService.languageChangeSubject.subscribe((value) =>{
+      this.lang = value;
+    });
     this.txtCerrarSesion = this.lang == 'ENG' ? "LOGOUT" : "CERRAR SESIÓN",
       this.loadUser();
   }
