@@ -258,6 +258,7 @@ export class GeneralService {
     this.currentLanguage = language;
     this.languageChangeSubject.next(language);
   }
+
   getCategoriaActual(): string {
     return this.categoriaActual;
   }

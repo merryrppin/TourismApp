@@ -18,24 +18,30 @@
   
   .map-wrapper {
     position: relative;
-    margin-top: -45px;
+    margin-top: -56px;
+  }
+
+  .hHeaderMap>ion-toolbar>.toolbar-background{
+      background-color: rgba(255, 27, 27, 0.5);
+  }
   
-    #map_center {
-      position: absolute;
-      z-index: 99;
-      height: 40px;
-      width: 40px;
-      top: 50%;
-      left: 50%;
-      margin-left: -21px;
-      margin-top: -41px;
-    }
+  .hHeaderMap >ion-toolbar> .toolbar-container{
+      background-color: rgba(255, 0, 0, 0.5);
+  }
+  
+  .hHeaderMap{
+      height: 56px;
   }
 
   #iontb{
     height: 45px;
   }
 
+  #divOp{
+    height: 56px;
+    background-color: black;
+  }
+
   ion-toolbar{
-    opacity: 0.3;
+    color:transparent;
   }

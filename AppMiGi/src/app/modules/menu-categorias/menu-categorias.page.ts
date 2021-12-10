@@ -12,7 +12,6 @@ export class MenuCategoriasPage implements OnInit {
   public categoria:string;
   public menu:any[];
   lang: string;
-  txtMejorRuta: string;
   constructor(
     private syncService:SyncService,
     private generalService:GeneralService,
@@ -23,7 +22,6 @@ export class MenuCategoriasPage implements OnInit {
     });
     this.categoria = this.generalService.getCategoriaActual();
     this.getMenu();
-    this.txtMejorRuta = this.lang == "ENG" ? "Best route" : "Mejor ruta";
   }
 
   ngOnInit() {
@@ -42,7 +40,16 @@ export class MenuCategoriasPage implements OnInit {
           categoria: this.categoria
       }
     };
-    this.navController.navigateRoot(["/genericmap"], navigationExtras);
+    this.navController.navigateForward(["/genericmap"], navigationExtras);
 
+  }
+
+  cambiarIdioma(){
+    this.lang  = this.lang === "ENG" ? "ESP" : "ENG";
+    this.generalService.setCurrentLanguage(this.lang);
+  }
+
+  fnAtras(){
+    this.navController.navigateBack(["/tabs/inicio"]);
   }
 }
