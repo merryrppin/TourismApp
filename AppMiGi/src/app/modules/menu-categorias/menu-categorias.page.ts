@@ -40,7 +40,16 @@ export class MenuCategoriasPage implements OnInit {
           categoria: this.categoria
       }
     };
-    this.navController.navigateRoot(["/sitio-turistico"], navigationExtras);
+    this.navController.navigateForward(["/sitio-turistico"], navigationExtras);
+  }
+
+  cambiarIdioma(){
+    this.lang  = this.lang === "ENG" ? "ESP" : "ENG";
+    this.generalService.setCurrentLanguage(this.lang);
+  }
+
+  fnAtras(){
+    this.navController.navigateBack(["/tabs/inicio"]);
   }
   
 }

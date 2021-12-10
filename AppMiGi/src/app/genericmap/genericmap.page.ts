@@ -5,7 +5,7 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx'
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, NavigationExtras } from "@angular/router";
 import { GeneralService } from '../core/General/general.service';
 import { SyncService } from '../core/sync/sync.service';
 
@@ -28,6 +28,7 @@ export class GenericmapPage implements OnInit {
   categoria: string;
   lang: string;
   loading: any;
+  mapType: string;
 
   currentPosition: any;
 
@@ -43,12 +44,13 @@ export class GenericmapPage implements OnInit {
     var objThis = this;
     this.openLoading();
     this.lang = this.generalService.getCurrentLanguage();
-    this.generalService.languageChangeSubject.subscribe((value) =>{
+    this.generalService.languageChangeSubject.subscribe((value) => {
       this.lang = value;
     });
     this.route.queryParams.subscribe(params => {
       this.itemData = JSON.parse(params["itemData"]);
       this.categoria = params["categoria"];
+      this.mapType = params["mapType"];
       setTimeout(function () {
         objThis.loadMap();
       }, 2000);
@@ -94,6 +96,7 @@ export class GenericmapPage implements OnInit {
       travelMode: google.maps.TravelMode.DRIVING
     }, (response, status) => {
       if (status === 'OK') {
+        debugger;
         this.drawRoute(response.routes[0].legs[0].steps);
       } else {
         this.loading.dismiss();
@@ -114,12 +117,23 @@ export class GenericmapPage implements OnInit {
       });
     });
     this.drawLineMap(coordinates);
+  }
+
+  drawRouteHiking(routePoints: any) {
+    let coordinates: any[] = [];
+    let origin: any;
+    let destination: any;
+    routePoints.forEach(function (objPath, index) {
+      destination = new google.maps.LatLng(objPath.Latitud, objPath.Longitud);
+      coordinates.push(destination);
+    });
+    this.drawLineMap(coordinates);
     this.goToCurrentLocation();
   }
 
   async ObtenerPuntosSenderismo(IdSitioTuristico: number) {
     let objPuntosSenderismo = await this.syncService.ObtenerPuntosSenderismo(IdSitioTuristico);
-    this.drawRoute(objPuntosSenderismo.objPuntosSenderismo);
+    this.drawRouteHiking(objPuntosSenderismo.objPuntosSenderismo);
     this.loading.dismiss();
   }
 
@@ -135,17 +149,17 @@ export class GenericmapPage implements OnInit {
     });
     this.routePath.setMap(this.map);
   }
-  
+
   async goToCurrentLocation() {
     await this.openLoading();
     this.map.setCenter(this.currentPosition);
     this.loading.dismiss();
   }
 
-  ObtenerRuta(itemData: any){
+  ObtenerRuta(itemData: any) {
     let destinationDirection: string = itemData.Latitud + ', ' + itemData.Longitud;
     let originDirection: string = this.currentPosition.lat() + ', ' + this.currentPosition.lng();
-    // this.calculateAndDisplayRoute(originDirection, destinationDirection);
+    this.calculateAndDisplayRoute(originDirection, destinationDirection);
     this.loading.dismiss();
   }
 
@@ -168,20 +182,25 @@ export class GenericmapPage implements OnInit {
       mapToolbar: true
     };
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    this.ObtenerRuta(this.itemData);
-    // if (this.categoria === 'SDM') {
-    //   this.ObtenerPuntosSenderismo(this.itemData.IdSitioTuristico);
-    // } else {
-    //   this.ObtenerRuta(this.itemData);
-    // }
+    if (this.mapType === "1") {
+      this.ObtenerPuntosSenderismo(this.itemData.IdSitioTuristico);
+    } else {
+      this.ObtenerRuta(this.itemData);
+    }
   }
 
-  cambiarIdioma(){
-    this.lang  = this.lang === "ENG" ? "ESP" : "ENG";
+  cambiarIdioma() {
+    this.lang = this.lang === "ENG" ? "ESP" : "ENG";
     this.generalService.setCurrentLanguage(this.lang);
   }
 
-  fnAtras(){
-    this.navController.navigateBack(["/tabs/inicio"]);
+  fnAtras() {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        itemData: JSON.stringify(this.itemData),
+        categoria: this.categoria
+      }
+    };
+    this.navController.navigateBack(["/sitio-turistico"], navigationExtras);
   }
 }

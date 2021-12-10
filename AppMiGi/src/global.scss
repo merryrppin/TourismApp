@@ -102,8 +102,8 @@
     font-size: 12pt;
     height: 22px;
     width: 100%;
-    --background: rgba(255, 255, 255, 0.05);
-    --color: black;
+    --background: rgba(255, 255, 255, 0);
+    --color: white;
     --box-shadow: 0;
     padding-top: 5px;
 }
@@ -111,8 +111,8 @@
 .btnAtras{
     height: 22px;
     width: 100%;
-    --background: rgba(255, 255, 255, 0.05);
-    --color: black;
+    --background: rgba(255, 255, 255, 0);
+    --color: white;
     --box-shadow: 0;
     padding-top: 5px;
 }
