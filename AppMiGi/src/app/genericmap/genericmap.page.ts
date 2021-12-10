@@ -1,6 +1,6 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 
-import { Platform, LoadingController, ToastController } from "@ionic/angular";
+import { Platform, LoadingController, ToastController, NavController } from "@ionic/angular";
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx'
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
@@ -38,10 +38,14 @@ export class GenericmapPage implements OnInit {
     public zone: NgZone,
     private generalService: GeneralService,
     private route: ActivatedRoute,
-    private locationAccuracy: LocationAccuracy) {
+    private locationAccuracy: LocationAccuracy,
+    private navController: NavController) {
     var objThis = this;
     this.openLoading();
     this.lang = this.generalService.getCurrentLanguage();
+    this.generalService.languageChangeSubject.subscribe((value) =>{
+      this.lang = value;
+    });
     this.route.queryParams.subscribe(params => {
       this.itemData = JSON.parse(params["itemData"]);
       this.categoria = params["categoria"];
@@ -141,7 +145,7 @@ export class GenericmapPage implements OnInit {
   ObtenerRuta(itemData: any){
     let destinationDirection: string = itemData.Latitud + ', ' + itemData.Longitud;
     let originDirection: string = this.currentPosition.lat() + ', ' + this.currentPosition.lng();
-    this.calculateAndDisplayRoute(originDirection, destinationDirection);
+    // this.calculateAndDisplayRoute(originDirection, destinationDirection);
     this.loading.dismiss();
   }
 
@@ -164,10 +168,20 @@ export class GenericmapPage implements OnInit {
       mapToolbar: true
     };
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    if (this.categoria === 'SDM') {
-      this.ObtenerPuntosSenderismo(this.itemData.IdSitioTuristico);
-    } else {
-      this.ObtenerRuta(this.itemData);
-    }
+    this.ObtenerRuta(this.itemData);
+    // if (this.categoria === 'SDM') {
+    //   this.ObtenerPuntosSenderismo(this.itemData.IdSitioTuristico);
+    // } else {
+    //   this.ObtenerRuta(this.itemData);
+    // }
+  }
+
+  cambiarIdioma(){
+    this.lang  = this.lang === "ENG" ? "ESP" : "ENG";
+    this.generalService.setCurrentLanguage(this.lang);
+  }
+
+  fnAtras(){
+    this.navController.navigateBack(["/tabs/inicio"]);
   }
 }

@@ -93,3 +93,45 @@
     font-size: 7pt;
 }
 
+.logosAlcaldiaHeader{
+    height: 30px;
+}
+
+.btnLang {
+    font-family: Poppins-Light;
+    font-size: 12pt;
+    height: 22px;
+    width: 100%;
+    --background: rgba(255, 255, 255, 0.05);
+    --color: black;
+    --box-shadow: 0;
+    padding-top: 5px;
+}
+
+.btnAtras{
+    height: 22px;
+    width: 100%;
+    --background: rgba(255, 255, 255, 0.05);
+    --color: black;
+    --box-shadow: 0;
+    padding-top: 5px;
+}
+
+.genHeader>.toolbar-background{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.genHeader > .toolbar-container{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.genHeader{
+    height: 56px;
+}
+
+
+.genContent{
+    padding-top: -56px;
+    --padding-top: -56px;    
+    --offset-top: 67px;
+}

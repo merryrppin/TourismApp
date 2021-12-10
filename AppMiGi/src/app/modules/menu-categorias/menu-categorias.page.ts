@@ -12,15 +12,16 @@ export class MenuCategoriasPage implements OnInit {
   public categoria:string;
   public menu:any[];
   lang: string;
-  txtMejorRuta: string;
   constructor(
     private syncService:SyncService,
     private generalService:GeneralService,
     private navController: NavController) { 
     this.lang = this.generalService.getCurrentLanguage();
+    this.generalService.languageChangeSubject.subscribe((value) =>{
+      this.lang = value;
+    });
     this.categoria = this.generalService.getCategoriaActual();
     this.getMenu();
-    this.txtMejorRuta = this.lang == "ENG" ? "Best route" : "Mejor ruta";
   }
 
   ngOnInit() {

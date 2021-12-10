@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { GeneralService } from '../../core/General/general.service';
 
 @Component({
@@ -9,12 +10,18 @@ import { GeneralService } from '../../core/General/general.service';
 
 
 export class MenuPage  {
+lang: string;
+  constructor(private generalService:GeneralService) { 
+    this.lang = this.generalService.currentLanguage;  
+    this.generalService.languageChangeSubject.subscribe((value) =>{
+      this.lang = value;
+    });
+  }
 
-  constructor(private generalService:GeneralService) { }
-  
   enviarParametroGeneral(categoria:string){
     this.generalService.setCategoria(categoria);
   }
+
 
 
 }

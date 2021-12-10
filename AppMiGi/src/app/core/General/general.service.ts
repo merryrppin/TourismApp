@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlertController, LoadingController, ToastController } from '@ionic/angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { ToastOptions } from "@ionic/core";
 import { StorageService } from '../services/storage/storage.service';
 
@@ -31,21 +31,28 @@ export class GeneralService {
   public currentLanguage: string = "ESP";
   private _toast: HTMLIonToastElement;
   readonly limitToast: number = 3000;
-  public categoriaActual:string ="";
+  public categoriaActual: string = "";
   private messageSource = new BehaviorSubject("Marcacion SEF");
   currentMessage = this.messageSource.asObservable();
+
+  languageChangeSubject: Subject<string> = new Subject<string>();
+  
   constructor(
     private loadingController: LoadingController,
     private toastCtrl: ToastController,
     private alertController: AlertController,
     private storage: StorageService) {
-      this.storage.getIdioma("lang").then((obj) => {
-        this.currentLanguage = obj.value;
-      });
-      this.storage.getIdioma("categoria").then((obj) => {
-        this.categoriaActual = obj.value;
-      });
-     }
+    this.storage.getIdioma("lang").then((obj) => {
+      this.currentLanguage = obj.value;
+    });
+    this.storage.getIdioma("categoria").then((obj) => {
+      this.categoriaActual = obj.value;
+    });
+    
+    this.languageChangeSubject.subscribe((value) => {
+      this.currentLanguage = value
+  });
+  }
 
   toastDissmiss() {
     setTimeout(() => {
@@ -249,8 +256,10 @@ export class GeneralService {
   setCurrentLanguage(language: string) {
     this.storage.setIdioma("lang", language);
     this.currentLanguage = language;
+    this.languageChangeSubject.next(language);
   }
-  getCategoriaActual():string{
+
+  getCategoriaActual(): string {
     return this.categoriaActual;
   }
   setCategoria(categoria: string) {
