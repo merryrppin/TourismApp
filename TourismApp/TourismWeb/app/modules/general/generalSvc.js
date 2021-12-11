@@ -20,9 +20,9 @@ function GeneralService($http, $rootScope, $window) {
             'funcionIncorrecto': function () { },
             'spinner': true,
             'mapData': true,
-            'dataType': 'json',
-            'contentType': 'application/json'
-            , 'Authorization': $window.localStorage.getItem('token')
+            'dataType': data.dataType,
+            'contentType': data.contentType,
+            'Authorization': $window.localStorage.getItem('token')
         }, data);
         $http({
             method: options.method,

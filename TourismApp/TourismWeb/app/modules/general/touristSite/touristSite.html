@@ -56,6 +56,14 @@
                     </div>
                 </div>
 
+                <div class="mb-2">
+                    <label for="mensaje" class="form-label">Dirección</label>
+                    <input ng-model="ctrl.DireccionESP" class="form-control" name="mensaje" id="mensaje">
+                    <div id="ayuda-correo" class="form-text">
+                        Digite la Dirección del sitio turistico en lenguaje español.
+                    </div>
+                </div>
+
                 <div class="input-group mb-2">
                     <span class="input-group-text">Latitud</span>
                     <input ng-model="ctrl.routeLatitude" type="text" class="form-control" aria-label="Latitud">
@@ -141,16 +149,33 @@
                     </div>
                 </div>
 
-                <input type="file" class="form-control" name="" id="">
-                <div id="ayuda-correo" class="form-text">
-                    Archivo galeria fotos
+
+                <div class="mb-2">
+                    <label for="mensaje" class="form-label">Dirección</label>
+                    <input ng-model="ctrl.DireccionENG" class="form-control" name="mensaje" id="mensaje">
+                    <div id="ayuda-correo" class="form-text">
+                        Digite la Dirección del sitio turistico en lenguaje ingles.
+                    </div>
                 </div>
+
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <span class="btn btn-primary btn-file">
+                            Browse...<input type="file" multiple my-directory="ctrl.getFiles(file)" ng-disabled="ctrl.uploading" />
+                        </span>
+
+                    </span>
+                    <input type="text" ng-model="ctrl.countFiles" class="form-control" readonly>
+                </div>
+                <input style="margin-top: 10px;" type="button" class="btn btn-default  btn-primary" ng-click="ctrl.uploadFiles()" value="Upload" ng-disabled="ctrl.uploading || ctrl.countFiles==='' ||  ctrl.IdSitioTuristico == ''" />
+
+
+                <div ng-repeat="file in ctrl.data ">
+                    {{file.FileName  + '  ' + file.FileLength + ' bytes'  }}
+                </div>
+
+
             </div>
+
         </div>
-
     </div>
-</div>
-
-
-
-

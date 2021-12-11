@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -7,9 +8,11 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using TourismApp.General;
 using TourismApp.Services;
 using TourismApp.Services.Entities;
@@ -90,6 +93,29 @@ namespace TourismApp.Controllers
             return "Ver. " + _Configuration.GetValue<string>("Version");
         }
 
+        [HttpPost("OnPostUploadAsync")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files,string typeSite)
+        {
+            long size = files.Sum(f => f.Length);
+            List<string> filePaths = new List<string>();
+
+            foreach (var formFile in files)
+            {
+                if (formFile.Length > 0)
+                {
+                    var filePath = Path.Combine($"files/{typeSite}/", formFile.FileName);
+                    filePaths.Add(filePath);
+
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
+                }
+            }
+
+            return Ok(new { count = files.Count, size, filePaths = filePaths });
+        }
 
     }
 }

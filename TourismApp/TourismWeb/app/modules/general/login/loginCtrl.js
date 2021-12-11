@@ -44,6 +44,8 @@ function loginController($scope, $window, $location, $rootScope, GeneralService)
         GeneralService.executeAjax({
             url: 'https://localhost:44355/api/tourism/Login',
             data: StoredObjectParams,
+            dataType: 'json',
+            contentType: 'application/json',
             success: function (response) {
                 ctrl.IsLoad = false;
                 if (response !== null && response !== '' && response.token !== null) {

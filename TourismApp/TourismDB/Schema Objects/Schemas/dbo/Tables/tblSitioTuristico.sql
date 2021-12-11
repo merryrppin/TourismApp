@@ -20,6 +20,8 @@
 	[FechaCreacion] DATETIME DEFAULT GETDATE(),
 	[ModificadoPor] VARCHAR(250) NULL,
 	[FechaModificacion] DATETIME NULL,
+	[DireccionESP] VARCHAR(MAX),
+	[DireccionENG] VARCHAR(MAX),
     CONSTRAINT [FK_tblSitioTuristico_tblMunicipio] FOREIGN KEY ([IdMunicipio]) REFERENCES [tblMunicipio]([IdMunicipio]),
 	CONSTRAINT [FK_tblSitioTuristico_tblTipoSitioTuristico] FOREIGN KEY ([IdTipoSitioTuristico]) REFERENCES [tblTipoSitioTuristico]([IdTipoSitioTuristico])
 )
