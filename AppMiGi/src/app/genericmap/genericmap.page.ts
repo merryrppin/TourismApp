@@ -29,8 +29,11 @@ export class GenericmapPage implements OnInit {
   lang: string;
   loading: any;
   mapType: string;
+  infoWindow: any;
 
   currentPosition: any;
+  sitiosTuristicos: any[];
+  IdSitioTuristico: string;
 
   constructor(
     private geolocation: Geolocation,
@@ -42,20 +45,26 @@ export class GenericmapPage implements OnInit {
     private locationAccuracy: LocationAccuracy,
     private navController: NavController) {
     var objThis = this;
-    this.openLoading();
     this.lang = this.generalService.getCurrentLanguage();
     this.generalService.languageChangeSubject.subscribe((value) => {
       this.lang = value;
     });
+
+
     this.route.queryParams.subscribe(params => {
-      this.itemData = JSON.parse(params["itemData"]);
+      this.IdSitioTuristico = params["IdSitioTuristico"];
+
+      this.generalService.getDataPromise("sitiosTuristicos").then(async (res) => {
+        await this.openLoading();
+        this.sitiosTuristicos = JSON.parse(res.value);
+        this.itemData = this.sitiosTuristicos.find(x => x.IdSitioTuristico == this.IdSitioTuristico);
+        objThis.loadMap();
+      });
+
       this.categoria = params["categoria"];
       this.mapType = params["mapType"];
-      setTimeout(function () {
-        objThis.loadMap();
-      }, 2000);
     });
-
+    this.infoWindow = new google.maps.InfoWindow();
     objThis.currentPosition = new google.maps.LatLng(6.378543, -75.4464299); //Girardota
 
     let watchPosition = this.geolocation.watchPosition();
@@ -96,7 +105,6 @@ export class GenericmapPage implements OnInit {
       travelMode: google.maps.TravelMode.DRIVING
     }, (response, status) => {
       if (status === 'OK') {
-        debugger;
         this.drawRoute(response.routes[0].legs[0].steps);
       } else {
         this.loading.dismiss();
@@ -123,17 +131,67 @@ export class GenericmapPage implements OnInit {
     let coordinates: any[] = [];
     let origin: any;
     let destination: any;
-    routePoints.forEach(function (objPath, index) {
+    routePoints.objPuntosSenderismo.forEach(function (objPath, index) {
       destination = new google.maps.LatLng(objPath.Latitud, objPath.Longitud);
       coordinates.push(destination);
     });
     this.drawLineMap(coordinates);
-    this.goToCurrentLocation();
+    let puntosSenderismo = routePoints.valoreSPuntosSenderismo[0];
+    let latitudPS = (parseFloat(puntosSenderismo.MaxLatitud) + parseFloat(puntosSenderismo.MinLatitud)) / 2;
+    let longitudPS = (parseFloat(puntosSenderismo.MaxLongitud) + parseFloat(puntosSenderismo.MinLongitud)) / 2;
+    this.currentPosition = new google.maps.LatLng(latitudPS, longitudPS);
+    this.map.setCenter(this.currentPosition);
+
+    let puntoInicial = routePoints.objPuntosSenderismo[0];
+    let puntoFinal = routePoints.objPuntosSenderismo[routePoints.objPuntosSenderismo.length - 1];
+
+    let latLngInicio = new google.maps.LatLng(puntoInicial.Latitud, puntoInicial.Longitud);
+    let latLngFin = new google.maps.LatLng(puntoFinal.Latitud, puntoFinal.Longitud);
+
+    let iconIniFin = {
+      // anchor: new google.maps.Point(30, 30.26),
+      // size: new google.maps.Size(50, 50),
+      url: "../../assets/map/icon_final.png"
+    }
+    new google.maps.Marker({
+      position: latLngInicio,
+      map: this.map,
+      icon: iconIniFin
+    });
+
+    new google.maps.Marker({
+      position: latLngFin,
+      map: this.map,
+      icon: iconIniFin
+    });
+
+    var objThis = this;
+    routePoints.objPuntosReferenciaSenderismo.forEach(function (objPuntoReferencia, i) {
+      let icon = {
+        // anchor: new google.maps.Point(30, 30.26),
+        // size: new google.maps.Size(50, 50),
+        url: "../../assets/map/icon_inicio.png"
+      }
+      let latLng = new google.maps.LatLng(objPuntoReferencia.Latitud, objPuntoReferencia.Longitud);
+
+      let marker = new google.maps.Marker({
+        position: latLng,
+        map: objThis.map,
+        icon: icon
+      });
+
+      google.maps.event.addListener(marker, 'click', (function (marker, i) {
+        return function () {
+          objThis.infoWindow.setContent(objThis.lang === "ENG" ? objPuntoReferencia.NombrePuntoENG : objPuntoReferencia.NombrePunto);
+          objThis.infoWindow.open(objThis.map, marker);
+        }
+      })(marker, i));
+    });
   }
 
   async ObtenerPuntosSenderismo(IdSitioTuristico: number) {
     let objPuntosSenderismo = await this.syncService.ObtenerPuntosSenderismo(IdSitioTuristico);
-    this.drawRouteHiking(objPuntosSenderismo.objPuntosSenderismo);
+    this.drawRouteHiking(objPuntosSenderismo);
     this.loading.dismiss();
   }
 
@@ -168,7 +226,7 @@ export class GenericmapPage implements OnInit {
 
     let mapOptions = {
       center: latLng,
-      zoom: 15,
+      zoom: 13,
       tilt: 30,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
 
@@ -197,7 +255,7 @@ export class GenericmapPage implements OnInit {
   fnAtras() {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        itemData: JSON.stringify(this.itemData),
+        IdSitioTuristico: this.itemData.IdSitioTuristico,
         categoria: this.categoria
       }
     };

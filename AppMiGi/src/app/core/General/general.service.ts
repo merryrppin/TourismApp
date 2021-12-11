@@ -36,7 +36,7 @@ export class GeneralService {
   currentMessage = this.messageSource.asObservable();
 
   languageChangeSubject: Subject<string> = new Subject<string>();
-  
+
   constructor(
     private loadingController: LoadingController,
     private toastCtrl: ToastController,
@@ -48,10 +48,10 @@ export class GeneralService {
     this.storage.getIdioma("categoria").then((obj) => {
       this.categoriaActual = obj.value;
     });
-    
+
     this.languageChangeSubject.subscribe((value) => {
       this.currentLanguage = value
-  });
+    });
   }
 
   toastDissmiss() {
@@ -262,8 +262,40 @@ export class GeneralService {
   getCategoriaActual(): string {
     return this.categoriaActual;
   }
+
   setCategoria(categoria: string) {
     this.storage.setIdioma("categoria", categoria);
     this.categoriaActual = categoria;
+  }
+
+  setDataPromise(key: string, value: string) {
+    return this.storage.setData(key, value);
+  }
+
+  getDataPromise(key: string) {
+    return this.storage.getData(key);
+  }
+
+  getSitioTuristicoEmpty() {
+    return {
+      Activo: "",
+      Altitud: "",
+      DescripcionENG: "",
+      DescripcionESP: "",
+      IconoMarcador: "",
+      IdMunicipio: "",
+      IdSitioTuristico: "",
+      IdTipoSitioTuristico: "",
+      Latitud: "",
+      Longitud: "",
+      Nombre: "",
+      NombreSitioTuristicoENG: "",
+      NombreSitioTuristicoESP: "",
+      PresentacionENG: "",
+      PresentacionESP: "",
+      RutaENG: "",
+      RutaESP: "",
+      Codigo:""
+    }
   }
 }

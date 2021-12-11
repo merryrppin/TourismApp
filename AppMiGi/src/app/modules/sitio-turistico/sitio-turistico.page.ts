@@ -19,6 +19,9 @@ export class SitioTuristicoPage {
   itemData: any;
   categoria: string;
   lang: string;
+  IdSitioTuristico: string;
+  sitiosTuristicos: any[];
+  loading: any;
 
   constructor(private geolocation: Geolocation,
     private syncService: SyncService,
@@ -27,14 +30,17 @@ export class SitioTuristicoPage {
     private navController: NavController) {
     this.lang = this.generalService.getCurrentLanguage();
     this.route.queryParams.subscribe(params => {
-      this.itemData = JSON.parse(params["itemData"]);
+      this.IdSitioTuristico = params["IdSitioTuristico"];
       this.categoria = params["categoria"];
-      setTimeout(function () {
-
-      }, 2000);
+      this.itemData = generalService.getSitioTuristicoEmpty();
+      this.generalService.getDataPromise("sitiosTuristicos").then((res) => {
+        this.sitiosTuristicos = JSON.parse(res.value);
+        this.itemData = this.sitiosTuristicos.find(x => x.IdSitioTuristico == this.IdSitioTuristico);
+      });
     });
     this.showSlides();
   }
+
   showSlides() {
     this.mainPredictionArray = [
       { "header": "Catedral nuestra señora del rosario", "predictionImageURL": "../../assets/img_catedral.jpg", "subject": "Un maravilloso lugar lleno de magia, paz y sobre todo de una devoción religiosa única. Con un estilo único e inigualable es uno de los lugares mas frecuentado en girardota" },
@@ -45,10 +51,10 @@ export class SitioTuristicoPage {
     ]
   }
 
-  mejorRuta(item: any, type:number) {
+  mejorRuta(item: any, type: number) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        itemData: JSON.stringify(item),
+        IdSitioTuristico: item.IdSitioTuristico,
         categoria: this.categoria,
         mapType: type
       }

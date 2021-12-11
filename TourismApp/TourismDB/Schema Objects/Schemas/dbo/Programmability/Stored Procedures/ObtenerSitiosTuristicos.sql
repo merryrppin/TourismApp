@@ -21,7 +21,8 @@ AS BEGIN
 				sitioT.RutaESP,
 				sitioT.RutaENG,
 				sitioT.IdTipoSitioTuristico,
-				tipoSitio.Nombre
+				tipoSitio.Nombre,
+				tipoSitio.Codigo
 			FROM tblSitioTuristico AS sitioT
 				INNER JOIN tblTipoSitioTuristico AS tipoSitio ON sitioT.IdTipoSitioTuristico = tipoSitio.IdTipoSitioTuristico
 			WHERE 1 = 1 '
