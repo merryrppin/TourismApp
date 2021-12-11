@@ -1,0 +1,84 @@
+<ion-header class="genHeader">
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="2">
+          <ion-button (click)="fnAtras()" class="btnAtras">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="8"></ion-col>
+        <ion-col size="2">
+          <ion-button (click)="cambiarIdioma()" class="btnLang">{{lang}}</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen class="genContent">
+  <ion-slides #slides effect="coverflow">
+    <ion-slide *ngFor="let item of mainPredictionArray">
+      <img class="card-img" src="{{item.predictionImageURL}}" />
+    </ion-slide>
+  </ion-slides>
+  <ion-item lines="none">
+    <h1 class="mainTitle">{{lang == 'ENG' ? itemData.NombreSitioTuristicoENG : itemData.NombreSitioTuristicoESP}}</h1>
+    <ion-icon slot="end" name="star-outline"></ion-icon>
+  </ion-item>
+  <ion-item lines="none">
+    <p class="mainResume">{{lang == 'ENG' ? itemData.DescripcionENG : itemData.DescripcionESP}}</p>
+  </ion-item>
+  <ion-accordion title="{{lang == 'ENG' ? 'Presentation' : 'Presentación'}}" openIcon="arrow-up" closeIcon="arrow-down"
+    classTitle="border-header" class="accordion mainSubtitle">
+    <div class="accordionContent">
+      <ion-label>{{lang == 'ENG' ? itemData.PresentacionENG : itemData.PresentacionESP}}</ion-label>
+    </div>
+  </ion-accordion>
+  <ion-accordion title="{{lang == 'ENG' ? 'Eucharist Schedule' : 'Horarios eucaristias'}}" openIcon="arrow-up"
+    closeIcon="arrow-down" classTitle="border-header" class="accordion mainSubtitle">
+    <div class="accordionContent">
+      <ion-label>{{lang == 'ENG' ? "Eucharist Schedule" : "Horarios eucaristias"}}</ion-label>
+    </div>
+  </ion-accordion>
+  <ion-accordion title="{{lang == 'ENG' ? 'Galery' : 'Galería'}}" openIcon="arrow-up" closeIcon="arrow-down"
+    classTitle="border-header" class="accordion mainSubtitle">
+    <div class="accordionContent">
+      <ion-label>{{lang == 'ENG' ? "Galery" : "Galería"}}</ion-label>
+    </div>
+  </ion-accordion>
+  <ion-accordion title="{{lang == 'ENG' ? 'How to get' : 'Como llegar'}}" openIcon="arrow-up" closeIcon="arrow-down"
+    classTitle="border-header" class="accordion mainSubtitle">
+    <div class="accordionContent">
+      <ion-label>{{lang == 'ENG' ? itemData.RutaENG : itemData.RutaESP}}</ion-label>
+    </div>
+  </ion-accordion>
+  <ion-accordion title="{{lang == 'ENG' ? 'Comments' : 'Comentarios'}}" openIcon="arrow-up" closeIcon="arrow-down"
+    classTitle="border-header" class="accordion mainSubtitle">
+    <div class="accordionContent">
+      <ion-label>{{lang == 'ENG' ? "Comments" : "Comentarios"}}</ion-label>
+    </div>
+  </ion-accordion>
+  <div *ngIf="categoria=='SDM'">
+    <ion-row>
+      <ion-col md-6>
+        <ion-button expand="block" color="primary" (click)="mejorRuta(itemData, 2)" icon-start>
+          <ion-icon src="../../assets/icon_imperdibles.svg"></ion-icon>
+          {{lang == "ENG" ? "Best route" : "Mejor ruta"}}
+        </ion-button>
+      </ion-col>
+      <ion-col md-6>
+        <ion-button expand="block" color="primary" (click)="mejorRuta(itemData, 1)" icon-start>
+          <ion-icon name="star"></ion-icon>
+          {{lang == "ENG" ? "Hiking route" : "Ruta senderismo"}}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
+  <div *ngIf="categoria !=='SDM'">
+    <ion-button expand="block" color="primary" (click)="mejorRuta(itemData, 2)" icon-start>
+      <ion-icon src="../../assets/icon_imperdibles.svg"></ion-icon>
+      {{lang == "ENG" ? "Best route" : "Mejor ruta"}}
+    </ion-button>
+  </div>
+</ion-content>

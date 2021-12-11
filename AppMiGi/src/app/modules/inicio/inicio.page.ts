@@ -1,5 +1,6 @@
 import { Component, OnInit,ViewChild  } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
+import { GeneralService } from 'src/app/core/General/general.service';
 
 @Component({
   selector: 'app-inicio',
@@ -12,6 +13,7 @@ export class InicioPage  {
   imggastronomico:any[] = [{img:"https://media-cdn.tripadvisor.com/media/photo-s/1b/1d/70/1a/img-20200308-131106-largejpg.jpg"},{img:"https://4.bp.blogspot.com/-cMvwaeUJpSE/VoCGcVVmw0I/AAAAAAAAG_Y/Lvfnuz5sOFQ/s640/bdaf8831-bd83-48cb-8623-a380250b7bbb.jpg"}]
   @ViewChild('slideWithNav', { static: false }) slideWithNav: IonSlides;
 
+  lang: string;
   sliderOne: any;
 
   slideOptions = {
@@ -21,7 +23,12 @@ export class InicioPage  {
   };
 
   constructor(
+    private generalService: GeneralService
   ) {
+    this.lang = this.generalService.getCurrentLanguage();
+    this.generalService.languageChangeSubject.subscribe((value) =>{
+      this.lang = value;
+    });
     //Item object for Nature
     this.sliderOne =
     {
@@ -82,6 +89,11 @@ export class InicioPage  {
     slideView.isEnd().then((istrue) => {
       object.isEndSlide = istrue;
     });
+  }
+
+  cambiarIdioma(){
+    this.lang  = this.lang === "ENG" ? "ESP" : "ENG";
+    this.generalService.setCurrentLanguage(this.lang);
   }
 
 }
