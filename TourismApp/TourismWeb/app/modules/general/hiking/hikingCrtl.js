@@ -69,6 +69,8 @@ function hikingController($scope, $window, $filter, $timeout, $location, General
         GeneralService.executeAjax({
             url: 'https://localhost:44355/api/tourism/PostJWT',
             data: StoredObjectParams,
+            dataType: 'json',
+            contentType: 'application/json',
             success: function (response) {
                 if (response.exception == null) {
                     ctrl.hikingGrid.api.setRowData([]);

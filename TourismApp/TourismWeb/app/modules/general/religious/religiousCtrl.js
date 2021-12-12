@@ -51,12 +51,14 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
     }
 
     ctrl.addNewSite = function () {
-        let newSite = { 'Code': ctrl.CodeReligious, 'Name': 'Religioso'};
+        let newSite = { 'Code': ctrl.CodeReligious, 'Name': 'Religioso', 'fileName': 'religious' };
         $location.path('/touristSite').search({ param: newSite });
     }
 
     ctrl.modifiedSite = function () {
         $location.path('/touristSite').search({ param: ctrl.religiousData });
+
+
     }
 
     ctrl.getDataReligious = function () {
@@ -69,6 +71,8 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
         GeneralService.executeAjax({
             url: 'https://localhost:44355/api/tourism/PostJWT',
             data: StoredObjectParams,
+            dataType: 'json',
+            contentType: 'application/json',
             success: function (response) {
                 if (response.exception == null) {
                     ctrl.religiousGrid.api.setRowData([]);
@@ -95,7 +99,7 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
 
     //Definicion de columnas
     ctrl.columns = [
- 
+
         {
             headerName: "Nombre",
             field: "NombreSitioTuristicoESP",

@@ -33,4 +33,12 @@ export class StorageService {
     const ret = await Storage.get({ key });
     return ret;
   }
+  async setData(key: string, value: string) {
+    return Storage.set({ key, value: value });
+  }
+
+  async getData(key: string): Promise<{ value: string }> {
+    const ret = await Storage.get({ key });
+    return ret;
+  }
 }

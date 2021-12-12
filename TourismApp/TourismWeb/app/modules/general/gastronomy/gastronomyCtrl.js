@@ -69,6 +69,8 @@ function gastronomyController($scope, $window, $filter, $timeout, $location, Gen
         GeneralService.executeAjax({
             url: 'https://localhost:44355/api/tourism/PostJWT',
             data: StoredObjectParams,
+            dataType: 'json',
+            contentType: 'application/json',
             success: function (response) {
                 if (response.exception == null) {
                     ctrl.gastronomyGrid.api.setRowData([]);

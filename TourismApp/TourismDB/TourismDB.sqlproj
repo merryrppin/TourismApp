@@ -99,6 +99,7 @@
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\GuardarPuntosSenderismo.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\ObtenerPuntosSenderismo.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\ObtenerDiasSemana.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\GuardarGaleriaFotos.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Objects\PostDeployment\Postdeployment.sql" />

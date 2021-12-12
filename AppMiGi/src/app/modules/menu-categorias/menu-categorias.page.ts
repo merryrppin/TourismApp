@@ -9,37 +9,64 @@ import { NavigationExtras } from '@angular/router';
   styleUrls: ['./menu-categorias.page.scss'],
 })
 export class MenuCategoriasPage implements OnInit {
-  public categoria:string;
-  public menu:any[];
+  public categoria: string;
+  public menu: any[];
   lang: string;
-  txtMejorRuta: string;
+  loading:any;
   constructor(
-    private syncService:SyncService,
-    private generalService:GeneralService,
-    private navController: NavController) { 
+    private syncService: SyncService,
+    private generalService: GeneralService,
+    private navController: NavController) {
     this.lang = this.generalService.getCurrentLanguage();
+    this.generalService.languageChangeSubject.subscribe((value) => {
+      this.lang = value;
+    });
     this.categoria = this.generalService.getCategoriaActual();
     this.getMenu();
-    this.txtMejorRuta = this.lang == "ENG" ? "Best route" : "Mejor ruta";
   }
 
   ngOnInit() {
   }
 
-  async getMenu(){
-    let data = '{"StoredParams":[{"Name":"IdMunicipio", "Value":"-1"},{"Name":"CodigoTipoSitio","Value":"' + this.categoria + '"}],"StoredProcedureName":"ObtenerSitiosTuristicos"}';
-    let result = await this.syncService.obtenerInformacionSP(data);
-    this.menu = result;
+  async openLoading() {
+    this.loading = await this.generalService.presentLoading({
+      message: this.lang == 'ENG' ? "Please wait..." : "Por favor espere...",
+      keyboardClose: false
+    });
   }
-  
-  mejorRuta(item:any){
+
+  async getMenu() {
+    await this.openLoading();
+    this.generalService.getDataPromise("sitiosTuristicos").then(async (resp) => {
+      if (resp.value == null) {
+        let data = '{"StoredParams":[{"Name":"IdMunicipio", "Value":"-1"}],"StoredProcedureName":"ObtenerSitiosTuristicos"}';
+        let result = await this.syncService.obtenerInformacionSP(data);
+        this.generalService.setDataPromise("sitiosTuristicos", JSON.stringify(result));
+        this.menu = result.filter(x => x.Codigo == this.categoria);
+      }else{
+        this.menu = JSON.parse(resp.value).filter(x => x.Codigo == this.categoria);
+      }
+      this.loading.dismiss();
+    });
+  }
+
+  sitioTuristico(item: any) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-          itemData: JSON.stringify(item),
-          categoria: this.categoria
+        IdSitioTuristico: item.IdSitioTuristico,
+        categoria: this.categoria
       }
     };
-    this.navController.navigateRoot(["/genericmap"], navigationExtras);
-
+    this.navController.navigateForward(["/sitio-turistico"], navigationExtras);
   }
+
+  cambiarIdioma() {
+    this.lang = this.lang === "ENG" ? "ESP" : "ENG";
+    this.generalService.setCurrentLanguage(this.lang);
+  }
+
+  fnAtras() {
+    this.navController.navigateBack(["/tabs/inicio"]);
+  }
+
 }

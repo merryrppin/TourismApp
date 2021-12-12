@@ -1,9 +1,10 @@
-﻿CREATE PROCEDURE dbo.[GuardarSitiosTuristicos] (@jsonSitioTuristico NVARCHAR(MAX),@jsonHorarios NVARCHAR(MAX),@jsonFotos NVARCHAR(MAX),@CodigoTipoSitio VARCHAR(20),@Usuario VARCHAR(100))
+﻿CREATE PROCEDURE dbo.[GuardarSitiosTuristicos] (@jsonSitioTuristico NVARCHAR(MAX),@jsonHorarios NVARCHAR(MAX),@CodigoTipoSitio VARCHAR(20),@Usuario VARCHAR(100),@IdSitioTuristico INT = NULL)
 AS 
 BEGIN
 	DECLARE @IdTipoSitioTuristico INT = (SELECT TOP 1 IdTipoSitioTuristico FROM tblTipoSitioTuristico WHERE Codigo  = @CodigoTipoSitio)
+	CREATE TABLE #Action ([Accion] VARCHAR(20))
 
-	SELECT IdSitioTuristico,NombreSitioTuristicoESP, NombreSitioTuristicoENG, IdMunicipio, Latitud, Longitud,IconoMarcador, Activo, DescripcionESP, DescripcionENG, PresentacionESP, PresentacionENG, RutaESP, RutaENG
+	SELECT IdSitioTuristico,NombreSitioTuristicoESP, NombreSitioTuristicoENG, IdMunicipio, Latitud, Longitud,IconoMarcador, Activo, DescripcionESP, DescripcionENG, PresentacionESP, PresentacionENG, RutaESP, RutaENG, DireccionESP, DireccionENG
 	INTO #TempSitioTuristico 
 	FROM OPENJSON(@jsonSitioTuristico)
 	  WITH (
@@ -20,22 +21,17 @@ BEGIN
 		PresentacionESP VARCHAR(MAX) 'strict $.PresentacionESP',
 		PresentacionENG VARCHAR(MAX) 'strict $.PresentacionENG',
 		RutaESP VARCHAR(MAX) 'strict $.RutaESP',
-		RutaENG VARCHAR(MAX) 'strict $.RutaENG'
-	  );
+		RutaENG VARCHAR(MAX) 'strict $.RutaENG',
+		DireccionESP VARCHAR(MAX) 'strict $.DireccionESP',
+		DireccionENG VARCHAR(MAX) 'strict $.DireccionENG' );
 
     SELECT IdHorario,IdSitioTuristico,IdDiaSemana,NombreDia, Horas
 	INTO #TempHorarios 
-    FROM 	OPENJSON( @jsonHorarios, '$.Horario' ) 
+    FROM 	OPENJSON( @jsonHorarios) 
     WITH (IdHorario INT '$.IdHorario',IdSitioTuristico INT '$.IdSitioTuristico',IdDiaSemana INT '$.IdDiaSemana',NombreDia NVARCHAR(25) '$.NombreDia', Horas NVARCHAR(25) '$.Horas');
 
-    SELECT IdSitioTuristico,IdGaleriaFoto,Nombre,UrlFoto
-	INTO #TempGaleriaFotos
-    FROM OPENJSON( @jsonFotos, '$.Galeria' ) 
-    WITH (IdSitioTuristico INT '$.IdSitioTuristico',IdGaleriaFoto INT '$.IdGaleriaFoto',Nombre NVARCHAR(500) '$.Nombre', UrlFoto NVARCHAR(1000) '$.UrlFoto');
-
-
     MERGE tblSitioTuristico AS tgt  
-    USING (SELECT IdSitioTuristico,NombreSitioTuristicoESP,NombreSitioTuristicoENG,IdMunicipio, Latitud,Longitud, NULL AS Altitud, IconoMarcador, Activo, DescripcionESP, DescripcionENG, PresentacionESP, PresentacionENG,RutaESP, RutaENG
+    USING (SELECT IdSitioTuristico,NombreSitioTuristicoESP,NombreSitioTuristicoENG,IdMunicipio, Latitud,Longitud, NULL AS Altitud, IconoMarcador, Activo, DescripcionESP, DescripcionENG, PresentacionESP, PresentacionENG,RutaESP, RutaENG, DireccionESP, DireccionENG
 	FROM #TempSitioTuristico) AS src 
     ON (tgt.IdSitioTuristico = src.IdSitioTuristico)  
     WHEN MATCHED THEN
@@ -52,7 +48,9 @@ BEGIN
 			PresentacionESP= src.PresentacionESP,
 			PresentacionENG= src.PresentacionENG,
 			RutaESP= src.RutaESP,
-			RutaENG= src.RutaENG
+			RutaENG= src.RutaENG,
+			DireccionESP= src.DireccionESP,
+			DireccionENG= src.DireccionENG
     WHEN NOT MATCHED THEN  
         INSERT (
 			NombreSitioTuristicoESP,
@@ -69,7 +67,9 @@ BEGIN
 			PresentacionENG,
 			RutaESP,
 			RutaENG,
-			IdTipoSitioTuristico)  
+			IdTipoSitioTuristico,
+			DireccionESP,
+			DireccionENG)  
         VALUES (
 			src.NombreSitioTuristicoESP,
 			src.NombreSitioTuristicoENG, 
@@ -85,11 +85,18 @@ BEGIN
 			src.PresentacionENG,
 			src.RutaESP, 
 			src.RutaENG,
-			@IdTipoSitioTuristico)
-    OUTPUT  $action;
+			@IdTipoSitioTuristico,
+			src.DireccionESP,
+			src.DireccionENG)
+       OUTPUT  $action INTO #Action;
+
+	IF EXISTS (SELECT Accion FROM #Action WHERE Accion = 'INSERT') BEGIN 
+		SET @IdSitioTuristico  = (SELECT MAX(IdSitioTuristico) FROM tblSitioTuristico)
+		UPDATE #TempHorarios SET IdSitioTuristico = @IdSitioTuristico
+	END
 
 	MERGE tblHorarios AS tgt  
-    USING (SELECT IdHorario, IdSitioTuristico,Horas
+    USING (SELECT IdHorario, Horas
 	FROM #TempHorarios) AS src 
     ON (tgt.IdHorario = src.IdHorario)  
     WHEN MATCHED THEN
@@ -101,10 +108,10 @@ BEGIN
 			IdSitioTuristico)  
         VALUES (
 			src.Horas,
-			src.IdSitioTuristico);
+			@IdSitioTuristico);
 
 	MERGE tblDiaHorarioSitioTuristico AS tgt  
-    USING (SELECT IdHorario,IdDiaSemana, IdSitioTuristico,Horas
+    USING (SELECT IdHorario,IdDiaSemana, Horas
 	FROM #TempHorarios) AS src 
     ON (tgt.IdHorario = src.IdHorario AND tgt.IdDiaSemana = src.IdDiaSemana)  
     WHEN NOT MATCHED THEN  
@@ -112,24 +119,12 @@ BEGIN
 			IdHorario,
 			IdDiaSemana)  
         VALUES (
-			src.IdHorario,
+			SCOPE_IDENTITY(),
 			src.IdDiaSemana);
 
-	MERGE tblGaleriaFotos AS tgt  
-    USING (SELECT IdGaleriaFoto,IdSitioTuristico, Nombre, UrlFoto
-	FROM #TempGaleriaFotos) AS src 
-    ON (tgt.IdGaleriaFotosST = src.IdGaleriaFoto)  
-    WHEN NOT MATCHED THEN  
-        INSERT (
-			IdSitioTuristico,
-			UrlFoto)  
-        VALUES (
-			src.IdSitioTuristico,
-			src.Nombre);
-
-
-	DROP TABLE IF EXISTS #TempGaleriaFotos;
 	DROP TABLE IF EXISTS #TempSitioTuristico;
 	DROP TABLE IF EXISTS #TempHorarios;
+	DROP TABLE IF EXISTS #Action;
 
+	SELECT @IdSitioTuristico AS IdSitioTuristico
 END

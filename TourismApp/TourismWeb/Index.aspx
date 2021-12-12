@@ -11,6 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,700;1,300&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
+
+
     <%--Angular reference  --%>
     <script src="Libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 
@@ -43,6 +45,9 @@
     <script src="app/modules/general/hiking/hikingCrtl.js"></script>
     <script src="app/modules/general/gastronomy/gastronomyCtrl.js"></script>
     <script src="app/modules/general/touristSite/touristSiteCtrl.js"></script>
+
+    <link href="Libs/loading-bar.min.css" rel="stylesheet" />
+    <script src="Libs/loading-bar.min.js"></script>
 
 
     <%-- stype pages --%>

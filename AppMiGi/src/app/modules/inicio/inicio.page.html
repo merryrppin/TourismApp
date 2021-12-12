@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>inicio</ion-title>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6"><img class="logosAlcaldiaHeader" src="../../../assets/splashscreen/logoapp.svg" /></ion-col>
+        <ion-col size="4"><img class="logosAlcaldiaHeader" src="../../../assets/splashscreen/LogosAlcaldia.svg" /></ion-col>
+        <ion-col size="2"><ion-button (click)="cambiarIdioma()" class="btnLang">{{lang}}</ion-button></ion-col>
+      </ion-row>
+    </ion-grid>    
   </ion-toolbar>
 </ion-header>
 
@@ -26,8 +32,8 @@
           <ion-card-content class="mainBanner">
             
            <ion-icon src="../../assets/icon_informacion.svg"></ion-icon>                
-            <ion-label>Información </ion-label>          
-            <ion-label>General </ion-label>  
+            <ion-label>{{lang==="ENG" ? "General" : "Información"}} </ion-label>          
+            <ion-label>{{lang==="ENG" ? "Information" : "General"}} </ion-label>  
             
           </ion-card-content>
         
@@ -40,14 +46,13 @@
             
                <ion-icon src="../../assets/icon_imperdibles.svg"></ion-icon>
                 
-               <ion-label>Lugares </ion-label>
-               <ion-label>Imperdibles </ion-label>                
+               <ion-label>{{lang==="ENG" ? "Unmissable" : "Lugares"}} </ion-label>          
+               <ion-label>{{lang==="ENG" ? "Places" : "Imperdibles"}} </ion-label>       
               
           
           </ion-card-content>
         
-        </ion-card>
-        
+        </ion-card>        
   
         <ion-card class="cardMenu"   (click)="goToParties()">
         
@@ -55,17 +60,14 @@
             
             <p>
               <ion-icon style="text-align: center;" src="../../assets/icon_fiestas.svg"></ion-icon>
-            </p>
-         
+            </p>        
              
-              <ion-label>Fiestas </ion-label>    
-              <ion-label>Oficiales </ion-label>
+            <ion-label>{{lang==="ENG" ? "Official" : "Fiestas"}} </ion-label>          
+            <ion-label>{{lang==="ENG" ? "Parties" : "Oficiales"}} </ion-label>     
       
-                     
-             
-          </ion-card-content>
-        
-        </ion-card>  
+          </ion-card-content>    
+     
+      </ion-card>   
 
     </ion-row>
   

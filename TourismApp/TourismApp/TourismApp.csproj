@@ -10,5 +10,11 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="files\gastronomy\" />
+    <Folder Include="files\hiking\" />
+    <Folder Include="files\religious\" />
+  </ItemGroup>
+
 
 </Project>
