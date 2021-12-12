@@ -1,5 +1,7 @@
 import { Component, OnInit,ViewChild  } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
+import { IonButton, NavController } from '@ionic/angular';
+import { Router, NavigationExtras,ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-inicio',
@@ -13,6 +15,7 @@ export class InicioPage  {
   @ViewChild('slideWithNav', { static: false }) slideWithNav: IonSlides;
 
   sliderOne: any;
+  visible : boolean = false;
 
   slideOptions = {
     initialSlide: 0,
@@ -20,7 +23,9 @@ export class InicioPage  {
     autoplay: true
   };
 
-  constructor(
+  constructor(   private nav: NavController,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {
     //Item object for Nature
     this.sliderOne =
@@ -82,6 +87,38 @@ export class InicioPage  {
     slideView.isEnd().then((istrue) => {
       object.isEndSlide = istrue;
     });
+  }
+
+
+  goToParties(){
+
+    let navigationExtras: NavigationExtras = {  };
+    this.nav.navigateForward(['/tabs/parties'], navigationExtras);
+  }
+  
+
+  goToPlaces(){
+
+    let navigationExtras: NavigationExtras = {  };
+    this.nav.navigateForward(['/tabs/places'], navigationExtras);
+  }
+
+  goToInfo(){
+
+    let navigationExtras: NavigationExtras = {  };
+    this.nav.navigateForward(['/tabs/info'], navigationExtras);
+  }
+
+  toggle(){
+
+    if(this.visible){
+      this.visible= false;
+    }else{
+
+      this.visible =true;
+    }
+
+
   }
 
 }
