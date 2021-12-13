@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class CalificacioninputComponent implements OnInit {
 
   @Input() maxCalInput: string = "5";
+  @Input() calValueInitial: string = "5";
   aCalificacion: any[];
   maxCal: number = 5;
   calValue: number = 0;
@@ -21,7 +22,7 @@ export class CalificacioninputComponent implements OnInit {
 
     this.aCalificacion = [];
     for (let i: number = 1; i <= this.maxCal; i++) {
-      let checkedVal: boolean = false;
+      let checkedVal: boolean = true;
       let halfCheckedVal: boolean = false;
       let oCalificacion = {
         id: i,
@@ -30,6 +31,7 @@ export class CalificacioninputComponent implements OnInit {
       };
       this.aCalificacion.push(oCalificacion);
     }
+    this.calValue = parseInt(this.calValueInitial);
   }
 
   actualizarCalificacion(index: number) {
