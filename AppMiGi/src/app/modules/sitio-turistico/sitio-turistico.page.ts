@@ -84,4 +84,7 @@ export class SitioTuristicoPage {
     this.navController.navigateBack(["/tabs/" + urlTab]);
   }
 
+  cambiarCalificacion(itemData: any, calValue: string){
+    itemData.calificacionComentario = calValue;
+  }
 }

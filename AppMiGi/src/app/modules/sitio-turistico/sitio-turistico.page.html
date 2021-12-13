@@ -28,6 +28,10 @@
   <ion-item lines="none">
     <app-calificacion calValueInput="3.5"></app-calificacion>
   </ion-item>
+  CALIFICACIÓN TEST - {{itemData.calificacionComentario}}
+  <ion-item lines="none">
+    <app-calificacioninput (calValueOutput)="cambiarCalificacion(itemData, $event)"></app-calificacioninput>
+  </ion-item>
   <ion-item lines="none">
     <p class="mainResume">{{lang == 'ENG' ? itemData.DescripcionENG : itemData.DescripcionESP}}</p>
   </ion-item>

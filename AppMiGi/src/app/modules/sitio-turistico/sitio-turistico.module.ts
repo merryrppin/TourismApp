@@ -9,6 +9,7 @@ import { SitioTuristicoPageRoutingModule } from './sitio-turistico-routing.modul
 import { SitioTuristicoPage } from './sitio-turistico.page';
 import { IonAccordionModule } from 'src/app//Shared/ion-accordion/ion-accordion.module';
 import { CalificacionModule } from 'src/app/shared/calificacion/calificacion.module';
+import { CalificacioninputModule } from '../../shared/calificacioninput/calificacioninput.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { CalificacionModule } from 'src/app/shared/calificacion/calificacion.mod
     IonicModule,
     SitioTuristicoPageRoutingModule,
     IonAccordionModule,
-    CalificacionModule
+    CalificacionModule,
+    CalificacioninputModule
   ],
   declarations: [SitioTuristicoPage]
 })
