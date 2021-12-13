@@ -167,17 +167,12 @@ export class GenericmapPage implements OnInit {
 
     var objThis = this;
     routePoints.objPuntosReferenciaSenderismo.forEach(function (objPuntoReferencia, i) {
-      let icon = {
-        // anchor: new google.maps.Point(30, 30.26),
-        // size: new google.maps.Size(50, 50),
-        url: "../../assets/map/icon_inicio.png"
-      }
+
       let latLng = new google.maps.LatLng(objPuntoReferencia.Latitud, objPuntoReferencia.Longitud);
 
       let marker = new google.maps.Marker({
         position: latLng,
-        map: objThis.map,
-        icon: icon
+        map: objThis.map
       });
 
       google.maps.event.addListener(marker, 'click', (function (marker, i) {

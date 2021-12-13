@@ -11,46 +11,66 @@
 </ion-header>
 
 <ion-content [fullscreen]= "true" class="ion-padding">
-
-  <ion-grid>
-    <ion-row sizeLg="">
-
-    <ion-col sizeLg="4">
-      <ion-card>
-        <ion-icon src="../../assets/icon_informacion.png" style="height: 100%; width: 100%;"></ion-icon>
- 
-        <ion-label class="menuText">{{lang==="ENG" ? "General Information" : "Información General"}}</ion-label>
-      </ion-card>
-
-    </ion-col>  
-
-    <ion-col sizeLg="4" class="CardMenu" >
-      
-      <ion-card>
-             
-        <ion-card-content>
-          <ion-icon src="../../assets/icon_imperdibles.png" style="height: 100%; width: 100%;"></ion-icon>
-          <ion-label class="menuText">{{lang==="ENG" ? "Unmissable Places" : "Lugares Imperdibles"}}</ion-label>
-        </ion-card-content>
-      </ion-card>
-
-    </ion-col> 
-
-
-
-    <ion-col sizeLg="4" class="CardMenu" >
-      
-      <ion-card>
-             
-        <ion-card-content>
-          <ion-icon src="../../assets/icon_fiestas.png" style="height: 100%; width: 100%;"></ion-icon>
-          <ion-label class="menuText">{{lang==="ENG" ? "Official Parties" : "Fiestas Oficiales"}}</ion-label>
-        </ion-card-content>
-      </ion-card>
-
-    </ion-col>  
-     
-    </ion-row>
-  </ion-grid>
- 
+  
 </ion-content>
+<ion-footer style="text-align: center;">
+
+ 
+    <button (click)="toggle()" >
+      <ion-icon  style="font-size: 20px"
+          [name]="visible ?  'arrow-down-outline' : 'arrow-up-outline'">
+      </ion-icon>
+   </button>
+
+
+  <ion-toolbar *ngIf="visible">
+   
+    <ion-row>
+     
+        <ion-card class="cardMenu"  (click)="goToInfo()">
+         
+          <ion-card-content class="mainBanner">
+            
+           <ion-icon src="../../assets/icon_informacion.svg"></ion-icon>                
+            <ion-label>{{lang==="ENG" ? "General" : "Información"}} </ion-label>          
+            <ion-label>{{lang==="ENG" ? "Information" : "General"}} </ion-label>  
+            
+          </ion-card-content>
+        
+        </ion-card>
+        
+    
+        <ion-card class="cardMenu"  (click)="goToPlaces()">
+          
+          <ion-card-content class="mainBanner">
+            
+               <ion-icon src="../../assets/icon_imperdibles.svg"></ion-icon>
+                
+               <ion-label>{{lang==="ENG" ? "Unmissable" : "Lugares"}} </ion-label>          
+               <ion-label>{{lang==="ENG" ? "Places" : "Imperdibles"}} </ion-label>       
+              
+          
+          </ion-card-content>
+        
+        </ion-card>        
+  
+        <ion-card class="cardMenu"   (click)="goToParties()">
+        
+          <ion-card-content class="mainBanner">
+            
+            <p>
+              <ion-icon style="text-align: center;" src="../../assets/icon_fiestas.svg"></ion-icon>
+            </p>        
+             
+            <ion-label>{{lang==="ENG" ? "Official" : "Fiestas"}} </ion-label>          
+            <ion-label>{{lang==="ENG" ? "Parties" : "Oficiales"}} </ion-label>     
+      
+          </ion-card-content>    
+     
+      </ion-card>   
+
+    </ion-row>
+  
+  </ion-toolbar>
+
+ </ion-footer>

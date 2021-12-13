@@ -1,6 +1,8 @@
 import { Component, OnInit,ViewChild  } from '@angular/core';
 import { IonSlides } from '@ionic/angular';
 import { GeneralService } from 'src/app/core/General/general.service';
+import { IonButton, NavController } from '@ionic/angular';
+import { Router, NavigationExtras,ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-inicio',
@@ -15,6 +17,7 @@ export class InicioPage  {
 
   lang: string;
   sliderOne: any;
+  visible : boolean = false;
 
   slideOptions = {
     initialSlide: 0,
@@ -22,9 +25,10 @@ export class InicioPage  {
     autoplay: true
   };
 
-  constructor(
-    private generalService: GeneralService
-  ) {
+  constructor(   private nav: NavController,
+    private router: Router,
+    private route: ActivatedRoute, 
+    private generalService: GeneralService  ) {
     this.lang = this.generalService.getCurrentLanguage();
     this.generalService.languageChangeSubject.subscribe((value) =>{
       this.lang = value;
@@ -94,6 +98,38 @@ export class InicioPage  {
   cambiarIdioma(){
     this.lang  = this.lang === "ENG" ? "ESP" : "ENG";
     this.generalService.setCurrentLanguage(this.lang);
+  }
+
+
+  goToParties(){
+
+    let navigationExtras: NavigationExtras = {  };
+    this.nav.navigateForward(['/tabs/parties'], navigationExtras);
+  }
+  
+
+  goToPlaces(){
+
+    let navigationExtras: NavigationExtras = {  };
+    this.nav.navigateForward(['/tabs/places'], navigationExtras);
+  }
+
+  goToInfo(){
+
+    let navigationExtras: NavigationExtras = {  };
+    this.nav.navigateForward(['/tabs/info'], navigationExtras);
+  }
+
+  toggle(){
+
+    if(this.visible){
+      this.visible= false;
+    }else{
+
+      this.visible =true;
+    }
+
+
   }
 
 }
