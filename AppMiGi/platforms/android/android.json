@@ -10,20 +10,6 @@
           "/manifest/application": [
             {
               "xml": "<application android:networkSecurityConfig=\"@xml/network_security_config\" />",
-              "count": 2,
-              "mode": "merge",
-              "id": "config.xml",
-              "oldAttrib": {
-                "android:hardwareAccelerated": "true",
-                "android:icon": "@mipmap/ic_launcher",
-                "android:label": "@string/app_name",
-                "android:networkSecurityConfig": "@xml/network_security_config",
-                "android:supportsRtl": "true",
-                "android:usesCleartextTraffic": "true"
-              }
-            },
-            {
-              "xml": "<application android:usesCleartextTraffic=\"true\" />",
               "count": 1,
               "mode": "merge",
               "id": "config.xml",
@@ -32,8 +18,7 @@
                 "android:icon": "@mipmap/ic_launcher",
                 "android:label": "@string/app_name",
                 "android:networkSecurityConfig": "@xml/network_security_config",
-                "android:supportsRtl": "true",
-                "android:usesCleartextTraffic": "true"
+                "android:supportsRtl": "true"
               }
             }
           ]
@@ -47,50 +32,6 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"FacebookConnectPlugin\"><param name=\"android-package\" value=\"org.apache.cordova.facebook.ConnectPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<access origin=\"https://m.facebook.com\" />",
-              "count": 1
-            },
-            {
-              "xml": "<access origin=\"https://graph.facebook.com\" />",
-              "count": 1
-            },
-            {
-              "xml": "<access origin=\"https://api.facebook.com\" />",
-              "count": 1
-            },
-            {
-              "xml": "<access origin=\"https://*.fbcdn.net\" />",
-              "count": 1
-            },
-            {
-              "xml": "<access origin=\"https://*.akamaihd.net\" />",
-              "count": 1
-            },
-            {
-              "xml": "<preference name=\"android-minSdkVersion\" value=\"15\" />",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"GooglePlus\"><param name=\"android-package\" value=\"nl.xservices.plugins.GooglePlus\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<access origin=\"https://accounts.google.com/*\" />",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"NativeGeocoder\"><param name=\"android-package\" value=\"cordova.plugin.nativegeocoder.NativeGeocoder\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
@@ -100,98 +41,6 @@
             },
             {
               "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            }
-          ]
-        }
-      },
-      "app/src/main/res/values/facebookconnect.xml": {
-        "parents": {
-          "/*": [
-            {
-              "xml": "<string name=\"fb_app_id\">1216766098840608</string>",
-              "count": 1
-            },
-            {
-              "xml": "<string name=\"fb_app_name\">TourismApp</string>",
-              "count": 1
-            },
-            {
-              "xml": "<bool name=\"fb_auto_log_app_events_enabled\">true</bool>",
-              "count": 1
-            },
-            {
-              "xml": "<bool name=\"fb_hybrid_app_events\">false</bool>",
-              "count": 1
-            },
-            {
-              "xml": "<bool name=\"fb_advertiser_id_collection_enabled\">true</bool>",
-              "count": 1
-            }
-          ]
-        }
-      },
-      "AndroidManifest.xml": {
-        "parents": {
-          "/*": [
-            {
-              "xml": "<queries><package android:name=\"com.facebook.katana\" /></queries>",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-feature android:name=\"android.hardware.location.gps\" android:required=\"true\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
-              "count": 1
-            }
-          ],
-          "application": [
-            {
-              "xml": "<meta-data android:name=\"com.facebook.sdk.ApplicationId\" android:value=\"@string/fb_app_id\" />",
-              "count": 1
-            },
-            {
-              "xml": "<meta-data android:name=\"com.facebook.sdk.ApplicationName\" android:value=\"@string/fb_app_name\" />",
-              "count": 1
-            },
-            {
-              "xml": "<meta-data android:name=\"com.facebook.sdk.AutoLogAppEventsEnabled\" android:value=\"@bool/fb_auto_log_app_events_enabled\" />",
-              "count": 1
-            },
-            {
-              "xml": "<meta-data android:name=\"com.facebook.sdk.AdvertiserIDCollectionEnabled\" android:value=\"@bool/fb_advertiser_id_collection_enabled\" />",
-              "count": 1
-            },
-            {
-              "xml": "<activity android:configChanges=\"keyboard|keyboardHidden|screenLayout|screenSize|orientation\" android:label=\"@string/fb_app_name\" android:name=\"com.facebook.FacebookActivity\" />",
-              "count": 1
-            },
-            {
-              "xml": "<provider android:authorities=\"com.facebook.app.FacebookContentProvider1216766098840608\" android:exported=\"true\" android:name=\"com.facebook.FacebookContentProvider\" />",
-              "count": 1
-            }
-          ],
-          "/manifest": [
-            {
-              "xml": "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.USE_CREDENTIALS\" />",
               "count": 1
             }
           ]
@@ -223,10 +72,6 @@
             {
               "xml": "<feature name=\"IonicWebView\"><param name=\"android-package\" value=\"com.ionicframework.cordova.webview.IonicWebView\" /></feature>",
               "count": 1
-            },
-            {
-              "xml": "<feature name=\"RequestLocationAccuracy\"><param name=\"android-package\" value=\"cordova.plugin.RequestLocationAccuracy\" /></feature>",
-              "count": 1
             }
           ]
         }
@@ -234,58 +79,24 @@
     }
   },
   "installed_plugins": {
-    "cordova-plugin-add-swift-support": {
-      "PACKAGE_NAME": "io.ionic.appmigi"
-    },
-    "cordova-plugin-androidx-adapter": {
-      "PACKAGE_NAME": "io.ionic.appmigi"
-    },
     "cordova-plugin-device": {
-      "PACKAGE_NAME": "io.ionic.appmigi"
-    },
-    "cordova-plugin-facebook-connect": {
-      "APP_ID": "1216766098840608",
-      "APP_NAME": "TourismApp",
-      "FACEBOOK_URL_SCHEME_SUFFIX": " ",
-      "OTHER_APP_SCHEMES": " ",
-      "FACEBOOK_AUTO_LOG_APP_EVENTS": "true",
-      "FACEBOOK_HYBRID_APP_EVENTS": "false",
-      "FACEBOOK_ADVERTISER_ID_COLLECTION": "true",
-      "FACEBOOK_ANDROID_SDK_VERSION": "11.3.0",
-      "FACEBOOK_IOS_SDK_VERSION": "11.1.0",
-      "FACEBOOK_BROWSER_SDK_VERSION": "v11.0",
-      "PACKAGE_NAME": "io.ionic.appmigi"
-    },
-    "cordova-plugin-geolocation": {
-      "GPS_REQUIRED": "true",
-      "PACKAGE_NAME": "io.ionic.appmigi"
-    },
-    "cordova-plugin-googleplus": {
-      "PLAY_SERVICES_VERSION": "15.0.1",
-      "PACKAGE_NAME": "io.ionic.appmigi"
+      "PACKAGE_NAME": "io.ionic.starter"
     },
     "cordova-plugin-ionic-keyboard": {
-      "PACKAGE_NAME": "io.ionic.appmigi"
+      "PACKAGE_NAME": "io.ionic.starter"
     },
     "cordova-plugin-ionic-webview": {
       "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+",
-      "PACKAGE_NAME": "io.ionic.appmigi"
-    },
-    "cordova-plugin-nativegeocoder": {
-      "PACKAGE_NAME": "io.ionic.appmigi"
+      "PACKAGE_NAME": "io.ionic.starter"
     },
     "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "io.ionic.appmigi"
+      "PACKAGE_NAME": "io.ionic.starter"
     },
     "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "io.ionic.appmigi"
+      "PACKAGE_NAME": "io.ionic.starter"
     },
     "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "io.ionic.appmigi"
-    },
-    "cordova-plugin-request-location-accuracy": {
-      "PLAY_SERVICES_LOCATION_VERSION": "16.+",
-      "PACKAGE_NAME": "io.ionic.appmigi"
+      "PACKAGE_NAME": "io.ionic.starter"
     }
   },
   "dependent_plugins": {},
@@ -296,36 +107,6 @@
       "pluginId": "cordova-plugin-device",
       "clobbers": [
         "device"
-      ]
-    },
-    {
-      "id": "cordova-plugin-facebook-connect.FacebookConnectPlugin",
-      "file": "plugins/cordova-plugin-facebook-connect/www/facebook-native.js",
-      "pluginId": "cordova-plugin-facebook-connect",
-      "clobbers": [
-        "facebookConnectPlugin"
-      ]
-    },
-    {
-      "id": "cordova-plugin-geolocation.geolocation",
-      "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
-      "pluginId": "cordova-plugin-geolocation",
-      "clobbers": [
-        "navigator.geolocation"
-      ]
-    },
-    {
-      "id": "cordova-plugin-geolocation.PositionError",
-      "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
-      "pluginId": "cordova-plugin-geolocation",
-      "runs": true
-    },
-    {
-      "id": "cordova-plugin-googleplus.GooglePlus",
-      "file": "plugins/cordova-plugin-googleplus/www/GooglePlus.js",
-      "pluginId": "cordova-plugin-googleplus",
-      "clobbers": [
-        "window.plugins.googleplus"
       ]
     },
     {
@@ -345,14 +126,6 @@
       ]
     },
     {
-      "id": "cordova-plugin-nativegeocoder.NativeGeocoder",
-      "file": "plugins/cordova-plugin-nativegeocoder/www/NativeGeocoder.js",
-      "pluginId": "cordova-plugin-nativegeocoder",
-      "clobbers": [
-        "nativegeocoder"
-      ]
-    },
-    {
       "id": "cordova-plugin-splashscreen.SplashScreen",
       "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
       "pluginId": "cordova-plugin-splashscreen",
@@ -367,29 +140,14 @@
       "clobbers": [
         "window.StatusBar"
       ]
-    },
-    {
-      "id": "cordova-plugin-request-location-accuracy.RequestLocationAccuracy",
-      "file": "plugins/cordova-plugin-request-location-accuracy/www/android/RequestLocationAccuracy.js",
-      "pluginId": "cordova-plugin-request-location-accuracy",
-      "clobbers": [
-        "cordova.plugins.locationAccuracy"
-      ]
     }
   ],
   "plugin_metadata": {
-    "cordova-plugin-add-swift-support": "2.0.2",
-    "cordova-plugin-androidx-adapter": "1.1.3",
     "cordova-plugin-device": "2.0.2",
-    "cordova-plugin-facebook-connect": "3.2.0",
-    "cordova-plugin-geolocation": "4.1.0",
-    "cordova-plugin-googleplus": "8.5.2",
     "cordova-plugin-ionic-keyboard": "2.2.0",
     "cordova-plugin-ionic-webview": "4.2.1",
-    "cordova-plugin-nativegeocoder": "3.4.1",
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-statusbar": "2.4.2",
-    "cordova-plugin-whitelist": "1.3.3",
-    "cordova-plugin-request-location-accuracy": "2.3.0"
+    "cordova-plugin-whitelist": "1.3.3"
   }
 }
