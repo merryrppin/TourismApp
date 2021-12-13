@@ -24,7 +24,9 @@
   </ion-slides>
   <ion-item lines="none">
     <h1 class="mainTitle">{{lang == 'ENG' ? itemData.NombreSitioTuristicoENG : itemData.NombreSitioTuristicoESP}}</h1>
-    <ion-icon slot="end" name="star-outline"></ion-icon>
+  </ion-item>
+  <ion-item lines="none">
+    <app-calificacion calValueInput="3.5"></app-calificacion>
   </ion-item>
   <ion-item lines="none">
     <p class="mainResume">{{lang == 'ENG' ? itemData.DescripcionENG : itemData.DescripcionESP}}</p>

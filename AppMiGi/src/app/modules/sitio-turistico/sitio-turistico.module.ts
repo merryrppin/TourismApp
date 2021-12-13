@@ -8,6 +8,7 @@ import { SitioTuristicoPageRoutingModule } from './sitio-turistico-routing.modul
 
 import { SitioTuristicoPage } from './sitio-turistico.page';
 import { IonAccordionModule } from 'src/app//Shared/ion-accordion/ion-accordion.module';
+import { CalificacionModule } from 'src/app/shared/calificacion/calificacion.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { IonAccordionModule } from 'src/app//Shared/ion-accordion/ion-accordion.
     FormsModule,
     IonicModule,
     SitioTuristicoPageRoutingModule,
-    IonAccordionModule
+    IonAccordionModule,
+    CalificacionModule
   ],
   declarations: [SitioTuristicoPage]
 })
