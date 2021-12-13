@@ -4,9 +4,9 @@ angular
     .module('tourismApp.gastronomyController', [])
     .controller('gastronomyController', gastronomyController);
 
-gastronomyController.$inject = ['$scope', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
+gastronomyController.$inject = ['$scope', 'UserService', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
 
-function gastronomyController($scope, $window, $filter, $timeout, $location, GeneralService) {
+function gastronomyController($scope, UserService,$window, $filter, $timeout, $location, GeneralService) {
     let ctrl = this;
     ctrl.CodeGastronomy = 'GTM';
     ctrl.gastronomyData = [];
@@ -67,7 +67,7 @@ function gastronomyController($scope, $window, $filter, $timeout, $location, Gen
         }
 
         GeneralService.executeAjax({
-            url: 'https://localhost:44355/api/tourism/PostJWT',
+            url: `${UserService.ApiUrl}/PostJWT`,
             data: StoredObjectParams,
             dataType: 'json',
             contentType: 'application/json',
@@ -75,6 +75,7 @@ function gastronomyController($scope, $window, $filter, $timeout, $location, Gen
                 if (response.exception == null) {
                     ctrl.gastronomyGrid.api.setRowData([]);
                     ctrl.gastronomyData = ctrl.transformRespond(response.value[0]);
+                    ctrl.gastronomyTime = ctrl.transformRespond(response.value[1]);
                     ctrl.gastronomyGrid.api.setRowData(ctrl.gastronomyData);
                     ctrl.resizeGrid();
                 } else {
@@ -171,7 +172,7 @@ function gastronomyController($scope, $window, $filter, $timeout, $location, Gen
             filter: true
         },
         {
-            headerName: "",
+            headerName: "Edición",
             field: "Options",
             width: 200,
             cellStyle: { 'text-align': 'center' },
@@ -183,10 +184,49 @@ function gastronomyController($scope, $window, $filter, $timeout, $location, Gen
                 if (params.node.rowPinned) {
                     return '';
                 }
-                return '<span class="material-icons">update</span> <span class="material-icons">delete</span>'
+                return "<span title='actualizar' class='material-icons' ng-click='ctrl.modifiedSite($event, this.data)'>update</span> <span  title='Eliminar' ng-click='ctrl.delete($event, this.data)' class='material-icons'>delete</span>"
             }
         },
     ]
+
+    ctrl.modifiedSite = function (ev, data) {
+        let gastronomyTime = ctrl.gastronomyTime.filter(x => x.IdSitioTuristico == data.IdSitioTuristico);
+        let modifiedSite = { 'Code': ctrl.CodeGastronomy, 'Name': 'Gastronomico', 'fileName': 'gastronomy', 'data': data, 'time': gastronomyTime };
+        $location.path('/touristSite').search({ param: modifiedSite });
+    }
+
+    ctrl.delete = function (ev, data) {
+        if (!window.confirm("Esta seguro de eliminar el sitio turistico seleccionado?")) {
+            return;
+        }
+
+        let StoredObjectParams =
+        {
+            "StoredParams":
+                [
+                    { "Name": "IdSitioTuristico", "Value": data.IdSitioTuristico.toString() },
+                    { "Name": "Usuario", "Value": $window.localStorage.getItem('userName') }
+                ],
+            "StoredProcedureName": "EliminarSitioTuristico"
+        }
+
+        GeneralService.executeAjax({
+            url: `${UserService.ApiUrl}/PostJWT`,
+            data: StoredObjectParams,
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.exception == null) {
+                    ctrl.response = response;
+                    ctrl.getDatastronomy();
+                    ctrl.uploading = false;
+                } else {
+                    ctrl.messageLoginInvalid = 'No se encontraron datos';
+                    ctrl.uploading = false;
+                }
+            }
+        });
+    };
 
     //Definicion del grid
     ctrl.gastronomyGrid = {
@@ -203,6 +243,7 @@ function gastronomyController($scope, $window, $filter, $timeout, $location, Gen
         suppressRowClickSelection: true,
         onColumnMoved: onColumnMoved,
         onColumnVisible: columnVisible,
+        angularCompileRows: true
     }
 
     Array.prototype.sum = function (prop) {
@@ -231,6 +272,6 @@ function gastronomyController($scope, $window, $filter, $timeout, $location, Gen
     }
 
     angular.element(document).ready(function () {
-        ctrl.getDatastronomy();;
+        ctrl.getDatastronomy();
     });
 }

@@ -4,23 +4,24 @@ angular
     .module('tourismApp.touristSiteController', [])
     .controller('touristSiteController', touristSiteController);
 
-touristSiteController.$inject = ['$scope', '$rootScope', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
+touristSiteController.$inject = ['$scope', 'UserService', '$rootScope', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
 
-function touristSiteController($scope, $rootScope, $window, $filter, $timeout, $location, GeneralService) {
+function touristSiteController($scope, UserService, $rootScope, $window, $filter, $timeout, $location, GeneralService) {
     let ctrl = this;
     ctrl.religiousData = [];
     ctrl.nameSite = $location.$$search.param.Name == undefined ? '' : $location.$$search.param.Name
     ctrl.title = `Sitio turistico ${ctrl.nameSite}`;
     ctrl.selectedDays = [];
     ctrl.selectedHours = [];
-    let defaultTime = {};
-    ctrl.newTimes = [defaultTime];
+    ctrl.defaultTime = {};
+    ctrl.newTimes = [ctrl.defaultTime];
     ctrl.IdSitioTuristico = '';
-
     ctrl.uploading = false;
     ctrl.countFiles = '';
     ctrl.data = [];
     ctrl.formdata = new FormData();
+    ctrl.selectedOptionTown = { IdMunicipio: null, NombreMunicipio: '' };
+    ctrl.showHeking = false;
 
     ctrl.getFiles = function (file) {
         if (ctrl.IdSitioTuristico != null && ctrl.IdSitioTuristico != '' && ctrl.IdSitioTuristico != undefined) {
@@ -39,10 +40,9 @@ function touristSiteController($scope, $rootScope, $window, $filter, $timeout, $
 
     ctrl.uploadFiles = function () {
         let fileName = $location.$$search.param.fileName;
-
         ctrl.uploading = true;
         GeneralService.executeAjax({
-            url: `https://localhost:44355/api/tourism/OnPostUploadAsync?typeSite=${fileName}`,
+            url: `https://localhost:44355/api/tourism/OnPostUploadAsync?typeSite=${fileName}`,  //`${UserService.ApiUrl}/OnPostUploadAsync?typeSite=${fileName}`, -- No esta guardado el archivo a través del api
             data: ctrl.formdata,
             contentType: undefined,
             dataType: false,
@@ -76,13 +76,13 @@ function touristSiteController($scope, $rootScope, $window, $filter, $timeout, $
         {
             "StoredParams": [
                 { "Name": "jsonFotos ", "Value": JSON.stringify(objTimes) },
-                { "Name": "Usuario", "Value": "jsanchez" }
+                { "Name": "Usuario", "Value": $window.localStorage.getItem('userName') }
             ],
             "StoredProcedureName": "GuardarGaleriaFotos"
         }
 
         GeneralService.executeAjax({
-            url: 'https://localhost:44355/api/tourism/PostJWT',
+            url: `${UserService.ApiUrl}/PostJWT`,
             data: StoredObjectParams,
             dataType: 'json',
             contentType: 'application/json',
@@ -98,9 +98,8 @@ function touristSiteController($scope, $rootScope, $window, $filter, $timeout, $
         });
     };
 
-
     ctrl.AddTime = function () {
-        ctrl.newTimes.push(defaultTime);
+        ctrl.newTimes.push(ctrl.defaultTime);
     }
 
     ctrl.onTagAdded = function ($tag) {
@@ -125,19 +124,40 @@ function touristSiteController($scope, $rootScope, $window, $filter, $timeout, $
         return Result;
     };
 
+    function isValidSaved() {
+        if (ctrl.siteNameESP == null || ctrl.descriptionESP == null || ctrl.routeESP == null || ctrl.DireccionESP == null || ctrl.selectedOptionTown.IdMunicipio == null || ctrl.presentationNameESP == null) {
+            alert("Falta información");
+            return false;
+        }
+
+        if (ctrl.siteNameESP == '' || ctrl.descriptionESP == '' || ctrl.routeESP == '' || ctrl.DireccionESP == '' || ctrl.selectedOptionTown.IdMunicipio == '' || ctrl.presentationNameESP == '') {
+            alert("Falta información");
+            return false;
+        }
+
+        return true;
+    }
+
     ctrl.saveTouristSite = function () {
+
+        if (!isValidSaved()) {
+            return;
+        }
+
         let objTimes = [];
         let objTouristSite = [];
 
+        $location.$$search.param.Name == undefined ? '' : $location.$$search.param.Name
+
         objTouristSite = [
             {
-                "IdSitioTuristico": null,
+                "IdSitioTuristico": ctrl.IdSitioTuristico == '' ? null : parseInt(ctrl.IdSitioTuristico),
                 "NombreSitioTuristicoESP": ctrl.siteNameESP,
                 "NombreSitioTuristicoENG": ctrl.siteNameENG,
                 "IdMunicipio": ctrl.selectedOptionTown.IdMunicipio,
                 "Latitud": ctrl.routeLatitude,
                 "Longitud": ctrl.RouteLength,
-                "IconoMarcador": "https://webflowers-wmalpha-rf.azurewebsites.net/Images/shopping-cart.png",
+                "IconoMarcador": "",
                 "Activo": 1,
                 "DescripcionESP": ctrl.descriptionESP,
                 "DescripcionENG": ctrl.descriptionENG,
@@ -152,10 +172,9 @@ function touristSiteController($scope, $rootScope, $window, $filter, $timeout, $
 
         angular.forEach(ctrl.selectedDays, function (times, inx) {
             angular.forEach(times, function (days) {
-                objTimes.push({ "IdHorario": null, "IdSitioTuristico": null, "IdDiaSemana": days.IdDiaSemana, "NombreDia": days.NombreDiaESP, "Horas": ctrl.selectedHours[inx] });
+                objTimes.push({ "IdHorario": (days.IdHorario == undefined ? null : parseInt(days.IdHorario)), "IdSitioTuristico": (ctrl.IdSitioTuristico == '' ? null : parseInt(ctrl.IdSitioTuristico)), "IdDiaSemana": days.IdDiaSemana, "NombreDia": days.NombreDiaESP, "Horas": ctrl.selectedHours[inx] });
             });
         });
-
 
         let StoredObjectParams =
         {
@@ -163,15 +182,15 @@ function touristSiteController($scope, $rootScope, $window, $filter, $timeout, $
                 { "Name": "jsonSitioTuristico", "Value": JSON.stringify(objTouristSite) },
                 { "Name": "jsonHorarios ", "Value": JSON.stringify(objTimes) },
                 { "Name": "CodigoTipoSitio", "Value": $location.$$search.param.Code },
-                { "Name": "Usuario", "Value": "jsanchez" },
-                { "Name": "IdSitioTuristico", "Value": null }
+                { "Name": "Usuario", "Value": $window.localStorage.getItem('userName')   },
+                { "Name": "IdSitioTuristico", "Value": ctrl.IdSitioTuristico == '' ? null : ctrl.IdSitioTuristico.toString() }
 
             ],
             "StoredProcedureName": "GuardarSitiosTuristicos"
         }
 
         GeneralService.executeAjax({
-            url: 'https://localhost:44355/api/tourism/PostJWT',
+            url: `${UserService.ApiUrl}/PostJWT`,
             data: StoredObjectParams,
             dataType: 'json',
             contentType: 'application/json',
@@ -186,7 +205,7 @@ function touristSiteController($scope, $rootScope, $window, $filter, $timeout, $
     };
 
     ctrl.getTowns = function () {
-        ctrl.selectedOptionTown = { IdMunicipio: null, NombreMunicipio: '' };
+
         let StoredObjectParams =
         {
             "StoredParams": [],
@@ -194,7 +213,7 @@ function touristSiteController($scope, $rootScope, $window, $filter, $timeout, $
         }
 
         GeneralService.executeAjax({
-            url: 'https://localhost:44355/api/tourism/PostJWT',
+            url: `${UserService.ApiUrl}/PostJWT`,
             data: StoredObjectParams,
             dataType: 'json',
             contentType: 'application/json',
@@ -217,14 +236,14 @@ function touristSiteController($scope, $rootScope, $window, $filter, $timeout, $
         }
 
         GeneralService.executeAjax({
-            url: 'https://localhost:44355/api/tourism/PostJWT',
+            url: `${UserService.ApiUrl}/PostJWT`,
             data: StoredObjectParams,
             dataType: 'json',
             contentType: 'application/json',
             success: function (response) {
                 if (response.exception == null) {
                     ctrl.weekdays = ctrl.transformRespond(response.value[0]);
-                    ctrl.invoiceSingleSelectionaccountlist = ctrl.weekdays;
+                    ctrl.selectionWeekDays = ctrl.weekdays;
                 } else {
                     ctrl.messageLoginInvalid = 'No se encontraron datos';
                 }
@@ -232,14 +251,57 @@ function touristSiteController($scope, $rootScope, $window, $filter, $timeout, $
         });
     };
 
-    angular.element(document).ready(function () {
-
+    function fillLoadData() {
         if ($location.$$search.param.Code == null || $location.$$search.param.Code == undefined) {
             $location.path('/home');
         }
 
+        if ($location.$$search.param.data != undefined) {
+            let modifiedSite = $location.$$search.param.data;
+            ctrl.IdSitioTuristico = modifiedSite.IdSitioTuristico;
+            ctrl.siteNameESP = modifiedSite.NombreSitioTuristicoESP;
+            ctrl.siteNameENG = modifiedSite.NombreSitioTuristicoENG;
+            ctrl.selectedOptionTown.IdMunicipio = modifiedSite.IdMunicipio;
+            ctrl.routeLatitude = modifiedSite.Latitud;
+            ctrl.RouteLength = modifiedSite.Longitud;
+            ctrl.descriptionESP = modifiedSite.DescripcionESP;
+            ctrl.descriptionENG = modifiedSite.DescripcionENG;
+            ctrl.presentationNameESP = modifiedSite.PresentacionESP;
+            ctrl.presentationNameENG = modifiedSite.PresentacionENG;
+            ctrl.routeESP = modifiedSite.RutaESP;
+            ctrl.routeENG = modifiedSite.RutaENG;
+            ctrl.DireccionESP = modifiedSite.DireccionESP;
+            ctrl.DireccionENG = modifiedSite.DireccionENG;
+        }
+
+        if ($location.$$search.param.time != undefined) {
+            let modifiedTime = $location.$$search.param.time;
+            ctrl.newTimes = modifiedTime;
+            angular.forEach(ctrl.newTimes, function (time, inx) {
+                ctrl.selectedDays.push({ NombreDiaESP: time.NombreDiaESP, IdDiaSemana: time.IdDiaSemana, IdHorario: time.IdHorario });
+                ctrl.selectedHours.push(time.Horario);
+            });
+            const countDistinctTime = [...new Set(ctrl.newTimes.map(x => x.Horario))];
+            ctrl.newTimes = [];
+            countDistinctTime.forEach(function (dist, ind) {
+                ctrl.newTimes.push(ctrl.defaultTime);
+            });
+
+            if (countDistinctTime.length == 0) {
+                ctrl.newTimes.push(ctrl.defaultTime);
+            };
+
+        }
+
+        if ($location.$$search.param.Code == 'SDM') {
+            ctrl.showHeking = true;
+        }
+
+    }
+
+    angular.element(document).ready(function () {
+        fillLoadData();
         ctrl.getTowns();
         ctrl.getWeekDays();
-
     });
 }

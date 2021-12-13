@@ -29,6 +29,12 @@ angular
         }
     }])
 
+    .factory('UserService', function () {
+        return {
+            ApiUrl: 'http://testappservicewf.azurewebsites.net/api/tourism'
+        };
+    })
+
     .config(function ($routeProvider, $qProvider) {
         $qProvider.errorOnUnhandledRejections(false);
         $routeProvider
