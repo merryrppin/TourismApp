@@ -1,0 +1,9 @@
+<table>
+  <tr>
+    <td *ngFor="let calif of aCalificacion">
+      <img *ngIf="calif.checked == true" class="star_cal" src="../../../assets/fill_star.png" />
+      <img *ngIf="calif.halfChecked == true" class="star_cal" src="../../../assets/half_star.png" />
+      <img *ngIf="calif.checked == false && calif.halfChecked == false" class="star_cal" src="../../../assets/empty_star.png" />
+    </td>
+  </tr>
+</table>

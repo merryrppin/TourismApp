@@ -56,33 +56,41 @@ namespace TourismApp.Controllers
             string email = StoredObjectParams.StoredParams.Where(x => x.Name == "Email").Select(x => x.Value).ToList().FirstOrDefault();
             var encriptPassword = EncryptDecryptPassword.EncryptPlainText(password);
             StoredObjectParams.StoredParams.Where(x => x.Name == "Password").ToList().ForEach(p => p.Value = encriptPassword);
-            var response = _AdministrationService.ExecuteStoredProcedure(StoredObjectParams);
+            StoredObjectResponse response = _AdministrationService.ExecuteStoredProcedure(StoredObjectParams);
             if (response.Value != null && response.Value[0].Rows.Count > 0)
             {
-                return BuildToken(email);
+                return BuildToken(email, response);
             }
 
             return null;
         }
 
-        private AuthenticationResponse BuildToken(string email)
+        private AuthenticationResponse BuildToken(string email, StoredObjectResponse response)
         {
-            var claims = new List<Claim>()
+            try
+            {
+                var claims = new List<Claim>()
             {
                 new Claim("email",email)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_Configuration.GetValue<string>("keyJwt")));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expirationDate = DateTime.UtcNow.AddYears(1); // TODO aun por definir tiempo de expiración por ahora un año
-            var securityToken = new JwtSecurityToken(issuer: null, audience: null, claims: claims, expires: expirationDate, signingCredentials: credentials);
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_Configuration.GetValue<string>("keyJwt")));
+                var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var expirationDate = DateTime.UtcNow.AddYears(1); // TODO aun por definir tiempo de expiración por ahora un año
+                var securityToken = new JwtSecurityToken(issuer: null, audience: null, claims: claims, expires: expirationDate, signingCredentials: credentials);
 
-            return new AuthenticationResponse()
+                return new AuthenticationResponse()
+                {
+                    Token = new JwtSecurityTokenHandler().WriteToken(securityToken),
+                    ExpirationDate = expirationDate,
+                    RedirecTo = "/home",
+                    UserInfoResponse = response,
+                };
+            }
+            catch (Exception ex)
             {
-                Token = new JwtSecurityTokenHandler().WriteToken(securityToken),
-                ExpirationDate = expirationDate,
-                RedirecTo= "/home",
-            };
+                throw new Exception(ex.Message);
+            }
         }
 
         [HttpGet]
@@ -95,27 +103,33 @@ namespace TourismApp.Controllers
 
         [HttpPost("OnPostUploadAsync")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files,string typeSite)
+        public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files, string typeSite)
         {
-            long size = files.Sum(f => f.Length);
-            List<string> filePaths = new List<string>();
-
-            foreach (var formFile in files)
+            try
             {
-                if (formFile.Length > 0)
-                {
-                    var filePath = Path.Combine($"files/{typeSite}/", formFile.FileName);
-                    filePaths.Add(filePath);
+                long size = files.Sum(f => f.Length);
+                List<string> filePaths = new List<string>();
 
-                    using (var stream = System.IO.File.Create(filePath))
+                foreach (var formFile in files)
+                {
+                    if (formFile.Length > 0)
                     {
-                        await formFile.CopyToAsync(stream);
+                        var filePath = Path.Combine($"files/{typeSite}/", formFile.FileName);
+                        filePaths.Add(filePath);
+
+                        using (var stream = System.IO.File.Create(filePath))
+                        {
+                            await formFile.CopyToAsync(stream);
+                        }
                     }
                 }
+
+                return Ok(new { count = files.Count, size, filePaths = filePaths });
             }
-
-            return Ok(new { count = files.Count, size, filePaths = filePaths });
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
-
     }
 }

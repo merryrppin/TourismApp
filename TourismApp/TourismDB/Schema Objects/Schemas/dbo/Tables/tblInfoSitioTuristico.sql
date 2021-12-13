@@ -7,6 +7,5 @@
 	[DescripcionESP] VARCHAR(MAX) NULL,
 	[DescripcionENG] VARCHAR(MAX) NULL, 
 	[Imagen] VARCHAR(MAX) NULL,
-    [Orden] INT NOT NULL DEFAULT 0, 
-    CONSTRAINT [FK_tblInfoSitioTuristico_tblSitioTuristico] FOREIGN KEY ([IdSitioTuristico]) REFERENCES [tblSitioTuristico]([IdSitioTuristico])
+    [Orden] INT NOT NULL DEFAULT 0
 )

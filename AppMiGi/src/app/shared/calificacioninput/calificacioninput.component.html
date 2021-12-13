@@ -1,0 +1,11 @@
+<table>
+  <tr>
+    <td *ngFor="let calif of aCalificacion; let i = index">
+      <ion-button class="btnCalificacion" (click)="actualizarCalificacion(i)" icon-start>
+        <img *ngIf="calif.checked == true" class="star_cal" src="../../../assets/fill_star.png" />
+        <img *ngIf="calif.halfChecked == true" class="star_cal" src="../../../assets/half_star.png" />
+        <img *ngIf="calif.checked == false && calif.halfChecked == false" class="star_cal" src="../../../assets/empty_star.png" />
+      </ion-button>
+    </td>
+  </tr>
+</table>

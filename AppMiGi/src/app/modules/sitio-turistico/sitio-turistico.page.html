@@ -22,41 +22,47 @@
       <img class="card-img" src="{{item.predictionImageURL}}" />
     </ion-slide>
   </ion-slides>
-  <ion-item lines="none"  class="mainTitle">
-    <ion-label>{{lang == 'ENG' ? itemData.NombreSitioTuristicoENG : itemData.NombreSitioTuristicoESP}}</ion-label>
-    <ion-icon slot="end" name="star-outline"></ion-icon>
+  <ion-item lines="none">
+    <h1 class="mainTitle">{{lang == 'ENG' ? itemData.NombreSitioTuristicoENG : itemData.NombreSitioTuristicoESP}}</h1>
   </ion-item>
-  <ion-item lines="none" class="mainResume">
-    <ion-label>{{lang == 'ENG' ? itemData.DescripcionENG : itemData.DescripcionESP}}</ion-label>
+  <ion-item lines="none">
+    <app-calificacion calValueInput="3.5"></app-calificacion>
+  </ion-item>
+  CALIFICACIÓN TEST - {{itemData.calificacionComentario}}
+  <ion-item lines="none">
+    <app-calificacioninput (calValueOutput)="cambiarCalificacion(itemData, $event)"></app-calificacioninput>
+  </ion-item>
+  <ion-item lines="none">
+    <p class="mainResume">{{lang == 'ENG' ? itemData.DescripcionENG : itemData.DescripcionESP}}</p>
   </ion-item>
   <ion-accordion title="{{lang == 'ENG' ? 'Presentation' : 'Presentación'}}" openIcon="arrow-up" closeIcon="arrow-down"
     classTitle="border-header" class="accordion mainSubtitle">
     <div class="accordionContent">
-      <ion-label class="mainResume">{{lang == 'ENG' ? itemData.PresentacionENG : itemData.PresentacionESP}}</ion-label>
+      <ion-label>{{lang == 'ENG' ? itemData.PresentacionENG : itemData.PresentacionESP}}</ion-label>
     </div>
   </ion-accordion>
   <ion-accordion title="{{lang == 'ENG' ? 'Eucharist Schedule' : 'Horarios eucaristias'}}" openIcon="arrow-up"
     closeIcon="arrow-down" classTitle="border-header" class="accordion mainSubtitle">
     <div class="accordionContent">
-      <ion-label class="mainResume">{{lang == 'ENG' ? "Eucharist Schedule" : "Horarios eucaristias"}}</ion-label>
+      <ion-label>{{lang == 'ENG' ? "Eucharist Schedule" : "Horarios eucaristias"}}</ion-label>
     </div>
   </ion-accordion>
   <ion-accordion title="{{lang == 'ENG' ? 'Galery' : 'Galería'}}" openIcon="arrow-up" closeIcon="arrow-down"
     classTitle="border-header" class="accordion mainSubtitle">
     <div class="accordionContent">
-      <ion-label class="mainResume">{{lang == 'ENG' ? "Galery" : "Galería"}}</ion-label>
+      <ion-label>{{lang == 'ENG' ? "Galery" : "Galería"}}</ion-label>
     </div>
   </ion-accordion>
   <ion-accordion title="{{lang == 'ENG' ? 'How to get' : 'Como llegar'}}" openIcon="arrow-up" closeIcon="arrow-down"
     classTitle="border-header" class="accordion mainSubtitle">
     <div class="accordionContent">
-      <ion-label class="mainResume">{{lang == 'ENG' ? itemData.RutaENG : itemData.RutaESP}}</ion-label>
+      <ion-label>{{lang == 'ENG' ? itemData.RutaENG : itemData.RutaESP}}</ion-label>
     </div>
   </ion-accordion>
   <ion-accordion title="{{lang == 'ENG' ? 'Comments' : 'Comentarios'}}" openIcon="arrow-up" closeIcon="arrow-down"
     classTitle="border-header" class="accordion mainSubtitle">
     <div class="accordionContent">
-      <ion-label class="mainResume">{{lang == 'ENG' ? "Comments" : "Comentarios"}}</ion-label>
+      <ion-label>{{lang == 'ENG' ? "Comments" : "Comentarios"}}</ion-label>
     </div>
   </ion-accordion>
   <div *ngIf="categoria=='SDM'">

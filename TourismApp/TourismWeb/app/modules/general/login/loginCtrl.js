@@ -2,9 +2,9 @@
     .module('tourismApp.loginController', [])
     .controller('loginController', loginController);
 
-loginController.$inject = ['$scope', '$window', '$location', '$rootScope', 'GeneralService'];
+loginController.$inject = ['$scope','UserService', '$window', '$location', '$rootScope', 'GeneralService'];
 
-function loginController($scope, $window, $location, $rootScope, GeneralService) {
+function loginController($scope, UserService, $window, $location, $rootScope, GeneralService) {
 
     let ctrl = this;
     ctrl.IsValidMenu = false;
@@ -12,7 +12,7 @@ function loginController($scope, $window, $location, $rootScope, GeneralService)
     ctrl.IsLoad = false;
     ctrl.messageLoginInvalid;
     $("aside").hide();
-
+    ctrl.user = [];
     ctrl.aside = 'app/modules/general/templates/aside.html';
 
     ctrl.LoginEntity = {
@@ -42,7 +42,7 @@ function loginController($scope, $window, $location, $rootScope, GeneralService)
         }
 
         GeneralService.executeAjax({
-            url: 'https://localhost:44355/api/tourism/Login',
+            url: `${UserService.ApiUrl}/Login`,
             data: StoredObjectParams,
             dataType: 'json',
             contentType: 'application/json',
@@ -53,8 +53,10 @@ function loginController($scope, $window, $location, $rootScope, GeneralService)
                     $location.path(response.redirecTo);
                     $("aside").show();
                     $rootScope.token = response.token;
-                    $window.localStorage.removeItem('token')
-                    $window.localStorage.setItem('token', response.token)
+                    $window.localStorage.removeItem('token');
+                    $window.localStorage.setItem('token', response.token);
+                    ctrl.user = ctrl.transformRespond(response.userInfoResponse.value[0]);
+                    $window.localStorage.setItem('userName', ctrl.user[0].NombreUsuario);
                 } else {
                     ctrl.IsValid = true;
                     ctrl.messageLoginInvalid = 'Usuario y/o contraseña no válidas';
@@ -62,13 +64,15 @@ function loginController($scope, $window, $location, $rootScope, GeneralService)
             }
         });
     };
-
     ctrl.transformRespond = function (Data) {
         let Result = [];
-        let Columns = Data.Columns;
-        let Rows = Data.Rows;
+        let Columns = Data.columns;
+        let Rows = Data.rows
+
         for (let i = 0; i < Rows.length; i++) {
-            let Value = {};
+
+            let Value = {}
+
             for (let j = 0; j < Columns.length; j++) {
                 let ColumnName = Columns[j];
                 Value[ColumnName] = Rows[i][j];

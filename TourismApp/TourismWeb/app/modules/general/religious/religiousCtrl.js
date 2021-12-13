@@ -4,9 +4,9 @@ angular
     .module('tourismApp.religiousController', [])
     .controller('religiousController', religiousController);
 
-religiousController.$inject = ['$scope', '$rootScope', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
+religiousController.$inject = ['$scope', 'UserService','$rootScope', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
 
-function religiousController($scope, $rootScope, $window, $filter, $timeout, $location, GeneralService) {
+function religiousController($scope,UserService, $rootScope, $window, $filter, $timeout, $location, GeneralService) {
     let ctrl = this;
     ctrl.religiousData = [];
     ctrl.CodeReligious = 'RGS';
@@ -55,10 +55,10 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
         $location.path('/touristSite').search({ param: newSite });
     }
 
-    ctrl.modifiedSite = function () {
-        $location.path('/touristSite').search({ param: ctrl.religiousData });
-
-
+    ctrl.modifiedSite = function (ev, data) {
+        let religiousTime = ctrl.religiousTime.filter(x => x.IdSitioTuristico == data.IdSitioTuristico);
+        let modifiedSite = { 'Code': ctrl.CodeReligious, 'Name': 'Religioso', 'fileName': 'religious', 'data': data, 'time': religiousTime };
+        $location.path('/touristSite').search({ param: modifiedSite });
     }
 
     ctrl.getDataReligious = function () {
@@ -69,7 +69,7 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
         }
 
         GeneralService.executeAjax({
-            url: 'https://localhost:44355/api/tourism/PostJWT',
+            url: `${UserService.ApiUrl}/PostJWT`,
             data: StoredObjectParams,
             dataType: 'json',
             contentType: 'application/json',
@@ -77,6 +77,7 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
                 if (response.exception == null) {
                     ctrl.religiousGrid.api.setRowData([]);
                     ctrl.religiousData = ctrl.transformRespond(response.value[0]);
+                    ctrl.religiousTime = ctrl.transformRespond(response.value[1]);
                     ctrl.religiousGrid.api.setRowData(ctrl.religiousData);
                     ctrl.resizeGrid();
                 } else {
@@ -107,6 +108,7 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
             cellStyle: { 'text-align': 'center' },
             sortable: true,
             resizable: true,
+            editable: false,
             filter: true
         },
         {
@@ -116,6 +118,7 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
             cellStyle: { 'text-align': 'center' },
             sortable: true,
             resizable: true,
+            editable: false,
             filter: true
         },
         {
@@ -125,6 +128,7 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
             cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
+            editable: false,
             filter: true,
             cellEditor: 'agRichSelectCellEditor',
             cellEditorParams: {
@@ -140,6 +144,7 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
             sortable: true,
             resizable: true,
             filter: true,
+            editable: false,
             tooltipField: "Ruta",
             cellEditor: 'agLargeTextCellEditor',
         },
@@ -151,6 +156,7 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
             sortable: true,
             resizable: true,
             filter: true,
+            editable: false,
             valueFormatter: shortDateFormat,
         },
         {
@@ -160,6 +166,7 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
             cellStyle: { 'text-align': 'center' },
             sortable: true,
             resizable: true,
+            editable: false,
             filter: true
         },
 
@@ -174,7 +181,7 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
             filter: true
         },
         {
-            headerName: "",
+            headerName: "Edición",
             field: "Options",
             width: 200,
             cellStyle: { 'text-align': 'center' },
@@ -186,10 +193,43 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
                 if (params.node.rowPinned) {
                     return '';
                 }
-                return '<span class="material-icons">update</span> <span class="material-icons">delete</span>'
+                return "<span title='actualizar' class='material-icons' ng-click='ctrl.modifiedSite($event, this.data)'>update</span> <span  title='Eliminar' ng-click='ctrl.delete($event, this.data)' class='material-icons'>delete</span>"
             }
-        },
+        }
     ]
+
+    ctrl.delete = function (ev, data) {
+        if (!window.confirm("Esta seguro de eliminar el sitio turistico seleccionado?")) {
+            return;
+        }
+
+        let StoredObjectParams =
+        {
+            "StoredParams":
+                [
+                    { "Name": "IdSitioTuristico", "Value": data.IdSitioTuristico.toString() },
+                    { "Name": "Usuario", "Value": $window.localStorage.getItem('userName') }
+                ],
+            "StoredProcedureName": "EliminarSitioTuristico"
+        }
+
+        GeneralService.executeAjax({
+            url: `${UserService.ApiUrl}/PostJWT`,
+            data: StoredObjectParams,
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.exception == null) {
+                    ctrl.response = response;
+                    ctrl.getDataReligious();
+                    ctrl.uploading = false;
+                } else {
+                    ctrl.messageLoginInvalid = 'No se encontraron datos';
+                    ctrl.uploading = false;
+                }
+            }
+        });
+    };
 
     //Definicion del grid
     ctrl.religiousGrid = {
@@ -206,6 +246,7 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
         suppressRowClickSelection: true,
         onColumnMoved: onColumnMoved,
         onColumnVisible: columnVisible,
+        angularCompileRows: true
     }
 
     Array.prototype.sum = function (prop) {
@@ -234,6 +275,9 @@ function religiousController($scope, $rootScope, $window, $filter, $timeout, $lo
     }
 
     angular.element(document).ready(function () {
-        ctrl.getDataReligious();;
+        if ($window.localStorage.getItem('token') == null) {
+            $location.path('/login');
+        }
+        ctrl.getDataReligious();
     });
 }

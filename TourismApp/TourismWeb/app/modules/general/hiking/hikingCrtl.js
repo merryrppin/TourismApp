@@ -4,12 +4,12 @@ angular
     .module('tourismApp.hikingController', [])
     .controller('hikingController', hikingController);
 
-hikingController.$inject = ['$scope', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
+hikingController.$inject = ['$scope', 'UserService', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
 
-function hikingController($scope, $window, $filter, $timeout, $location, GeneralService) {
+function hikingController($scope, UserService, $window, $filter, $timeout, $location, GeneralService) {
     let ctrl = this;
     ctrl.hikingData = [];
-    ctrl.CodeHiking = 'SDM';
+    ctrl.codeHiking = 'SDM';
     ctrl.transformRespond = function (Data) {
         let Result = [];
         let Columns = Data.columns;
@@ -51,23 +51,19 @@ function hikingController($scope, $window, $filter, $timeout, $location, General
     }
 
     ctrl.addNewSite = function () {
-        let newSite = { 'Code': ctrl.Codehiking, 'Name': 'Senderismo' };
+        let newSite = { 'Code': ctrl.codeHiking, 'Name': 'Senderismo', 'fileName': 'hiking' };
         $location.path('/touristSite').search({ param: newSite });
-    }
-
-    ctrl.modifiedSite = function () {
-        $location.path('/touristSite').search({ param: ctrl.religiousData });
     }
 
     ctrl.getDataHiking = function () {
         let StoredObjectParams =
         {
-            "StoredParams": [{ "Name": "IdMunicipio", "Value": "-1" }, { "Name": "CodigoTipoSitio ", "Value": ctrl.CodeHiking  }],
+            "StoredParams": [{ "Name": "IdMunicipio", "Value": "-1" }, { "Name": "CodigoTipoSitio ", "Value": ctrl.codeHiking  }],
             "StoredProcedureName": "ObtenerSitiosTuristicos"
         }
 
         GeneralService.executeAjax({
-            url: 'https://localhost:44355/api/tourism/PostJWT',
+            url: `${UserService.ApiUrl}/PostJWT`,
             data: StoredObjectParams,
             dataType: 'json',
             contentType: 'application/json',
@@ -75,6 +71,7 @@ function hikingController($scope, $window, $filter, $timeout, $location, General
                 if (response.exception == null) {
                     ctrl.hikingGrid.api.setRowData([]);
                     ctrl.hikingData = ctrl.transformRespond(response.value[0]);
+                    ctrl.hikingTime = ctrl.transformRespond(response.value[1]);
                     ctrl.hikingGrid.api.setRowData(ctrl.hikingData);
                     ctrl.resizeGrid();
                 } else {
@@ -104,6 +101,7 @@ function hikingController($scope, $window, $filter, $timeout, $location, General
             cellStyle: { 'text-align': 'center' },
             sortable: true,
             resizable: true,
+            editable: false,
             filter: true
         },
         {
@@ -113,6 +111,7 @@ function hikingController($scope, $window, $filter, $timeout, $location, General
             cellStyle: { 'text-align': 'center' },
             sortable: true,
             resizable: true,
+            editable: false,
             filter: true
         },
         {
@@ -121,6 +120,7 @@ function hikingController($scope, $window, $filter, $timeout, $location, General
             width: 120,
             cellStyle: { 'text-align': 'left' },
             sortable: true,
+            editable: false,
             resizable: true,
             filter: true,
             cellEditor: 'agRichSelectCellEditor',
@@ -136,6 +136,7 @@ function hikingController($scope, $window, $filter, $timeout, $location, General
             cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
+            editable: false,
             filter: true,
             tooltipField: "Ruta",
             cellEditor: 'agLargeTextCellEditor',
@@ -147,6 +148,7 @@ function hikingController($scope, $window, $filter, $timeout, $location, General
             cellStyle: { 'text-align': 'center' },
             sortable: true,
             resizable: true,
+            editable: false,
             filter: true,
             valueFormatter: shortDateFormat,
         },
@@ -157,6 +159,7 @@ function hikingController($scope, $window, $filter, $timeout, $location, General
             cellStyle: { 'text-align': 'center' },
             sortable: true,
             resizable: true,
+            editable: false,
             filter: true
         },
 
@@ -171,7 +174,7 @@ function hikingController($scope, $window, $filter, $timeout, $location, General
             filter: true
         },
         {
-            headerName: "",
+            headerName: "Edición",
             field: "Options",
             width: 200,
             cellStyle: { 'text-align': 'center' },
@@ -183,10 +186,49 @@ function hikingController($scope, $window, $filter, $timeout, $location, General
                 if (params.node.rowPinned) {
                     return '';
                 }
-                return '<span class="material-icons">update</span> <span class="material-icons">delete</span>'
+                return "<span title='actualizar' class='material-icons' ng-click='ctrl.modifiedSite($event, this.data)'>update</span> <span  title='Eliminar' ng-click='ctrl.delete($event, this.data)' class='material-icons'>delete</span>"
             }
-        },
+        }
     ]
+
+    ctrl.modifiedSite = function (ev, data) {
+        let hikingTime = ctrl.hikingTime.filter(x => x.IdSitioTuristico == data.IdSitioTuristico);
+        let modifiedSite = { 'Code': ctrl.codeHiking, 'Name': 'Senderismo', 'fileName': 'hiking', 'data': data, 'time': hikingTime };
+        $location.path('/touristSite').search({ param: modifiedSite });
+    }
+
+    ctrl.delete = function (ev, data) {
+        if (!window.confirm("Esta seguro de eliminar el sitio turistico seleccionado?")) {
+            return;
+        }
+
+        let StoredObjectParams =
+        {
+            "StoredParams":
+                [
+                    { "Name": "IdSitioTuristico", "Value": data.IdSitioTuristico.toString() },
+                    { "Name": "Usuario", "Value": $window.localStorage.getItem('userName') }
+                ],
+            "StoredProcedureName": "EliminarSitioTuristico"
+        }
+
+        GeneralService.executeAjax({
+            url: `${UserService.ApiUrl}/PostJWT`,
+            data: StoredObjectParams,
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.exception == null) {
+                    ctrl.response = response;
+                    ctrl.getDataHiking();
+                    ctrl.uploading = false;
+                } else {
+                    ctrl.messageLoginInvalid = 'No se encontraron datos';
+                    ctrl.uploading = false;
+                }
+            }
+        });
+    };
 
     //Definicion del grid
     ctrl.hikingGrid = {
@@ -203,6 +245,7 @@ function hikingController($scope, $window, $filter, $timeout, $location, General
         suppressRowClickSelection: true,
         onColumnMoved: onColumnMoved,
         onColumnVisible: columnVisible,
+        angularCompileRows: true
     }
 
     Array.prototype.sum = function (prop) {
@@ -231,6 +274,9 @@ function hikingController($scope, $window, $filter, $timeout, $location, General
     }
 
     angular.element(document).ready(function () {
-        ctrl.getDataHiking();;
+        if ($window.localStorage.getItem('token') == null) {
+            $location.path('/login');
+        }
+        ctrl.getDataHiking();
     });
 }

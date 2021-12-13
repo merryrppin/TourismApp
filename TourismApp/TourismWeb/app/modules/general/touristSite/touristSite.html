@@ -1,7 +1,7 @@
 ﻿<div style="margin-left: 60px;" class="row">
-    <div class="columna col-12 col-lg-9">
-        <h4 class="titulo"></h4>
+    <div class="columna col-12 col-lg-9 col-sm-6 col-md-8">
 
+        <h3 class="mt-3">{{ctrl.title}}</h3>
         <div class="col-6">
             <a href="#contenido-1"
                type="button"
@@ -13,14 +13,17 @@
                 <div class="card">
                     <div class="card-body">
                         <h2 class="card-title">{{ctrl.title}}</h2>
-                        <p class="card-text">En la primera sección del lado izquierdo se agrega la información del sitio turistico en español, en la parte derecha se llenara esta misma en lenguaje ingles</p>
+                        <p class="card-text">
+                            En la primera sección del lado izquierdo se agrega la información del sitio turistico en español, en la parte derecha se llenara esta misma en lenguaje ingles,
+                            Para cargar la sección de imagenes primero debe guardar cambios mediante el botón "Guardar Cambios"
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="row mt-3">
-            <div class="col-6">
+            <div class="col-6 ">
 
                 <h3>Español</h3>
 
@@ -85,33 +88,11 @@
                     </div>
                 </div>
 
-                <i class='material-icons' style='font-size:19px !important; font-weight: bold' ng-click='ctrl.AddTime()'>add</i>
-                <div ng-repeat="(i, time) in ctrl.newTimes track by $index">
-                    <div class="input-group mb-4">
-                        <span class="input-group-text">Día</span>
-                        <tags-input data-ng-model="ctrl.selectedDays[i]" on-tag-added="ctrl.onTagAdded($tag)"
-                                    key-property="IdDiaSemana"
-                                    placeholder="Agregar día"
-                                    replace-spaces-with-dashes="false"
-                                    add-from-autocomplete-only="true"
-                                    class="form-row29"
-                                    display-property="NombreDiaESP"
-                                    style="height: 50px; width: 120px; min-width: 120px; margin-top: 0px !important; background-color: transparent; ">
-                            <auto-complete source="ctrl.invoiceSingleSelectionaccountlist"></auto-complete>
-                        </tags-input>
-
-                        <span class="input-group-text">Horario</span>
-                        <input data-ng-model="ctrl.selectedHours[i]" type="text" class="form-control" aria-label="Longitud">
-                        <div id="ayuda-correo" class="form-text">
-                            Seleccione un día y agregue los horarios disponibles separados por coma.
-                        </div>
-                    </div>
+                <div class="mb-2">
+                    <button ng-click="ctrl.saveTouristSite()" type="button" class="btn btn-primary">
+                        Guardar cambios
+                    </button>
                 </div>
-
-
-                <button ng-click="ctrl.saveTouristSite()" type="button" class="btn btn-primary">
-                    Guardar cambios
-                </button>
 
             </div>
 
@@ -158,24 +139,72 @@
                     </div>
                 </div>
 
-                <div class="input-group">
-                    <span class="input-group-btn">
-                        <span class="btn btn-primary btn-file">
-                            Browse...<input type="file" multiple my-directory="ctrl.getFiles(file)" ng-disabled="ctrl.uploading" />
+                <i class='material-icons' style='font-size:19px !important; font-weight: bold' ng-click='ctrl.AddTime()'>add</i>
+                <div ng-repeat="(i, time) in ctrl.newTimes track by $index">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Día</span>
+                        <tags-input data-ng-model="ctrl.selectedDays[i]"
+                                    add-on-enter="true"
+                                    on-tag-added="ctrl.onTagAdded($tag)"
+                                    key-property="IdDiaSemana"
+                                    placeholder="Agregar día"
+                                    replace-spaces-with-dashes="false"
+                                    class="form-row29"
+                                    display-property="NombreDiaESP"
+                                    style="height: 50px; width: 120px; min-width: 120px; margin-top: 0px !important; background-color: transparent; ">
+                            <auto-complete source="ctrl.selectionWeekDays"></auto-complete>
+                        </tags-input>
+
+                        <span class="input-group-text">Horario</span>
+                        <textarea data-ng-model="ctrl.selectedHours[i]" type="text" class="form-control" aria-label="Longitud"></textarea>
+                        <div id="ayuda-correo" class="form-text">
+                            Seleccione un día y agregue los horarios disponibles separados por coma.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-2">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <span class="btn btn-primary btn-file">
+                                Buscar...<input type="file" multiple my-directory="ctrl.getFiles(file)" ng-disabled="ctrl.uploading" />
+                            </span>
                         </span>
+                        <input type="text" ng-model="ctrl.countFiles" class="form-control" readonly>
 
-                    </span>
-                    <input type="text" ng-model="ctrl.countFiles" class="form-control" readonly>
+                    </div>
+                    <div id="ayuda-correo" class="form-text">
+                        Seleccione las imagenes a cargar.
+                    </div>
+                    <input style="margin-top: 10px;" type="button" class="btn btn-default  btn-primary" ng-click="ctrl.uploadFiles()" value="Cargar imagenes" ng-disabled="ctrl.uploading || ctrl.countFiles==='' ||  ctrl.IdSitioTuristico == ''" />
+
+                    <div ng-repeat="file in ctrl.data ">
+                        {{file.FileName  + '  ' + file.FileLength + ' bytes'  }}
+                    </div>
+
                 </div>
-                <input style="margin-top: 10px;" type="button" class="btn btn-default  btn-primary" ng-click="ctrl.uploadFiles()" value="Upload" ng-disabled="ctrl.uploading || ctrl.countFiles==='' ||  ctrl.IdSitioTuristico == ''" />
 
+                <div ng-show="ctrl.showHeking" class="mb-2">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <span class="btn btn-primary btn-file">
+                                Buscar...<input type="file" multiple my-directory="ctrl.getFiles(file)" ng-disabled="ctrl.uploading" />
+                            </span>
+                        </span>
+                        <input type="text" ng-model="ctrl.countFiles" class="form-control" readonly>
 
-                <div ng-repeat="file in ctrl.data ">
-                    {{file.FileName  + '  ' + file.FileLength + ' bytes'  }}
+                    </div>
+                    <div id="ayuda-correo" class="form-text">
+                        Seleccione las imagenes a cargar.
+                    </div>
+                    <input style="margin-top: 10px;" type="button" class="btn btn-default  btn-primary" ng-click="ctrl.uploadFiles()" value="Cargar imagenes" ng-disabled="ctrl.uploading || ctrl.countFiles==='' ||  ctrl.IdSitioTuristico == ''" />
+
+                    <div ng-repeat="file in ctrl.data ">
+                        {{file.FileName  + '  ' + file.FileLength + ' bytes'  }}
+                    </div>
+
                 </div>
-
 
             </div>
-
         </div>
     </div>

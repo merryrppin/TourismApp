@@ -10,7 +10,7 @@ a {
 
 /* --- --- BARRA LATERAL --- --- */
 .barra-lateral {
-	background: #262a34;
+	background: #3f3f3f;
 	color: #fff;
 	min-width: 250px;
 	min-height: 100vh;
@@ -280,6 +280,7 @@ a {
 	height: 100%;
 	left: 250px;
 	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 #contentGrid {

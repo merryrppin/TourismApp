@@ -31,7 +31,7 @@
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>2</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -88,8 +88,6 @@
     <Content Include="app\modules\general\religious\religiousCtrl.js" />
     <Content Include="app\modules\general\sessionSvc.js" />
     <Content Include="app\modules\general\templates\aside.html" />
-    <Content Include="app\modules\general\templates\footer.html" />
-    <Content Include="app\modules\general\templates\header.html" />
     <Content Include="app\modules\general\touristSite\touristSite.css" />
     <Content Include="app\modules\general\touristSite\touristSite.html" />
     <Content Include="app\modules\general\touristSite\touristSiteCtrl.js" />
@@ -98,6 +96,8 @@
     <Content Include="Icons\push-pin.png" />
     <Content Include="Icons\shopping-cart.png" />
     <Content Include="Icons\user.png" />
+    <Content Include="Images\Logos\Logoapp.png" />
+    <Content Include="Images\Logos\LogosAlcaldia.png" />
     <Content Include="Images\Logos\Logo_alcaldia_01.png" />
     <Content Include="Index.aspx" />
     <Content Include="Libs\ag-grid\ag-grid-enterprise.js" />
@@ -173,6 +173,8 @@
     <Content Include="Libs\bootstrap-5.1.0\js\bootstrap.min.js.map" />
     <Content Include="Libs\ag-grid\v17.1.1\ag-grid.min.js" />
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\testwapg - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\testwebappg - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -196,7 +198,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>58895</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:8080/</IISUrl>
+          <IISUrl>http://localhost:8080/Index.aspx</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
