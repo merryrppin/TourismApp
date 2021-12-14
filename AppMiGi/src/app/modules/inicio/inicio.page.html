@@ -27,7 +27,7 @@
    
     <ion-row>
      
-        <ion-card class="cardMenu"  (click)="goToInfo()">
+        <ion-card class="cardMenu"  (click)="getMenu('DEF')">
          
           <ion-card-content class="mainBanner">
             
@@ -40,7 +40,7 @@
         </ion-card>
         
     
-        <ion-card class="cardMenu"  (click)="goToPlaces()">
+        <ion-card class="cardMenu"  (click)="enviarParametroGeneral('LGI')">
           
           <ion-card-content class="mainBanner">
             
@@ -54,7 +54,7 @@
         
         </ion-card>        
   
-        <ion-card class="cardMenu"   (click)="goToParties()">
+        <ion-card class="cardMenu" (click)="enviarParametroGeneral('FTS')">
         
           <ion-card-content class="mainBanner">
             

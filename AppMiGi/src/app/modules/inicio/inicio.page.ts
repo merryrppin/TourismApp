@@ -3,6 +3,7 @@ import { IonSlides } from '@ionic/angular';
 import { GeneralService } from 'src/app/core/General/general.service';
 import { IonButton, NavController } from '@ionic/angular';
 import { Router, NavigationExtras,ActivatedRoute } from "@angular/router";
+import { SyncService } from '../../core/sync/sync.service';
 
 @Component({
   selector: 'app-inicio',
@@ -18,7 +19,8 @@ export class InicioPage  {
   lang: string;
   sliderOne: any;
   visible : boolean = false;
-
+  loading:any;
+  public menu: any[];
   slideOptions = {
     initialSlide: 0,
     slidesPerView: 1,
@@ -28,6 +30,7 @@ export class InicioPage  {
   constructor(   private nav: NavController,
     private router: Router,
     private route: ActivatedRoute, 
+    private syncService: SyncService,
     private generalService: GeneralService  ) {
     this.lang = this.generalService.getCurrentLanguage();
     this.generalService.languageChangeSubject.subscribe((value) =>{
@@ -119,7 +122,42 @@ export class InicioPage  {
     let navigationExtras: NavigationExtras = {  };
     this.nav.navigateForward(['/tabs/info'], navigationExtras);
   }
-
+  enviarParametroGeneral(categoria:string){
+    this.generalService.setCategoria(categoria);
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        categoria: categoria
+      }
+    };
+    this.nav.navigateForward(["/menu-categorias"], navigationExtras);
+  }
+  async openLoading() {
+    this.loading = await this.generalService.presentLoading({
+      message: this.lang == 'ENG' ? "Please wait..." : "Por favor espere...",
+      keyboardClose: false
+    });
+  }
+  async getMenu(categoria:string) {
+    await this.openLoading();
+    this.generalService.getDataPromise("sitiosTuristicos").then(async (resp) => {
+      if (resp.value == null || resp.value =="null") {
+        let data = '{"StoredParams":[{"Name":"IdMunicipio", "Value":"-1"}],"StoredProcedureName":"ObtenerSitiosTuristicos"}';
+        let result = await this.syncService.obtenerInformacionSP(data);
+        this.generalService.setDataPromise("sitiosTuristicos", JSON.stringify(result));
+        this.menu = result.filter(x => x.Codigo == categoria);
+      }else{
+        this.menu = JSON.parse(resp.value).filter(x => x.Codigo == categoria);
+      }
+      this.loading.dismiss();
+      let navigationExtras: NavigationExtras = {
+        queryParams: {
+          IdSitioTuristico: this.menu[0].IdSitioTuristico,
+          categoria: categoria
+        }
+      };
+      this.nav.navigateForward(["/sitio-turistico"], navigationExtras);
+    });
+  }
   toggle(){
 
     if(this.visible){
