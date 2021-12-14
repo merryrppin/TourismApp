@@ -43,7 +43,8 @@ export class GenericmapPage implements OnInit {
     private generalService: GeneralService,
     private route: ActivatedRoute,
     private locationAccuracy: LocationAccuracy,
-    private navController: NavController) {
+    private navController: NavController,
+    private platform: Platform) {
     var objThis = this;
     this.lang = this.generalService.getCurrentLanguage();
     this.generalService.languageChangeSubject.subscribe((value) => {
@@ -72,10 +73,12 @@ export class GenericmapPage implements OnInit {
     watchPosition.subscribe((data: any) => {
       objThis.currentPosition = new google.maps.LatLng(data.coords.latitude, data.coords.longitude);
     });
+    this.platform.ready().then(() => {
+      this.validateIfGPSIsEnabled();
+    });
   }
 
   ngOnInit() {
-    this.validateIfGPSIsEnabled();
   }
 
   async openLoading() {
@@ -98,7 +101,6 @@ export class GenericmapPage implements OnInit {
   }
 
   calculateAndDisplayRoute(originDirection: string, destinationDirection: string) {
-    let objThis = this;
     this.directionsService.route({
       origin: originDirection,
       destination: destinationDirection,
@@ -255,5 +257,9 @@ export class GenericmapPage implements OnInit {
       }
     };
     this.navController.navigateBack(["/sitio-turistico"], navigationExtras);
+  }
+
+  centerUserPosition(){
+    this.map.setCenter(this.currentPosition);
   }
 }

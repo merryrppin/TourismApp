@@ -27,9 +27,9 @@
    
     <ion-row>
      
-        <ion-card class="cardMenu"  (click)="goToInfo()">
+        <ion-card class="cardMenu"  (click)="getMenu('DEF')">
          
-          <ion-card-content class="mainBanner">
+          <ion-card-content class="homeSubtitle">
             
            <ion-icon src="../../assets/icon_informacion.svg"></ion-icon>                
             <ion-label>{{lang==="ENG" ? "General" : "Información"}} </ion-label>          
@@ -40,11 +40,11 @@
         </ion-card>
         
     
-        <ion-card class="cardMenu"  (click)="goToPlaces()">
+        <ion-card class="cardMenu"  (click)="enviarParametroGeneral('LGI')">
           
-          <ion-card-content class="mainBanner">
+          <ion-card-content class="homeSubtitle">
             
-               <ion-icon src="../../assets/icon_imperdibles.svg"></ion-icon>
+               <ion-icon src="../../assets/icon_imperdibles-blue.svg"></ion-icon>
                 
                <ion-label>{{lang==="ENG" ? "Unmissable" : "Lugares"}} </ion-label>          
                <ion-label>{{lang==="ENG" ? "Places" : "Imperdibles"}} </ion-label>       
@@ -54,16 +54,18 @@
         
         </ion-card>        
   
-        <ion-card class="cardMenu"   (click)="goToParties()">
+        <ion-card class="cardMenu" (click)="enviarParametroGeneral('FTS')">
         
-          <ion-card-content class="mainBanner">
+          <ion-card-content class="homeSubtitle">
             
             <p>
               <ion-icon style="text-align: center;" src="../../assets/icon_fiestas.svg"></ion-icon>
             </p>        
              
             <ion-label>{{lang==="ENG" ? "Official" : "Fiestas"}} </ion-label>          
-            <ion-label>{{lang==="ENG" ? "Parties" : "Oficiales"}} </ion-label>     
+           <p class="homeSubtitle">
+            <ion-label>{{lang==="ENG" ? "Parties" : "Oficiales"}} </ion-label>    
+           </p>  
       
           </ion-card-content>    
      

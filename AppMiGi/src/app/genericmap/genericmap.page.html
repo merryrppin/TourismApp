@@ -15,4 +15,9 @@
   <div class="map-wrapper">
     <div #map id="map"></div>
   </div>
+  <ion-fab vertical="bottom" horizontal="start" class="ionFabIcon" slot="fixed" (click)="centerUserPosition()">
+    <ion-fab-button>
+      <ion-icon name="locate"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
