@@ -3,13 +3,14 @@ import { IonSlides } from '@ionic/angular';
 import { GeneralService } from 'src/app/core/General/general.service';
 import { IonButton, NavController } from '@ionic/angular';
 import { Router, NavigationExtras,ActivatedRoute } from "@angular/router";
+import { SyncService } from '../../core/sync/sync.service';
 
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.page.html',
   styleUrls: ['./inicio.page.scss'],
 })
-export class InicioPage  {
+export class InicioPage {
   imgsenderismo:any[] = [{img:"https://1.bp.blogspot.com/-rgeqbzl6U1g/UXFz6UvjG-I/AAAAAAAABO0/TdbJnpN6EVo/s1600/20130224_130204.jpg"},{img:"https://1.bp.blogspot.com/-7ZK1Uu53mVM/V6ifv_RXn-I/AAAAAAAAA5Q/mrcIZP_m3Ow5n0G0goBocd4g5rgnZ345gCK4B/s1600/air%2Bterjun%2Bcicurug.jpg"}]
   imgreligioso:any[]=[{img:"https://i.pinimg.com/originals/12/ee/b9/12eeb9ea35bad398b6e4018a2b8c2235.jpg"},{img:"https://live.staticflickr.com/7376/13838534255_3187b0670d_z.jpg"}]
   imggastronomico:any[] = [{img:"https://media-cdn.tripadvisor.com/media/photo-s/1b/1d/70/1a/img-20200308-131106-largejpg.jpg"},{img:"https://4.bp.blogspot.com/-cMvwaeUJpSE/VoCGcVVmw0I/AAAAAAAAG_Y/Lvfnuz5sOFQ/s640/bdaf8831-bd83-48cb-8623-a380250b7bbb.jpg"}]
@@ -18,7 +19,8 @@ export class InicioPage  {
   lang: string;
   sliderOne: any;
   visible : boolean = false;
-
+  loading:any;
+  public menu: any[];
   slideOptions = {
     initialSlide: 0,
     slidesPerView: 1,
@@ -28,6 +30,7 @@ export class InicioPage  {
   constructor(   private nav: NavController,
     private router: Router,
     private route: ActivatedRoute, 
+    private syncService: SyncService,
     private generalService: GeneralService  ) {
     this.lang = this.generalService.getCurrentLanguage();
     this.generalService.languageChangeSubject.subscribe((value) =>{
@@ -56,8 +59,9 @@ export class InicioPage  {
         }
       ]
     };
-  }
 
+    this.visible=false;
+  }
 
   //Move to Next slide
   slideNext(object, slideView) {
@@ -102,24 +106,59 @@ export class InicioPage  {
 
 
   goToParties(){
-
+    this.visible=false;
     let navigationExtras: NavigationExtras = {  };
     this.nav.navigateForward(['/tabs/parties'], navigationExtras);
   }
   
 
   goToPlaces(){
-
+    this.visible=false;
     let navigationExtras: NavigationExtras = {  };
     this.nav.navigateForward(['/tabs/places'], navigationExtras);
   }
 
   goToInfo(){
-
+    this.visible=false;
     let navigationExtras: NavigationExtras = {  };
     this.nav.navigateForward(['/tabs/info'], navigationExtras);
   }
-
+  enviarParametroGeneral(categoria:string){
+    this.generalService.setCategoria(categoria);
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        categoria: categoria
+      }
+    };
+    this.nav.navigateForward(["/menu-categorias"], navigationExtras);
+  }
+  async openLoading() {
+    this.loading = await this.generalService.presentLoading({
+      message: this.lang == 'ENG' ? "Please wait..." : "Por favor espere...",
+      keyboardClose: false
+    });
+  }
+  async getMenu(categoria:string) {
+    await this.openLoading();
+    this.generalService.getDataPromise("sitiosTuristicos").then(async (resp) => {
+      if (resp.value == null || resp.value =="null") {
+        let data = '{"StoredParams":[{"Name":"IdMunicipio", "Value":"-1"}],"StoredProcedureName":"ObtenerSitiosTuristicos"}';
+        let result = await this.syncService.obtenerInformacionSP(data);
+        this.generalService.setDataPromise("sitiosTuristicos", JSON.stringify(result));
+        this.menu = result.filter(x => x.Codigo == categoria);
+      }else{
+        this.menu = JSON.parse(resp.value).filter(x => x.Codigo == categoria);
+      }
+      this.loading.dismiss();
+      let navigationExtras: NavigationExtras = {
+        queryParams: {
+          IdSitioTuristico: this.menu[0].IdSitioTuristico,
+          categoria: categoria
+        }
+      };
+      this.nav.navigateForward(["/sitio-turistico"], navigationExtras);
+    });
+  }
   toggle(){
 
     if(this.visible){
