@@ -1,8 +1,8 @@
 <ion-list class="ion-no-padding">
   <ion-list-header class="ion-no-padding">
     <ion-item (click)="onClick()" [color]="color" [ngClass]="classTitle" [class.expanded]="_expanded" >
-      <ion-label>
-        <b>{{ title }}</b>
+      <ion-label class="mainSubtitle">
+        {{ title }}
       </ion-label>
       <ion-icon [name]="expanded ? openIcon : closeIcon" slot="end"></ion-icon>
     </ion-item>

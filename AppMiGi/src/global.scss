@@ -56,35 +56,30 @@
 
 .mainTitle{
 
-    font-family: Poppins-Bold;
-    font-size: 15pt;
-    --color :  #3F3F3F;
+    font-family: Poppins-Bold !important;
+    font-size: 17pt !important;
+    --color :  #3F3F3F !important;
 }
 
-.mainToDo{
-
-    font-family: Poppins-SemiBold;
-    font-size: 55pt;
-}
 
 .mainBanner{
 
-    font-family: Poppins-Light;
-    font-size: 28pt;
+    font-family: Poppins-Light !important;
+    font-size: 28pt !important;
 }
 
 .mainResume{
 
-    font-family: Poppins-Light;
-    font-size: 15pt;
-    --color :  #3F3F3F;
+    font-family: Poppins-Light !important;
+    font-size: 13pt !important;
+    --color :  #3F3F3F !important;
 }
 
 .mainSubtitle{
 
-    font-family: Poppins-SemiBold;
-    font-size: 24pt;
-    --color	:  #216CA7;
+    font-family: Poppins-SemiBold !important;
+    font-size: 17pt !important;
+    --color	:  #216CA7 !important;
 }
 
 .menuText {
@@ -92,3 +87,52 @@
     font-size: 6.5pt;
 }
 
+.logosAlcaldiaHeader{
+    height: 30px;
+}
+
+.btnLang {
+    font-family: Poppins-Light;
+    font-size: 12pt;
+    height: 22px;
+    width: 100%;
+    --background: rgba(255, 255, 255, 0);
+    --color: white;
+    --box-shadow: 0;
+    padding-top: 5px;
+}
+
+.btnAtras{
+    height: 22px;
+    width: 100%;
+    --background: rgba(255, 255, 255, 0);
+    --color: white;
+    --box-shadow: 0;
+    padding-top: 5px;
+}
+
+.genHeader>.toolbar-background{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.genHeader > .toolbar-container{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.genHeader{
+    height: 56px;
+}
+
+
+.genContent{
+    padding-top: -56px;
+    --padding-top: -56px;    
+    --offset-top: 67px;
+}
+
+.textButton {
+    font-family: Poppins-Bold !important;
+    font-size: 17pt !important;
+    --color :  white !important;
+
+}
