@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [ObtenerSitiosTuristicos] (@IdMunicipio INT = -1,@CodigoTipoSitio VARCHAR(10) = NULL)
+﻿CREATE PROCEDURE [dbo].[ObtenerSitiosTuristicos] (@IdMunicipio INT = -1,@CodigoTipoSitio VARCHAR(10) = NULL)
 AS BEGIN
 
 	DECLARE @SQL nvarchar(MAX)
@@ -24,7 +24,10 @@ AS BEGIN
 				sitioT.DireccionENG,
 				sitioT.IdTipoSitioTuristico,
 				tipoSitio.Nombre,
-				tipoSitio.Codigo
+				tipoSitio.Codigo,
+				sitioT.Imperdible,
+				(Select IdCalificacionST,Calificacion,Comentario,Usuario FROM tblCalificacionSitioTuristico AS CST WHERE CST.IdSitioTuristico = sitioT.IdSitioTuristico FOR JSON AUTO ) AS Comentarios,
+				(Select AVG(Calificacion) AS PromCalificacion FROM tblCalificacionSitioTuristico AS CST WHERE CST.IdSitioTuristico = sitioT.IdSitioTuristico) AS PromCalificacion
 			FROM tblSitioTuristico AS sitioT
 				INNER JOIN tblTipoSitioTuristico AS tipoSitio ON sitioT.IdTipoSitioTuristico = tipoSitio.IdTipoSitioTuristico
 			WHERE 1 = 1 '
