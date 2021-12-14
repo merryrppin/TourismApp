@@ -5,7 +5,7 @@ BEGIN
 	CREATE TABLE #Action ([Accion] VARCHAR(20))
 	DECLARE @IdentityHorario TABLE (IdHorario INT,IdDiaSemana INT, [Action] VARCHAR(100))
 
-	SELECT IdSitioTuristico,NombreSitioTuristicoESP, NombreSitioTuristicoENG, IdMunicipio, Latitud, Longitud,IconoMarcador, Activo, DescripcionESP, DescripcionENG, PresentacionESP, PresentacionENG, RutaESP, RutaENG, DireccionESP, DireccionENG
+	SELECT IdSitioTuristico,NombreSitioTuristicoESP, NombreSitioTuristicoENG, IdMunicipio, Latitud, Longitud,IconoMarcador, Activo, DescripcionESP, DescripcionENG, PresentacionESP, PresentacionENG, RutaESP, RutaENG, DireccionESP, DireccionENG, Imperdible
 	INTO #TempSitioTuristico 
 	FROM OPENJSON(@jsonSitioTuristico)
 	  WITH (
@@ -17,14 +17,15 @@ BEGIN
 		Longitud  DECIMAL(12, 9) 'strict $.Longitud',
 		IconoMarcador VARCHAR(500) 'strict $.IconoMarcador',
 		Activo BIT 'strict $.Activo',
-		DescripcionESP VARCHAR(MAX) 'strict $.PresentacionESP',
+		DescripcionESP VARCHAR(MAX) 'strict $.DescripcionESP',
 		DescripcionENG VARCHAR(MAX) 'strict $.DescripcionENG',
 		PresentacionESP VARCHAR(MAX) 'strict $.PresentacionESP',
 		PresentacionENG VARCHAR(MAX) 'strict $.PresentacionENG',
 		RutaESP VARCHAR(MAX) 'strict $.RutaESP',
 		RutaENG VARCHAR(MAX) 'strict $.RutaENG',
 		DireccionESP VARCHAR(MAX) 'strict $.DireccionESP',
-		DireccionENG VARCHAR(MAX) 'strict $.DireccionENG' );
+		DireccionENG VARCHAR(MAX) 'strict $.DireccionENG',
+		Imperdible BIT 'strict $.Imperdible');
 
     SELECT IdHorario,IdSitioTuristico,IdDiaSemana,NombreDia, Horas
 	INTO #TempHorarios 
@@ -32,7 +33,7 @@ BEGIN
     WITH (IdHorario INT '$.IdHorario',IdSitioTuristico INT '$.IdSitioTuristico',IdDiaSemana INT '$.IdDiaSemana',NombreDia NVARCHAR(100) '$.NombreDia', Horas NVARCHAR(MAX) '$.Horas');
 
     MERGE tblSitioTuristico AS tgt  
-    USING (SELECT IdSitioTuristico,NombreSitioTuristicoESP,NombreSitioTuristicoENG,IdMunicipio, Latitud,Longitud, NULL AS Altitud, IconoMarcador, Activo, DescripcionESP, DescripcionENG, PresentacionESP, PresentacionENG,RutaESP, RutaENG, DireccionESP, DireccionENG
+    USING (SELECT IdSitioTuristico,NombreSitioTuristicoESP,NombreSitioTuristicoENG,IdMunicipio, Latitud,Longitud, NULL AS Altitud, IconoMarcador, Activo, DescripcionESP, DescripcionENG, PresentacionESP, PresentacionENG,RutaESP, RutaENG, DireccionESP, DireccionENG, Imperdible
 	FROM #TempSitioTuristico) AS src 
     ON (tgt.IdSitioTuristico = src.IdSitioTuristico)  
     WHEN MATCHED THEN
@@ -51,7 +52,8 @@ BEGIN
 			RutaESP= src.RutaESP,
 			RutaENG= src.RutaENG,
 			DireccionESP= src.DireccionESP,
-			DireccionENG= src.DireccionENG
+			DireccionENG= src.DireccionENG,
+			Imperdible= src.Imperdible
     WHEN NOT MATCHED THEN  
         INSERT (
 			NombreSitioTuristicoESP,
@@ -70,7 +72,8 @@ BEGIN
 			RutaENG,
 			IdTipoSitioTuristico,
 			DireccionESP,
-			DireccionENG)  
+			DireccionENG,
+			Imperdible)  
         VALUES (
 			src.NombreSitioTuristicoESP,
 			src.NombreSitioTuristicoENG, 
@@ -88,7 +91,8 @@ BEGIN
 			src.RutaENG,
 			@IdTipoSitioTuristico,
 			src.DireccionESP,
-			src.DireccionENG)
+			src.DireccionENG,
+			src.Imperdible)
 		OUTPUT $action INTO #Action;
 
 	IF EXISTS (SELECT Accion FROM #Action WHERE Accion = 'INSERT') BEGIN 
@@ -133,5 +137,11 @@ BEGIN
 	DROP TABLE IF EXISTS #TempHorarios;
 	DROP TABLE IF EXISTS #Action;
 
-	SELECT @IdSitioTuristico AS IdSitioTuristico
+	SELECT sitioT.IdSitioTuristico, tblHorarios.IdHorario,tblHorarios.Horario,tblDiaSemana.NombreDiaESP,diaHorario.IdDiaSemana
+	FROM tblDiaHorarioSitioTuristico diaHorario
+		INNER JOIN tblHorarios ON diaHorario.IdHorario = tblHorarios.IdHorario
+		INNER JOIN tblDiaSemana ON diaHorario.IdDiaSemana = tblDiaSemana.IdDiaSemana
+		INNER JOIN tblSitioTuristico AS sitioT ON tblHorarios.IdSitioTuristico = sitioT.IdSitioTuristico
+	WHERE sitioT.IdSitioTuristico = @IdSitioTuristico
+
 END
