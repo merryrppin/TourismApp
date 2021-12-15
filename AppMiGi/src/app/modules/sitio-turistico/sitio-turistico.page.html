@@ -28,29 +28,29 @@
   <ion-item lines="none">
     <app-calificacion calValueInput="3.5"></app-calificacion>
   </ion-item>
-  <ion-item lines="none">
-    <ion-label class="mainResume">{{lang == 'ENG' ? itemData.DescripcionENG : itemData.DescripcionESP}}</ion-label>
+  <ion-item lines="none">    
+    <ion-label class="mainResume" text-wrap>{{lang == 'ENG' ? itemData.DescripcionENG : itemData.DescripcionESP}}</ion-label>
   </ion-item>
   <ion-accordion title="{{lang == 'ENG' ? 'Presentation' : 'Presentación'}}" classTitle="border-header"
     class="accordion">
     <div class="accordionContent">
-      <ion-label class="mainResume">{{lang == 'ENG' ? itemData.PresentacionENG : itemData.PresentacionESP}}</ion-label>
+      <ion-label class="mainResume" text-wrap>{{lang == 'ENG' ? itemData.PresentacionENG : itemData.PresentacionESP}}</ion-label>
     </div>
   </ion-accordion>
   <ion-accordion title="{{lang == 'ENG' ? 'Eucharist Schedule' : 'Horarios eucaristias'}}" classTitle="border-header"
     class="accordion">
     <div class="accordionContent">
-      <ion-label class="mainResume">{{lang == 'ENG' ? "Eucharist Schedule" : "Horarios eucaristias"}}</ion-label>
+      <ion-label class="mainResume" text-wrap>{{lang == 'ENG' ? "Eucharist Schedule" : "Horarios eucaristias"}}</ion-label>
     </div>
   </ion-accordion>
   <ion-accordion title="{{lang == 'ENG' ? 'Galery' : 'Galería'}}" classTitle="border-header" class="accordion">
     <div class="accordionContent">
-      <ion-label class="mainResume">{{lang == 'ENG' ? "Galery" : "Galería"}}</ion-label>
+      <ion-label  class="mainResume" text-wrap>{{lang == 'ENG' ? "Galery" : "Galería"}}</ion-label>
     </div>
   </ion-accordion>
   <ion-accordion title="{{lang == 'ENG' ? 'How to get' : 'Como llegar'}}" classTitle="border-header" class="accordion">
     <div class="accordionContent">
-      <ion-label class="mainResume">{{lang == 'ENG' ? itemData.RutaENG : itemData.RutaESP}}</ion-label>
+      <ion-label  class="mainResume" text-wrap>{{lang == 'ENG' ? itemData.RutaENG : itemData.RutaESP}}</ion-label>
     </div>
   </ion-accordion>
   <ion-accordion title="{{lang == 'ENG' ? 'Comments' : 'Comentarios'}}" classTitle="border-header" class="accordion">
