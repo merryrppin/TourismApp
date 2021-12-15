@@ -51,12 +51,14 @@ function gastronomyController($scope, UserService,$window, $filter, $timeout, $l
     }
 
     ctrl.addNewSite = function () {
-        let newSite = { 'Code': ctrl.Codegastronomy, 'Name': 'gastronomicos' };
-        $location.path('/touristSite').search({ param: newSite });
+        let newSite = { 'Code': ctrl.CodeGastronomy, 'Name': 'Gastronomicos', 'fileName': 'gastronomy' };
+        $location.path('/touristSite/GTM').search({ param: newSite });
     }
 
-    ctrl.modifiedSite = function () {
-        $location.path('/touristSite').search({ param: ctrl.religiousData });
+    ctrl.modifiedSite = function (ev, data) {
+        let gastronomyTime = ctrl.gastronomyTime.filter(x => x.IdSitioTuristico == data.IdSitioTuristico);
+        let modifiedSite = { 'Code': ctrl.CodeGastronomy, 'Name': 'Gastronomicos', 'fileName': 'gastronomy', 'data': data, 'time': gastronomyTime };
+        $location.path('/touristSite/GTM').search({ param: modifiedSite });
     }
 
     ctrl.getDatastronomy = function () {
@@ -189,11 +191,6 @@ function gastronomyController($scope, UserService,$window, $filter, $timeout, $l
         },
     ]
 
-    ctrl.modifiedSite = function (ev, data) {
-        let gastronomyTime = ctrl.gastronomyTime.filter(x => x.IdSitioTuristico == data.IdSitioTuristico);
-        let modifiedSite = { 'Code': ctrl.CodeGastronomy, 'Name': 'Gastronomico', 'fileName': 'gastronomy', 'data': data, 'time': gastronomyTime };
-        $location.path('/touristSite').search({ param: modifiedSite });
-    }
 
     ctrl.delete = function (ev, data) {
         if (!window.confirm("Esta seguro de eliminar el sitio turistico seleccionado?")) {

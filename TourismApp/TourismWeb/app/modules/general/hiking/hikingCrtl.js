@@ -52,7 +52,7 @@ function hikingController($scope, UserService, $window, $filter, $timeout, $loca
 
     ctrl.addNewSite = function () {
         let newSite = { 'Code': ctrl.codeHiking, 'Name': 'Senderismo', 'fileName': 'hiking' };
-        $location.path('/touristSite').search({ param: newSite });
+        $location.path('/touristSite/SDM').search({ param: newSite });
     }
 
     ctrl.getDataHiking = function () {
@@ -194,7 +194,7 @@ function hikingController($scope, UserService, $window, $filter, $timeout, $loca
     ctrl.modifiedSite = function (ev, data) {
         let hikingTime = ctrl.hikingTime.filter(x => x.IdSitioTuristico == data.IdSitioTuristico);
         let modifiedSite = { 'Code': ctrl.codeHiking, 'Name': 'Senderismo', 'fileName': 'hiking', 'data': data, 'time': hikingTime };
-        $location.path('/touristSite').search({ param: modifiedSite });
+        $location.path('/touristSite/SDM').search({ param: modifiedSite });
     }
 
     ctrl.delete = function (ev, data) {

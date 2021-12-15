@@ -96,17 +96,20 @@ namespace TourismApp.Controllers
         [HttpGet]
         public string Get()
         {
-            //int IdSitioTuristico = 2;
-            //_AdministrationService.procesar(IdSitioTuristico);
             return "Ver. " + _Configuration.GetValue<string>("Version");
         }
 
         [HttpPost("OnPostUploadAsync")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files, string typeSite)
+        public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files, string typeSite, int? turistSiteId)
         {
             try
             {
+                bool exists = Directory.Exists(Path.Combine($"files/{typeSite}/"));
+
+                if (!exists)
+                    Directory.CreateDirectory(Path.Combine($"files/{typeSite}/"));
+
                 long size = files.Sum(f => f.Length);
                 List<string> filePaths = new List<string>();
 
@@ -122,6 +125,11 @@ namespace TourismApp.Controllers
                             await formFile.CopyToAsync(stream);
                         }
                     }
+                }
+
+                if (typeSite == "tmpGPX")
+                {
+                    _AdministrationService.procesar(turistSiteId);
                 }
 
                 return Ok(new { count = files.Count, size, filePaths = filePaths });

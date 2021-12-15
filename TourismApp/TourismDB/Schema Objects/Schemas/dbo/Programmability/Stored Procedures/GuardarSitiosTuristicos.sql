@@ -3,7 +3,7 @@ AS
 BEGIN
 	DECLARE @IdTipoSitioTuristico INT = (SELECT TOP 1 IdTipoSitioTuristico FROM tblTipoSitioTuristico WHERE Codigo  = @CodigoTipoSitio)
 	CREATE TABLE #Action ([Accion] VARCHAR(20))
-	DECLARE @IdentityHorario TABLE (IdHorario INT,IdDiaSemana INT, [Action] VARCHAR(100))
+	DECLARE @IdentityHorario TABLE (IdHorario INT,Horas VARCHAR(MAX), [Action] VARCHAR(100))
 
 	SELECT IdSitioTuristico,NombreSitioTuristicoESP, NombreSitioTuristicoENG, IdMunicipio, Latitud, Longitud,IconoMarcador, Activo, DescripcionESP, DescripcionENG, PresentacionESP, PresentacionENG, RutaESP, RutaENG, DireccionESP, DireccionENG, Imperdible
 	INTO #TempSitioTuristico 
@@ -53,7 +53,9 @@ BEGIN
 			RutaENG= src.RutaENG,
 			DireccionESP= src.DireccionESP,
 			DireccionENG= src.DireccionENG,
-			Imperdible= src.Imperdible
+			Imperdible= src.Imperdible,
+			FechaModificacion = GETDATE(),
+			ModificadoPor =@Usuario
     WHEN NOT MATCHED THEN  
         INSERT (
 			NombreSitioTuristicoESP,
@@ -101,7 +103,7 @@ BEGIN
 	END
 
 	MERGE tblHorarios AS tgt  
-    USING (SELECT IdDiaSemana, IdHorario, Horas
+    USING (SELECT DISTINCT  IdHorario,IdSitioTuristico, Horas
 	FROM #TempHorarios) AS src 
     ON (tgt.IdHorario = src.IdHorario)  
     WHEN MATCHED THEN
@@ -113,16 +115,16 @@ BEGIN
 			IdSitioTuristico)  
         VALUES (
 			src.Horas,
-			@IdSitioTuristico)
-	OUTPUT Inserted.IdHorario,src.IdDiaSemana,$action INTO @IdentityHorario;
+			src.IdSitioTuristico)
+	OUTPUT Inserted.IdHorario,src.Horas,$action INTO @IdentityHorario;
 
 	IF EXISTS (SELECT [Action] FROM @IdentityHorario WHERE [Action] = 'INSERT') BEGIN 
 		UPDATE #TempHorarios SET IdHorario = IdentityHorario.IdHorario
-		FROM @IdentityHorario AS IdentityHorario WHERE #TempHorarios.IdDiaSemana = IdentityHorario.IdDiaSemana
+		FROM @IdentityHorario AS IdentityHorario WHERE #TempHorarios.Horas = IdentityHorario.Horas
 	END
 
 	MERGE tblDiaHorarioSitioTuristico AS tgt  
-    USING (SELECT IdHorario,IdDiaSemana, Horas
+    USING (SELECT IdHorario,IdDiaSemana
 	FROM #TempHorarios) AS src 
     ON (tgt.IdHorario = src.IdHorario AND tgt.IdDiaSemana = src.IdDiaSemana)  
     WHEN NOT MATCHED THEN  

@@ -136,6 +136,8 @@
     <Content Include="Libs\loading-bar.min.js" />
     <Content Include="Libs\tags\ng-tags-input.min.css" />
     <Content Include="Libs\tags\ng-tags-input.min.js" />
+    <Content Include="Libs\toaster\toaster.css" />
+    <Content Include="Libs\toaster\toaster.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +177,7 @@
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\testwapg - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\testwebappg - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\testwebappg - Web Deploy1.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -198,7 +201,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>58895</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:8080/Index.aspx</IISUrl>
+          <IISUrl>http://localhost:37040/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -104,11 +104,11 @@ namespace TourismApp.Services
         #endregion
 
         #region GPX
-        public StoredObjectResponse procesar(int IdSitioTuristico)
+        public StoredObjectResponse procesar(int? IdSitioTuristico)
         {
             return ProcPathGPX(IdSitioTuristico);
         }
-        public StoredObjectResponse ProcPathGPX(int IdSitioTuristico)
+        public StoredObjectResponse ProcPathGPX(int? IdSitioTuristico)
         {
             ProcessGPX processGPX = new ProcessGPX();
             GpxCls gpxCls = processGPX.ProcessFileFromName(IdSitioTuristico + ".gpx");

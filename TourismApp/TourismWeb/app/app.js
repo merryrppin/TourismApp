@@ -64,7 +64,7 @@ angular
                 controllerAs: 'ctrl',
                 templateUrl: 'app/modules/general/gastronomy/gastronomy.html'
             })
-            .when('/touristSite', {
+            .when('/touristSite/:DEF', {
                 controller: "touristSiteController",
                 controllerAs: 'ctrl',
                 templateUrl: 'app/modules/general/touristSite/touristSite.html'

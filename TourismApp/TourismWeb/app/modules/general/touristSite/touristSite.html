@@ -148,6 +148,8 @@
                 <div>
                     <i class='material-icons' style='font-size:19px !important; font-weight: bold' ng-click='ctrl.AddTime()'>add</i>
                     <div ng-repeat="(i, time) in ctrl.newTimes track by $index">
+                        <i class='material-icons' style='font-size:19px !important; font-weight: bold' title="Eliminar horario" ng-click='ctrl.deleteTime(time,i)'>delete_forever</i>
+                        <span class="glyphicon glyphicon-minus"></span>
                         <div class="input-group mb-3">
                             <span class="input-group-text">Día</span>
                             <tags-input data-ng-model="ctrl.selectedDays[i]"
@@ -175,7 +177,7 @@
                     <div class="input-group">
                         <span class="input-group-btn">
                             <span class="btn btn-primary btn-file">
-                                Buscar...<input type="file" multiple my-directory="ctrl.getFiles(file)" ng-disabled="ctrl.uploading" />
+                                Buscar imagenes...<input type="file" multiple my-directory="ctrl.getFiles(file)" ng-disabled="ctrl.uploading" />
                             </span>
                         </span>
                         <input type="text" ng-model="ctrl.countFiles" class="form-control" readonly>
@@ -184,7 +186,7 @@
                     <div id="ayuda-correo" class="form-text">
                         Seleccione las imagenes a cargar.
                     </div>
-                    <input style="margin-top: 10px;" type="button" class="btn btn-default  btn-primary" ng-click="ctrl.uploadFiles()" value="Cargar imagenes" ng-disabled="ctrl.uploading || ctrl.countFiles==='' ||  ctrl.IdSitioTuristico == ''" />
+                    <input style="margin-top: 10px;" type="button" class="btn btn-default  btn-primary" ng-click="ctrl.uploadFiles('')" value="Cargar imagenes" ng-disabled="ctrl.uploading || ctrl.countFiles==='' ||  ctrl.IdSitioTuristico == ''" />
 
                     <div ng-repeat="file in ctrl.data ">
                         {{file.FileName  + '  ' + file.FileLength + ' bytes'  }}
@@ -192,20 +194,20 @@
 
                 </div>
 
-                <div ng-show="ctrl.showHeking" class="mb-2">
+                <div ng-show="ctrl.showHeking" class="mb-4">
                     <div class="input-group">
                         <span class="input-group-btn">
                             <span class="btn btn-primary btn-file">
-                                Buscar...<input type="file" multiple my-directory="ctrl.getFiles(file)" ng-disabled="ctrl.uploading" />
+                                Buscar imagen .gpx...<input type="file" multiple my-directory="ctrl.getFileGpx(file)" ng-disabled="ctrl.uploading" />
                             </span>
                         </span>
-                        <input type="text" ng-model="ctrl.countFiles" class="form-control" readonly>
+                        <input type="text" ng-model="ctrl.countFilesGpx" class="form-control" readonly>
 
                     </div>
                     <div id="ayuda-correo" class="form-text">
-                        Seleccione las imagenes a cargar.
+                        Seleccione la imagen .gpx a cargar.
                     </div>
-                    <input style="margin-top: 10px;" type="button" class="btn btn-default  btn-primary" ng-click="ctrl.uploadFiles()" value="Cargar imagenes" ng-disabled="ctrl.uploading || ctrl.countFiles==='' ||  ctrl.IdSitioTuristico == ''" />
+                    <input style="margin-top: 10px;" type="button" class="btn btn-default  btn-primary" ng-click="ctrl.uploadFiles('tmpGPX')" value="Cargar imagen .gpx" ng-disabled="ctrl.uploading || ctrl.countFilesGpx==='' ||  ctrl.IdSitioTuristico == ''" />
 
                     <div ng-repeat="file in ctrl.data ">
                         {{file.FileName  + '  ' + file.FileLength + ' bytes'  }}

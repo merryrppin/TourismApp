@@ -52,13 +52,13 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
 
     ctrl.addNewSite = function () {
         let newSite = { 'Code': ctrl.CodeReligious, 'Name': 'Religioso', 'fileName': 'religious' };
-        $location.path('/touristSite').search({ param: newSite });
+        $location.path('/touristSite/RGS').search({ param: newSite });
     }
 
     ctrl.modifiedSite = function (ev, data) {
         let religiousTime = ctrl.religiousTime.filter(x => x.IdSitioTuristico == data.IdSitioTuristico);
         let modifiedSite = { 'Code': ctrl.CodeReligious, 'Name': 'Religioso', 'fileName': 'religious', 'data': data, 'time': religiousTime };
-        $location.path('/touristSite').search({ param: modifiedSite });
+        $location.path('/touristSite/RGS').search({ param: modifiedSite });
     }
 
     ctrl.getDataReligious = function () {
