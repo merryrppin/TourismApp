@@ -22,59 +22,98 @@
       <img class="card-img" src="{{item.predictionImageURL}}" />
     </ion-slide>
   </ion-slides>
-  <ion-item lines="none">
-    <h1 class="mainTitle">{{lang == 'ENG' ? itemData.NombreSitioTuristicoENG : itemData.NombreSitioTuristicoESP}}</h1>
+  <ion-item lines="none" >
+    <h1 class="mainTitle"> {{lang == 'ENG' ? itemData.NombreSitioTuristicoENG : itemData.NombreSitioTuristicoESP}}</h1>
   </ion-item>
   <ion-item lines="none">
     <app-calificacion calValueInput="3.5"></app-calificacion>
   </ion-item>
-  CALIFICACIÓN TEST - {{itemData.calificacionComentario}}
+<<<<<<< HEAD
+=======
+  <ion-item lines="none" >
+    <ion-label class="mainResume"> CALIFICACIÓN TEST - {{itemData.calificacionComentario}}</ion-label>
+  </ion-item>
+
+  
   <ion-item lines="none">
     <app-calificacioninput (calValueOutput)="cambiarCalificacion(itemData, $event)"></app-calificacioninput>
   </ion-item>
+>>>>>>> f877e74d3825243fa4d926b4fa2dd18c7f747fd8
   <ion-item lines="none">
-    <p class="mainResume">{{lang == 'ENG' ? itemData.DescripcionENG : itemData.DescripcionESP}}</p>
+    <ion-label class="mainResume">{{lang == 'ENG' ? itemData.DescripcionENG : itemData.DescripcionESP}}</ion-label>
   </ion-item>
-  <ion-accordion title="{{lang == 'ENG' ? 'Presentation' : 'Presentación'}}" openIcon="arrow-up" closeIcon="arrow-down"
-    classTitle="border-header" class="accordion mainSubtitle">
+  <ion-accordion title="{{lang == 'ENG' ? 'Presentation' : 'Presentación'}}"  classTitle="border-header" class="accordion">
     <div class="accordionContent">
-      <ion-label>{{lang == 'ENG' ? itemData.PresentacionENG : itemData.PresentacionESP}}</ion-label>
+      <ion-label class="mainResume">{{lang == 'ENG' ? itemData.PresentacionENG : itemData.PresentacionESP}}</ion-label>
     </div>
   </ion-accordion>
-  <ion-accordion title="{{lang == 'ENG' ? 'Eucharist Schedule' : 'Horarios eucaristias'}}" openIcon="arrow-up"
-    closeIcon="arrow-down" classTitle="border-header" class="accordion mainSubtitle">
+  <ion-accordion title="{{lang == 'ENG' ? 'Eucharist Schedule' : 'Horarios eucaristias'}}"    classTitle="border-header" class="accordion">
     <div class="accordionContent">
-      <ion-label>{{lang == 'ENG' ? "Eucharist Schedule" : "Horarios eucaristias"}}</ion-label>
+      <ion-label class="mainResume">{{lang == 'ENG' ? "Eucharist Schedule" : "Horarios eucaristias"}}</ion-label>
     </div>
   </ion-accordion>
-  <ion-accordion title="{{lang == 'ENG' ? 'Galery' : 'Galería'}}" openIcon="arrow-up" closeIcon="arrow-down"
-    classTitle="border-header" class="accordion mainSubtitle">
+  <ion-accordion title="{{lang == 'ENG' ? 'Galery' : 'Galería'}}"  classTitle="border-header" class="accordion">
     <div class="accordionContent">
-      <ion-label>{{lang == 'ENG' ? "Galery" : "Galería"}}</ion-label>
+      <ion-label  class="mainResume">{{lang == 'ENG' ? "Galery" : "Galería"}}</ion-label>
     </div>
   </ion-accordion>
-  <ion-accordion title="{{lang == 'ENG' ? 'How to get' : 'Como llegar'}}" openIcon="arrow-up" closeIcon="arrow-down"
-    classTitle="border-header" class="accordion mainSubtitle">
+  <ion-accordion title="{{lang == 'ENG' ? 'How to get' : 'Como llegar'}}"   classTitle="border-header" class="accordion">
     <div class="accordionContent">
-      <ion-label>{{lang == 'ENG' ? itemData.RutaENG : itemData.RutaESP}}</ion-label>
+      <ion-label  class="mainResume">{{lang == 'ENG' ? itemData.RutaENG : itemData.RutaESP}}</ion-label>
     </div>
   </ion-accordion>
-  <ion-accordion title="{{lang == 'ENG' ? 'Comments' : 'Comentarios'}}" openIcon="arrow-up" closeIcon="arrow-down"
-    classTitle="border-header" class="accordion mainSubtitle">
+  <ion-accordion title="{{lang == 'ENG' ? 'Comments' : 'Comentarios'}}"  classTitle="border-header" class="accordion">
     <div class="accordionContent">
-      <ion-label>{{lang == 'ENG' ? "Comments" : "Comentarios"}}</ion-label>
+      <div *ngIf="habilitarOpinion==false">
+        <ion-card>
+          <ion-card-content style="background-color: #e8e8e8;">
+              <ion-row>
+                <ion-col md="3">
+                  <h1 style="margin-left: -6px;">{{itemData.PromCalificacion}}</h1>
+                </ion-col>
+                <ion-col md="6">
+                  <app-calificacion calValueInput="3.5"></app-calificacion>
+                </ion-col>
+                <ion-col md="3">
+                  <ion-button color="primary" style="font-size: 6px;" (click)="setHabilitarOpinion(true)"> Dar mi opinión </ion-button>
+                </ion-col>
+              </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-list *ngFor="let cal of itemData.Comentarios">
+          <ion-card>
+            <ion-card-content style="background-color: #e8e8e8;">
+                <ion-row>
+                  <ion-col md="6">
+                    <h1 style="margin-left: -6px;">{{cal.Usuario}}</h1>
+                  </ion-col>
+                  <ion-col md="6">
+                    <app-calificacion calValueInput="{{cal.Calificacion}}"></app-calificacion>
+                  </ion-col>
+                </ion-row>
+                <p>{{cal.Comentario}}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-list>
+      </div>
+      <div *ngIf="habilitarOpinion==true">
+        <app-calificacioninput (calValueOutput)="cambiarCalificacion(itemData, $event)"></app-calificacioninput>
+        <ion-input aria-placeholder="Comentario"></ion-input>
+        <ion-button color="primary" (click)="setHabilitarOpinion(false)">Guardar</ion-button>
+      </div>
+      
     </div>
   </ion-accordion>
   <div *ngIf="categoria=='SDM'">
     <ion-row>
       <ion-col md-6>
-        <ion-button expand="block" color="primary" (click)="mejorRuta(itemData, 2)" icon-start>
+        <ion-button class="textButton" expand="block" color="primary" (click)="mejorRuta(itemData, 2)" icon-start>
           <ion-icon src="../../assets/icon_imperdibles.svg"></ion-icon>
           {{lang == "ENG" ? "Best route" : "Mejor ruta"}}
         </ion-button>
       </ion-col>
       <ion-col md-6>
-        <ion-button expand="block" color="primary" (click)="mejorRuta(itemData, 1)" icon-start>
+        <ion-button class="textButton" expand="block" color="primary" (click)="mejorRuta(itemData, 1)" icon-start>
           <ion-icon name="star"></ion-icon>
           {{lang == "ENG" ? "Hiking route" : "Ruta senderismo"}}
         </ion-button>
@@ -82,7 +121,7 @@
     </ion-row>
   </div>
   <div *ngIf="categoria !=='SDM'">
-    <ion-button expand="block" color="primary" (click)="mejorRuta(itemData, 2)" icon-start>
+    <ion-button class="textButton" expand="block" color="primary" (click)="mejorRuta(itemData, 2)" icon-start>
       <ion-icon src="../../assets/icon_imperdibles.svg"></ion-icon>
       {{lang == "ENG" ? "Best route" : "Mejor ruta"}}
     </ion-button>

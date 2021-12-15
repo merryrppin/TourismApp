@@ -22,7 +22,7 @@ export class SitioTuristicoPage {
   IdSitioTuristico: string;
   sitiosTuristicos: any[];
   loading: any;
-
+  habilitarOpinion:boolean=false;
   constructor(private geolocation: Geolocation,
     private syncService: SyncService,
     private generalService: GeneralService,
@@ -36,6 +36,7 @@ export class SitioTuristicoPage {
       this.generalService.getDataPromise("sitiosTuristicos").then((res) => {
         this.sitiosTuristicos = JSON.parse(res.value);
         this.itemData = this.sitiosTuristicos.find(x => x.IdSitioTuristico == this.IdSitioTuristico);
+        this.itemData.Comentarios = JSON.parse(this.itemData.Comentarios);
       });
     });
     this.showSlides();
@@ -86,5 +87,9 @@ export class SitioTuristicoPage {
 
   cambiarCalificacion(itemData: any, calValue: string){
     itemData.calificacionComentario = calValue;
+  }
+
+  setHabilitarOpinion(val:boolean){
+    this.habilitarOpinion = val;
   }
 }
