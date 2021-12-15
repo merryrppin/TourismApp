@@ -4,28 +4,45 @@
       <ion-row>
         <ion-col size="6"><img class="logosAlcaldiaHeader" src="../../../assets/splashscreen/logoapp.svg" /></ion-col>
         <ion-col size="4"><img class="logosAlcaldiaHeader" src="../../../assets/splashscreen/LogosAlcaldia.svg" /></ion-col>
-        <ion-col size="2"><ion-button (click)="cambiarIdioma()" class="btnLang">{{lang}}</ion-button></ion-col>
-      </ion-row>
+        <ion-col size="2"><ion-button (click)="cambiarIdioma()" class="btnLang btnLangHome">{{lang}}</ion-button></ion-col>      </ion-row>
     </ion-grid>    
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]= "true" class="ion-padding">
+<ion-content [fullscreen]= "true" class="ion-padding background">
+
+
+  <ion-card class="cardToDo" (click)="toggle()" *ngIf="visible == false">
+         
+    <ion-card-content >
+     <p class="mainToDo"> 
+      <ion-label  >{{lang==="ENG" ? "¿TO DO?": "¿QUÉ HACER?"}} </ion-label>     
+       
+     </p>
+     <hr class="line">
+     <p>
+      <ion-icon style="text-align: center;" class="iconToDo" src="../../assets/icon_quehacer.svg"></ion-icon>
+    </p>  
+    
+      
+    </ion-card-content>
+  
+  </ion-card>
   
 </ion-content>
-<ion-footer style="text-align: center;">
+<ion-footer style="text-align: center; ">
 
  
-    <button (click)="toggle()" >
-      <ion-icon  style="font-size: 20px"
-          [name]="visible ?  'arrow-down-outline' : 'arrow-up-outline'">
-      </ion-icon>
+    <button (click)="toggle()" style="background:  rgba(255, 0, 0, 0); ">
+    <ion-icon  style="font-size: 30px" *ngIf="!visible" src="../../assets/icon_flechaup.svg"></ion-icon>
+
+   <ion-icon  style="font-size: 30px" *ngIf="visible" src="../../assets/icon_flechadown.svg"></ion-icon>
    </button>
 
 
-  <ion-toolbar *ngIf="visible">
+  <ion-toolbar *ngIf="visible" >
    
-    <ion-row>
+    <ion-row style="background:  rgba(255, 0, 0, 0); ">
      
         <ion-card class="cardMenu"  (click)="getMenu('DEF')">
          

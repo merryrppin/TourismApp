@@ -42,7 +42,7 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
         let fileName = $location.$$search.param.fileName;
         ctrl.uploading = true;
         GeneralService.executeAjax({
-            url: `https://localhost:44355/api/tourism/OnPostUploadAsync?typeSite=${fileName}`,  //`${UserService.ApiUrl}/OnPostUploadAsync?typeSite=${fileName}`, -- No esta guardado el archivo a través del api
+            url: `${UserService.ApiUrl}/OnPostUploadAsync?typeSite=${fileName}`,
             data: ctrl.formdata,
             contentType: undefined,
             dataType: false,
@@ -126,15 +126,14 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
 
     function isValidSaved() {
         if (ctrl.siteNameESP == null || ctrl.descriptionESP == null || ctrl.routeESP == null || ctrl.DireccionESP == null || ctrl.selectedOptionTown.IdMunicipio == null || ctrl.presentationNameESP == null) {
-            alert("Falta información");
+            alert("Falta información por digitar, los sitios marcados con * son campos obligatorios");
             return false;
         }
 
         if (ctrl.siteNameESP == '' || ctrl.descriptionESP == '' || ctrl.routeESP == '' || ctrl.DireccionESP == '' || ctrl.selectedOptionTown.IdMunicipio == '' || ctrl.presentationNameESP == '') {
-            alert("Falta información");
+            alert("Falta información por digitar, los sitios marcados con * son campos obligatorios");
             return false;
         }
-
         return true;
     }
 
@@ -143,7 +142,6 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
         if (!isValidSaved()) {
             return;
         }
-
         let objTimes = [];
         let objTouristSite = [];
 
@@ -153,20 +151,21 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
             {
                 "IdSitioTuristico": ctrl.IdSitioTuristico == '' ? null : parseInt(ctrl.IdSitioTuristico),
                 "NombreSitioTuristicoESP": ctrl.siteNameESP,
-                "NombreSitioTuristicoENG": ctrl.siteNameENG,
+                "NombreSitioTuristicoENG": ctrl.siteNameENG == undefined ? null : ctrl.siteNameENG,
                 "IdMunicipio": ctrl.selectedOptionTown.IdMunicipio,
                 "Latitud": ctrl.routeLatitude,
                 "Longitud": ctrl.RouteLength,
                 "IconoMarcador": "",
                 "Activo": 1,
                 "DescripcionESP": ctrl.descriptionESP,
-                "DescripcionENG": ctrl.descriptionENG,
+                "DescripcionENG": ctrl.descriptionENG == undefined ? null : ctrl.descriptionENG, 
                 "PresentacionESP": ctrl.presentationNameESP,
-                "PresentacionENG": ctrl.presentationNameENG,
+                "PresentacionENG": ctrl.presentationNameENG == undefined ? null : ctrl.presentationNameENG,
                 "RutaESP": ctrl.routeESP,
-                "RutaENG": ctrl.routeENG,
+                "RutaENG": ctrl.routeENG == undefined ? null : ctrl.routeENG, 
                 "DireccionESP": ctrl.DireccionESP,
-                "DireccionENG": ctrl.DireccionENG
+                "DireccionENG": ctrl.DireccionENG == undefined ? null : ctrl.DireccionENG,
+                "Imperdible": ctrl.safetyPin == undefined ? null : ctrl.safetyPin
             }
         ];
 
@@ -182,7 +181,7 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
                 { "Name": "jsonSitioTuristico", "Value": JSON.stringify(objTouristSite) },
                 { "Name": "jsonHorarios ", "Value": JSON.stringify(objTimes) },
                 { "Name": "CodigoTipoSitio", "Value": $location.$$search.param.Code },
-                { "Name": "Usuario", "Value": $window.localStorage.getItem('userName')   },
+                { "Name": "Usuario", "Value": $window.localStorage.getItem('userName') },
                 { "Name": "IdSitioTuristico", "Value": ctrl.IdSitioTuristico == '' ? null : ctrl.IdSitioTuristico.toString() }
 
             ],
@@ -196,7 +195,9 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
             contentType: 'application/json',
             success: function (response) {
                 if (response.exception == null) {
-                    ctrl.IdSitioTuristico = parseInt(response.value[0].rows[0]);
+                    ctrl.turistSiteSaved = ctrl.transformRespond(response.value[0]);
+                    ctrl.IdSitioTuristico = parseInt(ctrl.turistSiteSaved[0].IdSitioTuristico);
+                    fillLoadDataTime(ctrl.turistSiteSaved);
                 } else {
                     ctrl.messageLoginInvalid = 'No se encontraron datos';
                 }
@@ -205,7 +206,6 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
     };
 
     ctrl.getTowns = function () {
-
         let StoredObjectParams =
         {
             "StoredParams": [],
@@ -251,6 +251,15 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
         });
     };
 
+    function fillLoadDataTime(modifiedTime) {
+        ctrl.newTimes = modifiedTime;
+        ctrl.selectedDays = [];
+        angular.forEach(ctrl.newTimes, function (time, inx) {
+            ctrl.selectedDays.push([{ NombreDiaESP: time.NombreDiaESP, IdDiaSemana: time.IdDiaSemana, IdHorario: time.IdHorario, horario: time.Horario }]);
+            ctrl.selectedHours.push(time.Horario);
+        });
+    }
+
     function fillLoadData() {
         if ($location.$$search.param.Code == null || $location.$$search.param.Code == undefined) {
             $location.path('/home');
@@ -272,36 +281,22 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
             ctrl.routeENG = modifiedSite.RutaENG;
             ctrl.DireccionESP = modifiedSite.DireccionESP;
             ctrl.DireccionENG = modifiedSite.DireccionENG;
+            ctrl.safetyPin = (modifiedSite.Imperdible === 'True');
         }
 
         if ($location.$$search.param.time != undefined) {
             let modifiedTime = $location.$$search.param.time;
-            ctrl.newTimes = modifiedTime;
-            angular.forEach(ctrl.newTimes, function (time, inx) {
-                ctrl.selectedDays.push({ NombreDiaESP: time.NombreDiaESP, IdDiaSemana: time.IdDiaSemana, IdHorario: time.IdHorario });
-                ctrl.selectedHours.push(time.Horario);
-            });
-            const countDistinctTime = [...new Set(ctrl.newTimes.map(x => x.Horario))];
-            ctrl.newTimes = [];
-            countDistinctTime.forEach(function (dist, ind) {
-                ctrl.newTimes.push(ctrl.defaultTime);
-            });
-
-            if (countDistinctTime.length == 0) {
-                ctrl.newTimes.push(ctrl.defaultTime);
-            };
-
+            fillLoadDataTime(modifiedTime);
         }
 
         if ($location.$$search.param.Code == 'SDM') {
             ctrl.showHeking = true;
         }
-
     }
 
     angular.element(document).ready(function () {
-        fillLoadData();
         ctrl.getTowns();
         ctrl.getWeekDays();
+        fillLoadData();
     });
 }

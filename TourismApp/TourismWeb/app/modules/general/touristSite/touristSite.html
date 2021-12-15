@@ -1,7 +1,7 @@
 ﻿<div style="margin-left: 60px;" class="row">
     <div class="columna col-12 col-lg-9 col-sm-6 col-md-8">
 
-        <h3 class="mt-3">{{ctrl.title}}</h3>
+        <h3 class="mt-4">{{ctrl.title}}</h3>
         <div class="col-6">
             <a href="#contenido-1"
                type="button"
@@ -15,6 +15,7 @@
                         <h2 class="card-title">{{ctrl.title}}</h2>
                         <p class="card-text">
                             En la primera sección del lado izquierdo se agrega la información del sitio turistico en español, en la parte derecha se llenara esta misma en lenguaje ingles,
+                            Los campos marcados con el signo "*" son campos obligatorios y será necesario digitarlos.
                             Para cargar la sección de imagenes primero debe guardar cambios mediante el botón "Guardar Cambios"
                         </p>
                     </div>
@@ -31,7 +32,7 @@
                     <label for="correo" class="form-floating form-label">Nombre</label>
                     <input ng-model="ctrl.siteNameESP" type="text" class="form-control" id="correo" aria-describedby="ayuda-correo">
                     <div id="ayuda-correo" class="form-text">
-                        Digite el nombre del sitio turistico en lenguaje español.
+                        *Digite el nombre en lenguaje español.
                     </div>
                 </div>
 
@@ -39,7 +40,7 @@
                     <label for="mensaje" class="form-label">Presentación</label>
                     <textarea ng-model="ctrl.presentationNameESP" class="form-control" name="mensaje" id="mensaje"></textarea>
                     <div id="ayuda-correo" class="form-text">
-                        Digite la descripción del sitio turistico en lenguaje español.
+                        Digite la descripción en lenguaje español.
                     </div>
                 </div>
 
@@ -47,7 +48,7 @@
                     <label for="mensaje" class="form-label">Descripción</label>
                     <textarea ng-model="ctrl.descriptionESP" class="form-control" name="mensaje" id="mensaje"></textarea>
                     <div id="ayuda-correo" class="form-text">
-                        Digite la descripción del sitio turistico en lenguaje español.
+                        *Digite la descripción en lenguaje español.
                     </div>
                 </div>
 
@@ -55,7 +56,7 @@
                     <label for="mensaje" class="form-label">Como llegar</label>
                     <textarea ng-model="ctrl.routeESP" class="form-control" name="mensaje" id="mensaje"></textarea>
                     <div id="ayuda-correo" class="form-text">
-                        Digite la descripción de como llegar al sitio turistico en lenguaje español.
+                        *Digite como llegar en lenguaje español.
                     </div>
                 </div>
 
@@ -63,7 +64,7 @@
                     <label for="mensaje" class="form-label">Dirección</label>
                     <input ng-model="ctrl.DireccionESP" class="form-control" name="mensaje" id="mensaje">
                     <div id="ayuda-correo" class="form-text">
-                        Digite la Dirección del sitio turistico en lenguaje español.
+                        *Digite la Dirección en lenguaje español.
                     </div>
                 </div>
 
@@ -74,7 +75,7 @@
                     <span class="input-group-text">Longitud</span>
                     <input ng-model="ctrl.RouteLength" type="text" class="form-control" aria-label="Longitud">
                     <div id="ayuda-correo" class="form-text">
-                        Digite la la longitud y latitud, solo se permiten valores númericos.
+                        *Digite la la longitud y latitud, solo se permiten valores númericos.
                     </div>
                 </div>
 
@@ -84,8 +85,13 @@
                             ng-options="option.NombreMunicipio for option in  ctrl.towns track by option.IdMunicipio"
                             ng-model="ctrl.selectedOptionTown"></select>
                     <div id="ayuda-correo" class="form-text">
-                        Expande el menu para seleccionar un municipio.
+                        *Expande el menu para seleccionar un municipio.
                     </div>
+                </div>
+
+                <div class="form-check form-switch">
+                    <input ng-model="ctrl.safetyPin" type="checkbox" name="switch-1" class="form-check-input" id="switch-1">
+                    <label for="switch-1" class="form-check-label">Imperdible</label>
                 </div>
 
                 <div class="mb-2">
@@ -102,7 +108,7 @@
                     <label for="correo" class="form-label">Nombre</label>
                     <input ng-model="ctrl.siteNameENG" type="text" class="form-control" id="correo" aria-describedby="ayuda-correo">
                     <div id="ayuda-correo" class="form-text">
-                        Digite el nombre del sitio turistico en lenguaje ingles.
+                        Digite el nombre en lenguaje ingles.
                     </div>
                 </div>
 
@@ -110,7 +116,7 @@
                     <label for="mensaje" class="form-label">Presentación</label>
                     <textarea ng-model="ctrl.presentationNameENG" class="form-control" name="mensaje" id="mensaje"></textarea>
                     <div id="ayuda-correo" class="form-text">
-                        Digite la descripción del sitio turistico en lenguaje ingles.
+                        Digite la descripción en lenguaje ingles.
                     </div>
                 </div>
 
@@ -118,7 +124,7 @@
                     <label for="mensaje" class="form-label">Descripción</label>
                     <textarea ng-model="ctrl.descriptionENG" class="form-control" name="mensaje" id="mensaje"></textarea>
                     <div id="ayuda-correo" class="form-text">
-                        Digite la descripción del sitio turistico en lenguaje ingles.
+                        Digite la descripción en lenguaje ingles.
                     </div>
                 </div>
 
@@ -126,7 +132,7 @@
                     <label for="mensaje" class="form-label">Como llegar</label>
                     <textarea ng-model="ctrl.routeENG" class="form-control" name="mensaje" id="mensaje"></textarea>
                     <div id="ayuda-correo" class="form-text">
-                        Digite la descripción de como llegar al sitio turistico en lenguaje ingles.
+                        Digite  como llegar en lenguaje ingles.
                     </div>
                 </div>
 
@@ -135,30 +141,32 @@
                     <label for="mensaje" class="form-label">Dirección</label>
                     <input ng-model="ctrl.DireccionENG" class="form-control" name="mensaje" id="mensaje">
                     <div id="ayuda-correo" class="form-text">
-                        Digite la Dirección del sitio turistico en lenguaje ingles.
+                        Digite la Dirección en lenguaje ingles.
                     </div>
                 </div>
 
-                <i class='material-icons' style='font-size:19px !important; font-weight: bold' ng-click='ctrl.AddTime()'>add</i>
-                <div ng-repeat="(i, time) in ctrl.newTimes track by $index">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Día</span>
-                        <tags-input data-ng-model="ctrl.selectedDays[i]"
-                                    add-on-enter="true"
-                                    on-tag-added="ctrl.onTagAdded($tag)"
-                                    key-property="IdDiaSemana"
-                                    placeholder="Agregar día"
-                                    replace-spaces-with-dashes="false"
-                                    class="form-row29"
-                                    display-property="NombreDiaESP"
-                                    style="height: 50px; width: 120px; min-width: 120px; margin-top: 0px !important; background-color: transparent; ">
-                            <auto-complete source="ctrl.selectionWeekDays"></auto-complete>
-                        </tags-input>
+                <div>
+                    <i class='material-icons' style='font-size:19px !important; font-weight: bold' ng-click='ctrl.AddTime()'>add</i>
+                    <div ng-repeat="(i, time) in ctrl.newTimes track by $index">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Día</span>
+                            <tags-input data-ng-model="ctrl.selectedDays[i]"
+                                        add-on-enter="true"
+                                        on-tag-added="ctrl.onTagAdded($tag)"
+                                        key-property="IdDiaSemana"
+                                        placeholder="Agregar día"
+                                        replace-spaces-with-dashes="false"
+                                        class="form-row29"
+                                        display-property="NombreDiaESP"
+                                        style="height: 50px; width: 120px; min-width: 120px; margin-top: 0px !important; background-color: transparent; ">
+                                <auto-complete source="ctrl.selectionWeekDays"></auto-complete>
+                            </tags-input>
 
-                        <span class="input-group-text">Horario</span>
-                        <textarea data-ng-model="ctrl.selectedHours[i]" type="text" class="form-control" aria-label="Longitud"></textarea>
-                        <div id="ayuda-correo" class="form-text">
-                            Seleccione un día y agregue los horarios disponibles separados por coma.
+                            <span class="input-group-text">Horario</span>
+                            <textarea data-ng-model="ctrl.selectedHours[i]" type="text" class="form-control" aria-label="Longitud"></textarea>
+                            <div id="ayuda-correo" class="form-text">
+                                Seleccione un día y agregue los horarios disponibles separados por coma.
+                            </div>
                         </div>
                     </div>
                 </div>

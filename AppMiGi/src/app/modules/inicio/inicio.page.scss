@@ -51,3 +51,47 @@ padding-bottom: 0;
     width: 27%;
 }
 
+
+
+
+ion-content.background{
+    --background: url('/assets/im_bg.jpg') 0 0/100% 100% no-repeat;
+}
+
+.cardToDo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    width: 80%;
+    background:  rgba(255, 0, 0, 0); 
+    box-shadow: none !important;
+}
+
+.btnLangHome{
+    --color:black;
+}
+
+.mainToDo{
+
+    font-family: Poppins-SemiBold;
+    font-size: 30pt;
+    --color :  white;
+    text-align: center;
+    color: white;
+
+}
+
+.iconToDo{
+    font-size: 80px !important;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+hr.line {
+    border: 1px solid white;
+    border-radius: 3px; 
+    background: white; 
+}
