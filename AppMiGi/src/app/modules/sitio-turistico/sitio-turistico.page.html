@@ -28,10 +28,6 @@
   <ion-item lines="none">
     <app-calificacion calValueInput="3.5"></app-calificacion>
   </ion-item>
-  CALIFICACIÓN TEST - {{itemData.calificacionComentario}}
-  <ion-item lines="none">
-    <app-calificacioninput (calValueOutput)="cambiarCalificacion(itemData, $event)"></app-calificacioninput>
-  </ion-item>
   <ion-item lines="none">
     <p class="mainResume">{{lang == 'ENG' ? itemData.DescripcionENG : itemData.DescripcionESP}}</p>
   </ion-item>
@@ -62,7 +58,44 @@
   <ion-accordion title="{{lang == 'ENG' ? 'Comments' : 'Comentarios'}}" openIcon="arrow-up" closeIcon="arrow-down"
     classTitle="border-header" class="accordion mainSubtitle">
     <div class="accordionContent">
-      <ion-label>{{lang == 'ENG' ? "Comments" : "Comentarios"}}</ion-label>
+      <div *ngIf="habilitarOpinion==false">
+        <ion-card>
+          <ion-card-content style="background-color: #e8e8e8;">
+              <ion-row>
+                <ion-col md="3">
+                  <h1 style="margin-left: -6px;">{{itemData.PromCalificacion}}</h1>
+                </ion-col>
+                <ion-col md="6">
+                  <app-calificacion calValueInput="3.5"></app-calificacion>
+                </ion-col>
+                <ion-col md="3">
+                  <ion-button color="primary" style="font-size: 6px;" (click)="setHabilitarOpinion(true)"> Dar mi opinión </ion-button>
+                </ion-col>
+              </ion-row>
+          </ion-card-content>
+        </ion-card>
+        <ion-list *ngFor="let cal of itemData.Comentarios">
+          <ion-card>
+            <ion-card-content style="background-color: #e8e8e8;">
+                <ion-row>
+                  <ion-col md="6">
+                    <h1 style="margin-left: -6px;">{{cal.Usuario}}</h1>
+                  </ion-col>
+                  <ion-col md="6">
+                    <app-calificacion calValueInput="{{cal.Calificacion}}"></app-calificacion>
+                  </ion-col>
+                </ion-row>
+                <p>{{cal.Comentario}}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-list>
+      </div>
+      <div *ngIf="habilitarOpinion==true">
+        <app-calificacioninput (calValueOutput)="cambiarCalificacion(itemData, $event)"></app-calificacioninput>
+        <ion-input aria-placeholder="Comentario"></ion-input>
+        <ion-button color="primary" (click)="setHabilitarOpinion(false)">Guardar</ion-button>
+      </div>
+      
     </div>
   </ion-accordion>
   <div *ngIf="categoria=='SDM'">
