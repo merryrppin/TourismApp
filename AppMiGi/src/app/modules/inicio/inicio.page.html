@@ -43,7 +43,8 @@
   <ion-toolbar *ngIf="visible" >
    
     <ion-row style="background:  rgba(255, 0, 0, 0); ">
-     
+
+      <ion-col sizeLg="4">
         <ion-card class="cardMenu"  (click)="getMenu('DEF')">
          
           <ion-card-content class="homeSubtitle">
@@ -55,22 +56,35 @@
           </ion-card-content>
         
         </ion-card>
-        
-    
+
+      </ion-col>
+
+      
+      <ion-col sizeLg="4">
+ 
         <ion-card class="cardMenu"  (click)="enviarParametroGeneral('LGI')">
           
           <ion-card-content class="homeSubtitle">
             
                <ion-icon src="../../assets/icon_imperdibles-blue.svg"></ion-icon>
                 
-               <ion-label>{{lang==="ENG" ? "Unmissable" : "Lugares"}} </ion-label>          
-               <ion-label>{{lang==="ENG" ? "Places" : "Imperdibles"}} </ion-label>       
+               <p class="homeSubtitle pMargins">
+                <ion-label>{{lang==="ENG" ? "Unmissable" : "Lugares"}} </ion-label>     
+               </p>
+                   
+               <p class="homeSubtitle pMargins">  <ion-label>{{lang==="ENG" ? "Places" : "Imperdibles"}} </ion-label>  </p>
+
               
           
           </ion-card-content>
         
-        </ion-card>        
-  
+        </ion-card>     
+
+      </ion-col>
+
+      
+      <ion-col sizeLg="4">
+
         <ion-card class="cardMenu" (click)="enviarParametroGeneral('FTS')">
         
           <ion-card-content class="homeSubtitle">
@@ -88,6 +102,13 @@
      
       </ion-card>   
 
+
+      </ion-col>
+     
+     
+        
+      
+  
     </ion-row>
   
   </ion-toolbar>
