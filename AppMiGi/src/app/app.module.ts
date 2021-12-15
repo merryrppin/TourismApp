@@ -12,16 +12,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 
-import {HttpClientModule } from "@angular/common/http"
+import { HttpClientModule } from "@angular/common/http"
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
-@NgModule({ 
+
+import { Camera } from '@ionic-native/camera/ngx'
+import { File } from '@ionic-native/file/ngx'
+@NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [HttpClientModule, BrowserModule, BrowserAnimationsModule, IonicModule.forRoot(), AppRoutingModule, IonicModule],
-  providers: [GooglePlus, Facebook, Geolocation, NativeGeocoder, LocationAccuracy, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },NavParams],
+  providers: [GooglePlus, Facebook, Geolocation, NativeGeocoder, LocationAccuracy, Camera, File, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, NavParams],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

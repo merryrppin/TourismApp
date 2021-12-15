@@ -16,7 +16,6 @@ export class PerfilPage implements OnInit {
   loading: any;
   user: any;
   lang: string;
-  txtCerrarSesion: string;
 
   constructor(
     private generalService: GeneralService,
@@ -32,8 +31,7 @@ export class PerfilPage implements OnInit {
     this.generalService.languageChangeSubject.subscribe((value) =>{
       this.lang = value;
     });
-    this.txtCerrarSesion = this.lang == 'ENG' ? "LOGOUT" : "CERRAR SESIÓN",
-      this.loadUser();
+    this.loadUser();
   }
 
   emptyUser() {
@@ -54,6 +52,11 @@ export class PerfilPage implements OnInit {
       this.emptyUser();
       this.goToLoginPage();
     }
+  }
+
+  cambiarIdioma() {
+    this.lang = this.lang === "ENG" ? "ESP" : "ENG";
+    this.generalService.setCurrentLanguage(this.lang);
   }
 
   async cerrarSesion() {
@@ -96,7 +99,7 @@ export class PerfilPage implements OnInit {
   }
 
   showErrorMessage(message: string) {
-    this.generalService.showToastError(message, 3500)
+    this.generalService.showToastError(message, 3500);
   }
 
   logoutGoogle() {

@@ -1,6 +1,15 @@
-<ion-header>
+<ion-header class="genHeader">
   <ion-toolbar>
-    <ion-title>perfil</ion-title>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="2">
+        </ion-col>
+        <ion-col size="8"></ion-col>
+        <ion-col size="2">
+          <ion-button (click)="cambiarIdioma()" class="btnLang btnLangHome">{{lang}}</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
 
@@ -17,6 +26,6 @@
       <h3 class="name">{{user.GivenName}} {{user.FamilyName}}</h3>
       <h5 class="email">{{user.Email}}</h5>
     </div>
-    <ion-button (click)="cerrarSesion()" expand="block" color="danger">{{txtCerrarSesion}}</ion-button>
+    <ion-button (click)="cerrarSesion()" expand="block" color="danger">{{this.lang == 'ENG' ? "LOGOUT" : "CERRAR SESIÓN"}}</ion-button>
   </div>
 <ion-content>

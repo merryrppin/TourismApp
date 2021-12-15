@@ -10,8 +10,8 @@ BEGIN
     DECLARE @SavedSesionIdTable AS TABLE (SavedSesionId UNIQUEIDENTIFIER);
     DECLARE @NewIdSession UNIQUEIDENTIFIER = (SELECT NEWID());
 
-    INSERT INTO #DatosUsuario([IdToken], [GivenName], [FamilyName], [Email], LoginType)
-    SELECT IdToken, GivenName, FamilyName, Email, LoginType
+    INSERT INTO #DatosUsuario([IdToken], [GivenName], [FamilyName], [Email], ImageUrl, LoginType)
+    SELECT IdToken, GivenName, FamilyName, Email, ImageUrl, LoginType
     FROM OPENJSON(@jsonDatosUsuario)
         WITH (
           IdToken VARCHAR(MAX) 'strict $.IdToken',

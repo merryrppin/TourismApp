@@ -102,6 +102,8 @@
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\GuardarGaleriaFotos.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\EliminarSitioTuristico.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\EliminarHorario.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Tables\tblComentariosSitioTuristico.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\GuardarComentariosSitioTuristico.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Objects\PostDeployment\Postdeployment.sql" />

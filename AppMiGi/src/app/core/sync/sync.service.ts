@@ -131,6 +131,26 @@ export class SyncService {
     return data;
   }
 
+  async GuardarComentarios(objComentarios: any) {
+    let jsonComentario = JSON.stringify(objComentarios);
+    let re = /\"/gi;
+    jsonComentario = jsonComentario.replace(re, "'");
+    const dataSync = '{"StoredParams":[{ "Name":"JsonComentarios", "TypeOfParameter": 5, "Value":"' + jsonComentario + '"}],"StoredProcedureName":"GuardarComentariosSitioTuristico"}';
+    const sasUriBlob = this.urlApi + "";
+    let header = new HttpHeaders();
+    header = header.set("Content-Type", "application/json; charset=UTF-8");
+    let data = await this.http.post<any>(
+      {
+        Uri: sasUriBlob,
+        controller: "",
+        action: "",
+        body: dataSync,
+        headers: header
+      }
+    )
+    return data;
+  }
+
   async GetSesionUsuarioApp(IdSesion: string) {
     const dataSync = '{"StoredParams":[{ "Name":"IdSesion", "Value":"' + IdSesion + '"}],"StoredProcedureName":"ObtenerSesionUsuarioApp"}';
     const sasUriBlob = this.urlApi + "";
