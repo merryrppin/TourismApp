@@ -53,7 +53,7 @@ export class SitioTuristicoPage {
       this.generalService.getDataPromise("sitiosTuristicos").then((res) => {
         this.sitiosTuristicos = JSON.parse(res.value);
         this.itemData = this.sitiosTuristicos.find(x => x.IdSitioTuristico == this.IdSitioTuristico);
-        this.itemData.Comentarios = ""//JSON.parse(this.itemData.Comentarios);
+        this.itemData.Comentarios = JSON.parse(this.itemData.Comentarios);
       });
     });
     this.showSlides();
