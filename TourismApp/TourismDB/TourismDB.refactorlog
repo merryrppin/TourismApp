@@ -14,4 +14,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="IdSitioTuristico" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="a78cd00c-8fdf-416e-bc24-1f92b1f2f625" ChangeDateTime="12/15/2021 20:49:33">
+    <Property Name="ElementName" Value="[dbo].[tblComentariosSitioTuristico].[img1Aprovada]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblComentariosSitioTuristico]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="img1Aprobada" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="16dc4a77-3d10-41bd-9f69-de520ce4a245" ChangeDateTime="12/15/2021 20:49:35">
+    <Property Name="ElementName" Value="[dbo].[tblComentariosSitioTuristico].[img2Aprovada]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblComentariosSitioTuristico]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="img2Aprobada" />
+  </Operation>
 </Operations>

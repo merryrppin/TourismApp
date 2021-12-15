@@ -7,9 +7,9 @@
 	[Calificacion] INT NOT NULL,
 	[Comentarios] VARCHAR(MAX) NOT NULL,
 	[img1] VARCHAR(MAX),
-	[img1Aprovada] BIT DEFAULT(0),
+	[img1Aprobada] BIT DEFAULT(0),
 	[img2] VARCHAR(MAX),
-	[img2Aprovada] BIT DEFAULT(0), 
+	[img2Aprobada] BIT DEFAULT(0), 
 	[DiaRegistro] DATETIME NOt NULL DEFAULT(GETDATE()),
     CONSTRAINT [FK_tblComentariosSitioTuristico_tblSitioTuristico] FOREIGN KEY ([IdSitioTuristico]) REFERENCES [tblSitioTuristico]([IdSitioTuristico])
 )

@@ -20,7 +20,7 @@ AS BEGIN
     USING (SELECT IdSitioTuristico, Email, LoginType, Calificacion, Comentarios, img1, img2 FROM #ComentariosSitioTuristico) AS InputData
     ON (ComentariosST.Email = InputData.Email AND ComentariosST.LoginType = InputData.LoginType AND ComentariosST.IdSitioTuristico = InputData.IdSitioTuristico)
     WHEN MATCHED THEN
-        UPDATE SET ComentariosST.DiaRegistro = GETDATE(), ComentariosST.img1 = InputData.img1, ComentariosST.img2 = InputData.img2, ComentariosST.Comentarios = InputData.Comentarios, ComentariosST.img1Aprovada = 0, ComentariosST.img2Aprovada = 0, 
+        UPDATE SET ComentariosST.DiaRegistro = GETDATE(), ComentariosST.img1 = InputData.img1, ComentariosST.img2 = InputData.img2, ComentariosST.Comentarios = InputData.Comentarios, ComentariosST.img1Aprobada = 0, ComentariosST.img2Aprobada = 0, 
             ComentariosST.Calificacion = InputData.Calificacion 
     WHEN NOT MATCHED THEN
         INSERT(IdSitioTuristico, Email, LoginType, Calificacion, Comentarios, img1, img2)
