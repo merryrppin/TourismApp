@@ -10,6 +10,7 @@ import { SitioTuristicoPage } from './sitio-turistico.page';
 import { IonAccordionModule } from 'src/app//Shared/ion-accordion/ion-accordion.module';
 import { CalificacionModule } from 'src/app/shared/calificacion/calificacion.module';
 import { CalificacioninputModule } from '../../shared/calificacioninput/calificacioninput.module';
+import { NgxIonicImageViewerModule } from 'ngx-ionic-image-viewer';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { CalificacioninputModule } from '../../shared/calificacioninput/califica
     SitioTuristicoPageRoutingModule,
     IonAccordionModule,
     CalificacionModule,
-    CalificacioninputModule
+    CalificacioninputModule,
+    NgxIonicImageViewerModule
   ],
   declarations: [SitioTuristicoPage]
 })

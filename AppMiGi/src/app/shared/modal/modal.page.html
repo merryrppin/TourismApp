@@ -1,0 +1,14 @@
+<ion-header>
+ 
+</ion-header>
+
+<ion-content>
+
+  <ion-slides class="imageCenter" #slides effect="coverflow" [options]="mySlideOptions">
+    <ion-slide *ngFor="let item of images" >
+      <img class="card-img" src="{{item}}" />
+    </ion-slide>
+  </ion-slides>
+
+
+</ion-content>

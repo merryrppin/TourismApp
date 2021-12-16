@@ -28,29 +28,41 @@
   <ion-item lines="none">
     <app-calificacion calValueInput="3.5"></app-calificacion>
   </ion-item>
-  <ion-item lines="none">    
-    <ion-label class="mainResume" text-wrap>{{lang == 'ENG' ? itemData.DescripcionENG : itemData.DescripcionESP}}</ion-label>
+  <ion-item lines="none">
+    <ion-label class="mainResume" text-wrap>{{lang == 'ENG' ? itemData.DescripcionENG : itemData.DescripcionESP}}
+    </ion-label>
   </ion-item>
   <ion-accordion title="{{lang == 'ENG' ? 'Presentation' : 'Presentación'}}" classTitle="border-header"
     class="accordion">
     <div class="accordionContent">
-      <ion-label class="mainResume" text-wrap>{{lang == 'ENG' ? itemData.PresentacionENG : itemData.PresentacionESP}}</ion-label>
+      <ion-label class="mainResume" text-wrap>{{lang == 'ENG' ? itemData.PresentacionENG : itemData.PresentacionESP}}
+      </ion-label>
     </div>
   </ion-accordion>
   <ion-accordion title="{{lang == 'ENG' ? 'Eucharist Schedule' : 'Horarios eucaristias'}}" classTitle="border-header"
     class="accordion">
     <div class="accordionContent">
-      <ion-label class="mainResume" text-wrap>{{lang == 'ENG' ? "Eucharist Schedule" : "Horarios eucaristias"}}</ion-label>
+      <ion-label class="mainResume" text-wrap>{{lang == 'ENG' ? "Eucharist Schedule" : "Horarios eucaristias"}}
+      </ion-label>
     </div>
   </ion-accordion>
   <ion-accordion title="{{lang == 'ENG' ? 'Galery' : 'Galería'}}" classTitle="border-header" class="accordion">
     <div class="accordionContent">
-      <ion-label  class="mainResume" text-wrap>{{lang == 'ENG' ? "Galery" : "Galería"}}</ion-label>
+      <ion-row > 
+
+        <ion-col *ngFor="let item of items; let i = index"  size-lg="4" size-md="4" size-sm="4" size-xs="4">
+         
+         <ion-thumbnail (click)="abrirModal(i)">
+            <ion-img   src="../../assets/img_catedral.jpg"  ></ion-img>
+          </ion-thumbnail> 
+        </ion-col>
+      </ion-row>
+
     </div>
   </ion-accordion>
   <ion-accordion title="{{lang == 'ENG' ? 'How to get' : 'Como llegar'}}" classTitle="border-header" class="accordion">
     <div class="accordionContent">
-      <ion-label  class="mainResume" text-wrap>{{lang == 'ENG' ? itemData.RutaENG : itemData.RutaESP}}</ion-label>
+      <ion-label class="mainResume" text-wrap>{{lang == 'ENG' ? itemData.RutaENG : itemData.RutaESP}}</ion-label>
     </div>
   </ion-accordion>
   <ion-accordion title="{{lang == 'ENG' ? 'Comments' : 'Comentarios'}}" classTitle="border-header" class="accordion">
@@ -90,12 +102,14 @@
       </div>
       <div *ngIf="habilitarOpinion==true">
         <app-calificacioninput (calValueOutput)="cambiarCalificacion($event)"></app-calificacioninput>
-        <ion-textarea name="comentarios" [(ngModel)]="commentsST" rows="4" placeholder="{{lang == 'ENG' ? 'Comments' : 'Comentarios'}}"></ion-textarea>
+        <ion-textarea name="comentarios" [(ngModel)]="commentsST" rows="4"
+          placeholder="{{lang == 'ENG' ? 'Comments' : 'Comentarios'}}"></ion-textarea>
 
         <ion-grid>
           <ion-row>
             <ion-col class="ion-text-center">
-              <ion-button color="primary" (click)="enviarComentarios()">{{lang == 'ENG' ? "Send Comments" : "Enviar comentarios"}}
+              <ion-button color="primary" (click)="enviarComentarios()">{{lang == 'ENG' ? "Send Comments" : "Enviar
+                comentarios"}}
               </ion-button>
             </ion-col>
           </ion-row>

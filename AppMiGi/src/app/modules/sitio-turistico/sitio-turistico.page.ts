@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx'
 
 import { ActivatedRoute } from "@angular/router";
 import { GeneralService } from '../../core/General/general.service';
 import { SyncService } from '../../core/sync/sync.service';
 import { NavigationExtras } from '@angular/router';
-import { ActionSheetController, NavController } from '@ionic/angular';
+import { ActionSheetController, IonSlides, NavController } from '@ionic/angular';
 
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
+import { ModalController } from '@ionic/angular';
+import {ModalPage} from  'src/app/shared/modal/modal.page'
+import { ViewerModalComponent } from 'ngx-ionic-image-viewer';
+
 
 @Component({
   selector: 'app-sitio-turistico',
@@ -32,6 +36,7 @@ export class SitioTuristicoPage {
   commentsST: string;
   calificacionComentario: string;
   user: any;
+  items: string[] =  ["../../assets/img_catedral.jpg", "../../assets/img_senorcaido.jpg", "../../assets/img_procesion.jpg"]
 
   constructor(private geolocation: Geolocation,
     private syncService: SyncService,
@@ -41,7 +46,8 @@ export class SitioTuristicoPage {
     private camera: Camera,
     private file: File,
     public actionSheetController: ActionSheetController,
-    private storage: StorageService) {
+    private storage: StorageService,
+    public modalController: ModalController ) {
     this.imgComentario1 = this.imageFileDefault;
     this.imgComentario2 = this.imageFileDefault;
     this.calificacionComentario = "5";
@@ -59,6 +65,8 @@ export class SitioTuristicoPage {
     this.showSlides();
     this.loadUserInfo();
   }
+
+  @ViewChild(IonSlides) slides: IonSlides;
 
   async loadUserInfo() {
     await this.openLoading().then(async () => {
@@ -199,5 +207,40 @@ export class SitioTuristicoPage {
     }
     this.loading.dismiss();
   }
+
+  async abrirModal( index : number){
+    const  modal = await this.modalController.create({
+      component: ModalPage,
+      componentProps: {
+        images: this.items,
+        index : index
+      }
+    });
+
+    return await modal.present();
+    
+  }
+
+  next() {
+    this.slides.slideNext();
+  }
+
+  prev() {
+    this.slides.slidePrev();
+  }
+
+  // async openViewer(url :string) {
+  //   const modal = await this.modalController.create({
+  //     component: ViewerModalComponent,
+  //     componentProps: {
+  //       src: url
+  //     },
+  //     cssClass: 'ion-img-viewer',
+  //     keyboardClose: true,
+  //     showBackdrop: true
+  //   });
+ 
+  //   return await modal.present();
+  // }
 
 }
