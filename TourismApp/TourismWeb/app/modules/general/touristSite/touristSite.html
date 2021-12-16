@@ -40,7 +40,7 @@
                     <label for="mensaje" class="form-label">Presentación</label>
                     <textarea ng-model="ctrl.presentationNameESP" class="form-control" name="mensaje" id="mensaje"></textarea>
                     <div id="ayuda-correo" class="form-text">
-                        Digite la descripción en lenguaje español.
+                        *Digite la presentación en lenguaje español.
                     </div>
                 </div>
 
@@ -89,11 +89,6 @@
                     </div>
                 </div>
 
-                <div class="form-check form-switch">
-                    <input ng-model="ctrl.safetyPin" type="checkbox" name="switch-1" class="form-check-input" id="switch-1">
-                    <label for="switch-1" class="form-check-label">Imperdible</label>
-                </div>
-
                 <div class="mb-2">
                     <button ng-click="ctrl.saveTouristSite()" type="button" class="btn btn-primary">
                         Guardar cambios
@@ -116,7 +111,7 @@
                     <label for="mensaje" class="form-label">Presentación</label>
                     <textarea ng-model="ctrl.presentationNameENG" class="form-control" name="mensaje" id="mensaje"></textarea>
                     <div id="ayuda-correo" class="form-text">
-                        Digite la descripción en lenguaje ingles.
+                        Digite la presentación en lenguaje ingles.
                     </div>
                 </div>
 
@@ -124,7 +119,7 @@
                     <label for="mensaje" class="form-label">Descripción</label>
                     <textarea ng-model="ctrl.descriptionENG" class="form-control" name="mensaje" id="mensaje"></textarea>
                     <div id="ayuda-correo" class="form-text">
-                        Digite la descripción en lenguaje ingles.
+                        *Digite la descripción en lenguaje ingles.
                     </div>
                 </div>
 
@@ -145,39 +140,16 @@
                     </div>
                 </div>
 
-                <div>
-                    <i class='material-icons' style='font-size:19px !important; font-weight: bold' ng-click='ctrl.AddTime()'>add</i>
-                    <div ng-repeat="(i, time) in ctrl.newTimes track by $index">
-                        <i class='material-icons' style='font-size:19px !important; font-weight: bold' title="Eliminar horario" ng-click='ctrl.deleteTime(time,i)'>delete_forever</i>
-                        <span class="glyphicon glyphicon-minus"></span>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">Día</span>
-                            <tags-input data-ng-model="ctrl.selectedDays[i]"
-                                        add-on-enter="true"
-                                        on-tag-added="ctrl.onTagAdded($tag)"
-                                        key-property="IdDiaSemana"
-                                        placeholder="Agregar día"
-                                        replace-spaces-with-dashes="false"
-                                        class="form-row29"
-                                        display-property="NombreDiaESP"
-                                        style="height: 50px; width: 120px; min-width: 120px; margin-top: 0px !important; background-color: transparent; ">
-                                <auto-complete source="ctrl.selectionWeekDays"></auto-complete>
-                            </tags-input>
-
-                            <span class="input-group-text">Horario</span>
-                            <textarea data-ng-model="ctrl.selectedHours[i]" type="text" class="form-control" aria-label="Longitud"></textarea>
-                            <div id="ayuda-correo" class="form-text">
-                                Seleccione un día y agregue los horarios disponibles separados por coma.
-                            </div>
-                        </div>
-                    </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Horario:</span>
+                    <textarea ng-model="ctrl.time"  class="form-control" name="" id="label-notas" aria-label="Notas"></textarea>
                 </div>
 
                 <div class="mb-2">
                     <div class="input-group">
-                        <span class="input-group-btn">
+                        <span ng-disabled="ctrl.IdSitioTuristico == ''"  class="input-group-btn">
                             <span class="btn btn-primary btn-file">
-                                Buscar imagenes...<input type="file" multiple my-directory="ctrl.getFiles(file)" ng-disabled="ctrl.uploading" />
+                                Buscar imagenes...<input type="file" multiple my-directory="ctrl.getFiles(file)" ng-disabled="ctrl.uploading"  />
                             </span>
                         </span>
                         <input type="text" ng-model="ctrl.countFiles" class="form-control" readonly>
@@ -198,18 +170,18 @@
                     <div class="input-group">
                         <span class="input-group-btn">
                             <span class="btn btn-primary btn-file">
-                                Buscar imagen .gpx...<input type="file" multiple my-directory="ctrl.getFileGpx(file)" ng-disabled="ctrl.uploading" />
+                                Buscar archivo .gpx...<input type="file" multiple my-directory="ctrl.getFileGpx(file)" ng-disabled="ctrl.uploading" />
                             </span>
                         </span>
                         <input type="text" ng-model="ctrl.countFilesGpx" class="form-control" readonly>
 
                     </div>
                     <div id="ayuda-correo" class="form-text">
-                        Seleccione la imagen .gpx a cargar.
+                        Seleccione archivo gpx a cargar.
                     </div>
-                    <input style="margin-top: 10px;" type="button" class="btn btn-default  btn-primary" ng-click="ctrl.uploadFiles('tmpGPX')" value="Cargar imagen .gpx" ng-disabled="ctrl.uploading || ctrl.countFilesGpx==='' ||  ctrl.IdSitioTuristico == ''" />
+                    <input style="margin-top: 10px;" type="button" class="btn btn-default  btn-primary" ng-click="ctrl.uploadFiles('tmpGPX')" value="Cargar archivo .gpx" ng-disabled="ctrl.uploading || ctrl.countFilesGpx==='' ||  ctrl.IdSitioTuristico == ''" />
 
-                    <div ng-repeat="file in ctrl.data ">
+                    <div ng-repeat="file in ctrl.dataGpx">
                         {{file.FileName  + '  ' + file.FileLength + ' bytes'  }}
                     </div>
 

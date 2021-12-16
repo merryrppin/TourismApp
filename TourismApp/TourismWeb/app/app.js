@@ -31,7 +31,7 @@ angular
 
     .factory('UserService', function () {
         return {
-            ApiUrl: 'http://testappservicewf.azurewebsites.net/api/tourism'
+            ApiUrl: 'http://testappservicewf.azurewebsites.net/api/tourism'  //'https://localhost:44355/api/tourism'
         };
     })
 
@@ -52,7 +52,7 @@ angular
                 controller: "religiousController",
                 controllerAs: 'ctrl',
                 templateUrl: 'app/modules/general/religious/religious.html'
-              
+
             })
             .when('/hiking', {
                 controller: "hikingController",

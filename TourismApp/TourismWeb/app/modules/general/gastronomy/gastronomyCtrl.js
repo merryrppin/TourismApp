@@ -56,8 +56,7 @@ function gastronomyController($scope, UserService,$window, $filter, $timeout, $l
     }
 
     ctrl.modifiedSite = function (ev, data) {
-        let gastronomyTime = ctrl.gastronomyTime.filter(x => x.IdSitioTuristico == data.IdSitioTuristico);
-        let modifiedSite = { 'Code': ctrl.CodeGastronomy, 'Name': 'Gastronomicos', 'fileName': 'gastronomy', 'data': data, 'time': gastronomyTime };
+        let modifiedSite = { 'Code': ctrl.CodeGastronomy, 'Name': 'Gastronomicos', 'fileName': 'gastronomy', 'data': data};
         $location.path('/touristSite/GTM').search({ param: modifiedSite });
     }
 
@@ -77,7 +76,6 @@ function gastronomyController($scope, UserService,$window, $filter, $timeout, $l
                 if (response.exception == null) {
                     ctrl.gastronomyGrid.api.setRowData([]);
                     ctrl.gastronomyData = ctrl.transformRespond(response.value[0]);
-                    ctrl.gastronomyTime = ctrl.transformRespond(response.value[1]);
                     ctrl.gastronomyGrid.api.setRowData(ctrl.gastronomyData);
                     ctrl.resizeGrid();
                 } else {
@@ -104,7 +102,7 @@ function gastronomyController($scope, UserService,$window, $filter, $timeout, $l
             headerName: "Nombre",
             field: "NombreSitioTuristicoESP",
             width: 110,
-            cellStyle: { 'text-align': 'center' },
+            cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             filter: true
@@ -113,7 +111,7 @@ function gastronomyController($scope, UserService,$window, $filter, $timeout, $l
             headerName: "Descripcion",
             field: "DescripcionESP",
             width: 120,
-            cellStyle: { 'text-align': 'center' },
+            cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             filter: true
@@ -147,7 +145,7 @@ function gastronomyController($scope, UserService,$window, $filter, $timeout, $l
             headerName: "Latitud",
             field: "Latitud",
             width: 100,
-            cellStyle: { 'text-align': 'center' },
+            cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             filter: true,
@@ -157,17 +155,16 @@ function gastronomyController($scope, UserService,$window, $filter, $timeout, $l
             headerName: "Longitud",
             field: "Longitud",
             width: 100,
-            cellStyle: { 'text-align': 'center' },
+            cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             filter: true
         },
-
         {
-            headerName: "Icono marcador",
-            field: "IconoMarcador",
+            headerName: "Dirección",
+            field: "DireccionESP",
             width: 120,
-            cellStyle: { 'text-align': 'right' },
+            cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             editable: false,
@@ -176,8 +173,8 @@ function gastronomyController($scope, UserService,$window, $filter, $timeout, $l
         {
             headerName: "Edición",
             field: "Options",
-            width: 200,
-            cellStyle: { 'text-align': 'center' },
+            width: 150,
+            cellStyle: { 'text-align': 'left' },
             resizable: true,
             editable: false,
             sortable: false,
