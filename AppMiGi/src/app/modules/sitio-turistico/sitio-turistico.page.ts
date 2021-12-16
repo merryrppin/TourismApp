@@ -63,9 +63,10 @@ export class SitioTuristicoPage {
         this.itemData = this.sitiosTuristicos.find(x => x.IdSitioTuristico == this.IdSitioTuristico);
         this.itemData.Comentarios = this.itemData.Comentarios !== "" ? JSON.parse(this.itemData.Comentarios) : [];
         this.calValueInputGen = this.itemData.PromCalificacion.toString();
+        this.itemData.Imagenes = this.itemData.Imagenes !== "" ? JSON.parse(this.itemData.Imagenes) : [];
       });
     });
-    this.showSlides();
+
     this.loadUserInfo();
   }
 
@@ -86,13 +87,7 @@ export class SitioTuristicoPage {
   }
 
   showSlides() {
-    this.mainPredictionArray = [
-      { "header": "Catedral nuestra señora del rosario", "predictionImageURL": "../../assets/img_catedral.jpg", "subject": "Un maravilloso lugar lleno de magia, paz y sobre todo de una devoción religiosa única. Con un estilo único e inigualable es uno de los lugares mas frecuentado en girardota" },
-
-      { "header": "Milan Marvadi", "predictionImageURL": "../../assets/img_senorcaido.jpg", "subject": " Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836. " },
-
-      { "header": "Shailesh Kotho", "predictionImageURL": "../../assets/img_procesion.jpg", "subject": " Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836. " }
-    ]
+    this.itemData.Imagenes;
   }
 
   mejorRuta(item: any, type: number) {
