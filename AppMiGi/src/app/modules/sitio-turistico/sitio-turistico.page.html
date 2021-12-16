@@ -25,8 +25,11 @@
   <ion-item lines="none">
     <h1 class="mainTitle"> {{lang == 'ENG' ? itemData.NombreSitioTuristicoENG : itemData.NombreSitioTuristicoESP}}</h1>
   </ion-item>
-  <ion-item lines="none">
-    <app-calificacion calValueInput="3.5"></app-calificacion>
+  <ion-item lines="none" *ngIf="calValueInputGen == ''">
+    {{lang == 'ENG' ? "No qualifications" : "Sin calificación"}}
+  </ion-item>
+  <ion-item lines="none" *ngIf="calValueInputGen != ''">
+    <app-calificacion calValueInput="{{calValueInputGen}}"></app-calificacion>
   </ion-item>
   <ion-item lines="none">    
     <ion-label class="mainResume" text-wrap>{{lang == 'ENG' ? itemData.DescripcionENG : itemData.DescripcionESP}}</ion-label>
@@ -59,15 +62,24 @@
         <ion-card>
           <ion-card-content style="background-color: #e8e8e8;">
             <ion-row>
-              <ion-col md="3">
-                <h1 style="margin-left: -6px;">{{itemData.PromCalificacion}}</h1>
+              <ion-col size="2">
+                <h1 style="margin-left: -6px;">{{calValueInputGen}}</h1>
               </ion-col>
-              <ion-col md="6">
-                <app-calificacion calValueInput="3.5"></app-calificacion>
+              <ion-col size="7">
+                <ion-grid>
+                  <ion-row>
+                    <ion-col *ngIf="calValueInputGen == ''"></ion-col>
+                    <ion-col *ngIf="calValueInputGen != ''">
+                      <app-calificacion calValueInput="{{calValueInputGen}}"></app-calificacion>                      
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col> {{itemData.TotalComentarios}} {{lang == 'ENG' ? "Comments" : "Comentarios"}} </ion-col>
+                  </ion-row>
+                </ion-grid>
               </ion-col>
-              <ion-col md="3">
-                <ion-button color="primary" style="font-size: 6px;" (click)="setHabilitarOpinion(true)"> {{lang == 'ENG'
-                  ? "Give my opinion" : "Dar mi opinión"}} </ion-button>
+              <ion-col size="3">
+                <ion-button color="primary" style="font-size: 6px;" (click)="setHabilitarOpinion(true)"> {{lang == 'ENG' ? "Give my opinion" : "Dar mi opinión"}} </ion-button>
               </ion-col>
             </ion-row>
           </ion-card-content>
@@ -76,14 +88,23 @@
           <ion-card>
             <ion-card-content style="background-color: #e8e8e8;">
               <ion-row>
-                <ion-col md="6">
-                  <h1 style="margin-left: -6px;">{{cal.Usuario}}</h1>
+                <ion-col size="8">
+                  <h1 style="margin-left: -6px;">{{cal.NombreCompleto}}</h1>
                 </ion-col>
-                <ion-col md="6">
+                <ion-col size="4">
                   <app-calificacion calValueInput="{{cal.Calificacion}}"></app-calificacion>
                 </ion-col>
               </ion-row>
-              <p>{{cal.Comentario}}</p>
+              <ion-row>
+                <ion-col>
+                  <p>{{cal.Comentarios}}</p>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <h5>{{lang == 'ENG' ? "Visited this place on " : "Visitó este lugar el "}} {{cal.DiaRegistro}}</h5>
+                </ion-col>
+              </ion-row>
             </ion-card-content>
           </ion-card>
         </ion-list>

@@ -1,10 +1,10 @@
 ﻿CREATE PROCEDURE [dbo].[GuardarComentariosSitioTuristico]
 	@JsonComentarios VARCHAR(MAX)
 AS BEGIN
-	CREATE TABLE #ComentariosSitioTuristico([IdSitioTuristico] INT, [Email] VARCHAR(150), [LoginType] VARCHAR(50), [Calificacion] INT, [Comentarios] VARCHAR(MAX), [img1] VARCHAR(MAX), [img2] VARCHAR(MAX))
+	CREATE TABLE #ComentariosSitioTuristico([IdSitioTuristico] INT, [Email] VARCHAR(150), [LoginType] VARCHAR(50), [Calificacion] INT, [Comentarios] VARCHAR(MAX), [img1] VARCHAR(MAX), [img2] VARCHAR(MAX), [NombreCompleto] VARCHAR(MAX))
 
-	INSERT INTO #ComentariosSitioTuristico([IdSitioTuristico], [Email], [LoginType], [Calificacion], [Comentarios], [img1], [img2])
-    SELECT IdSitioTuristico, Email, LoginType, Calificacion, Comentarios, img1, img2
+	INSERT INTO #ComentariosSitioTuristico([IdSitioTuristico], [Email], [LoginType], [Calificacion], [Comentarios], [img1], [img2], [NombreCompleto])
+    SELECT IdSitioTuristico, Email, LoginType, Calificacion, Comentarios, img1, img2, NombreCompleto
     FROM OPENJSON(@JsonComentarios)
         WITH (
           IdSitioTuristico INT 'strict $.IdSitioTuristico',
@@ -13,11 +13,13 @@ AS BEGIN
           Calificacion INT 'strict $.Calificacion',
           Comentarios VARCHAR(MAX) 'strict $.Comentarios',
           img1 VARCHAR(MAX) 'strict $.img1',
-          img2 VARCHAR(MAX) 'strict $.img2'
+          img2 VARCHAR(MAX) 'strict $.img2',
+          NombreCompleto VARCHAR(MAX) 'strict $.NombreCompleto'
         );
 
-    INSERT INTO [tblComentariosSitioTuristico](IdSitioTuristico, Email, LoginType, Calificacion, Comentarios, img1, img2)
-    SELECT InputData.IdSitioTuristico, InputData.Email, InputData.LoginType, InputData.Calificacion, InputData.Comentarios, InputData.img1, InputData.img2 FROM #ComentariosSitioTuristico
+    INSERT INTO [tblComentariosSitioTuristico](IdSitioTuristico, Email, LoginType, Calificacion, Comentarios, img1, img2, NombreCompleto)
+    SELECT InputData.IdSitioTuristico, InputData.Email, InputData.LoginType, InputData.Calificacion, InputData.Comentarios, InputData.img1, InputData.img2, NombreCompleto 
+    FROM #ComentariosSitioTuristico AS InputData
 
     --MERGE [tblComentariosSitioTuristico] AS ComentariosST
     --USING (SELECT IdSitioTuristico, Email, LoginType, Calificacion, Comentarios, img1, img2 FROM #ComentariosSitioTuristico) AS InputData

@@ -29,9 +29,12 @@ export class SitioTuristicoPage {
   imageFileDefault: string = "../../../assets/default-img.png"
   imgComentario1: string;
   imgComentario2: string;
+  imgComentario1ToSave: string;
+  imgComentario2ToSave: string;
   commentsST: string;
   calificacionComentario: string;
   user: any;
+  calValueInputGen: string = "";
 
   constructor(private geolocation: Geolocation,
     private syncService: SyncService,
@@ -53,7 +56,8 @@ export class SitioTuristicoPage {
       this.generalService.getDataPromise("sitiosTuristicos").then((res) => {
         this.sitiosTuristicos = JSON.parse(res.value);
         this.itemData = this.sitiosTuristicos.find(x => x.IdSitioTuristico == this.IdSitioTuristico);
-        this.itemData.Comentarios = JSON.parse(this.itemData.Comentarios);
+        this.itemData.Comentarios = this.itemData.Comentarios !== "" ? JSON.parse(this.itemData.Comentarios) : [];
+        this.calValueInputGen = this.itemData.PromCalificacion.toString();
       });
     });
     this.showSlides();
@@ -136,8 +140,10 @@ export class SitioTuristicoPage {
       let imgInfo = 'data:image/jpeg;base64,' + imageData;
       if (posImg === 1) {
         this.imgComentario1 = imgInfo;
+        this.imgComentario1ToSave = imageData;
       } else if (posImg === 2) {
         this.imgComentario2 = imgInfo;
+        this.imgComentario2ToSave = imageData;
       }
     }, (err) => {
       // Handle error
@@ -184,15 +190,18 @@ export class SitioTuristicoPage {
         IdSitioTuristico: this.IdSitioTuristico,
         Comentarios: this.commentsST,
         Calificacion: this.calificacionComentario,
-        img1: this.imgComentario1 == this.imageFileDefault ? "" : this.imgComentario1,
-        img2: this.imgComentario2 == this.imageFileDefault ? "" : this.imgComentario2
+        img1: this.imgComentario1ToSave == this.imageFileDefault ? "" : this.imgComentario1ToSave,
+        img2: this.imgComentario2ToSave == this.imageFileDefault ? "" : this.imgComentario2ToSave,
+        NombreCompleto: this.user.GivenName + this.user.FamilyName
       }
       let data = await this.syncService.GuardarComentarios(objComentarios)
-      .then()
-      .catch((e) => {
-        this.loading.dismiss();
-        this.generalService.showToastError(e.message, 3500);
-      });
+        .then(()=>{
+          this.generalService.showToastSuccess(this.lang === "ENG" ? "Thanks for your comments" : "Gracias por tus comentarios", 3500);
+        })
+        .catch((e) => {
+          this.loading.dismiss();
+          this.generalService.showToastError(e.message, 3500);
+        });
     } else {
       let message = this.lang === "ENG" ? "There was a problem obtaining the user information, please try again later." : "Hubo un problema al obtener la información del usuario. Vuelva a intentarlo más tarde.";
       this.generalService.showToastError(message, 3500);
