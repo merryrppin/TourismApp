@@ -13,6 +13,7 @@
   <ItemGroup>
     <Folder Include="files\gastronomy\" />
     <Folder Include="files\hiking\" />
+    <Folder Include="files\commets\" />
     <Folder Include="files\religious\" />
     <Folder Include="files\tmpGPX\" />
   </ItemGroup>

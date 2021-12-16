@@ -56,8 +56,7 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
     }
 
     ctrl.modifiedSite = function (ev, data) {
-        let religiousTime = ctrl.religiousTime.filter(x => x.IdSitioTuristico == data.IdSitioTuristico);
-        let modifiedSite = { 'Code': ctrl.CodeReligious, 'Name': 'Religioso', 'fileName': 'religious', 'data': data, 'time': religiousTime };
+        let modifiedSite = { 'Code': ctrl.CodeReligious, 'Name': 'Religioso', 'fileName': 'religious', 'data': data};
         $location.path('/touristSite/RGS').search({ param: modifiedSite });
     }
 
@@ -77,7 +76,6 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
                 if (response.exception == null) {
                     ctrl.religiousGrid.api.setRowData([]);
                     ctrl.religiousData = ctrl.transformRespond(response.value[0]);
-                    ctrl.religiousTime = ctrl.transformRespond(response.value[1]);
                     ctrl.religiousGrid.api.setRowData(ctrl.religiousData);
                     ctrl.resizeGrid();
                 } else {
@@ -105,7 +103,7 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
             headerName: "Nombre",
             field: "NombreSitioTuristicoESP",
             width: 110,
-            cellStyle: { 'text-align': 'center' },
+            cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             editable: false,
@@ -115,7 +113,7 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
             headerName: "Descripcion",
             field: "DescripcionESP",
             width: 120,
-            cellStyle: { 'text-align': 'center' },
+            cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             editable: false,
@@ -152,7 +150,7 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
             headerName: "Latitud",
             field: "Latitud",
             width: 100,
-            cellStyle: { 'text-align': 'center' },
+            cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             filter: true,
@@ -163,7 +161,7 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
             headerName: "Longitud",
             field: "Longitud",
             width: 100,
-            cellStyle: { 'text-align': 'center' },
+            cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             editable: false,
@@ -171,10 +169,10 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
         },
 
         {
-            headerName: "Icono marcador",
-            field: "IconoMarcador",
+            headerName: "Dirección",
+            field: "DireccionESP",
             width: 120,
-            cellStyle: { 'text-align': 'right' },
+            cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             editable: false,
@@ -183,8 +181,8 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
         {
             headerName: "Edición",
             field: "Options",
-            width: 200,
-            cellStyle: { 'text-align': 'center' },
+            width: 150,
+            cellStyle: { 'text-align': 'left' },
             resizable: true,
             editable: false,
             sortable: false,

@@ -3,16 +3,16 @@ angular
     .module('tourismApp.touristSiteController', [])
     .controller('touristSiteController', touristSiteController);
 
-touristSiteController.$inject = ['$scope',  'UserService', '$rootScope', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
+touristSiteController.$inject = ['$scope', 'UserService', '$rootScope', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
 
-function touristSiteController($scope,  UserService, $rootScope, $window, $filter, $timeout, $location, GeneralService) {
+function touristSiteController($scope, UserService, $rootScope, $window, $filter, $timeout, $location, GeneralService) {
     let ctrl = this;
     ctrl.religiousData = [];
 
     if ($location.$$path != '/touristSite/:DEF') {
         ctrl.nameSite = $location.$$search.param.Name == undefined ? '' : $location.$$search.param.Name;
     } else {
-        ctrl.nameSite ='oficiales'
+        ctrl.nameSite = 'oficiales'
     }
 
     ctrl.title = `Sitio turistico ${ctrl.nameSite}`;
@@ -25,6 +25,7 @@ function touristSiteController($scope,  UserService, $rootScope, $window, $filte
     ctrl.countFiles = '';
     ctrl.countFilesGpx = '';
     ctrl.data = [];
+    ctrl.dataGpx = [];
     ctrl.formdata = new FormData();
     ctrl.selectedOptionTown = { IdMunicipio: null, NombreMunicipio: '' };
     ctrl.showHeking = false;
@@ -69,16 +70,17 @@ function touristSiteController($scope,  UserService, $rootScope, $window, $filte
         }
 
         angular.forEach(file, function (value, key) {
-            const renamedFile = new File([value], `${ctrl.IdSitioTuristico}`);
+            const renamedFile = new File([value], `${ctrl.IdSitioTuristico}.${value.name.split('.').pop()}`);
             ctrl.formdata.append("files", renamedFile);
-            ctrl.data.push({ FileName: value.name, FileLength: value.size });
+            ctrl.dataGpx.push({ FileName: value.name, FileLength: value.size });
         });
-        ctrl.countFilesGpx = ctrl.data.length == 0 ? '' : ctrl.data.length + ' files selected';
+        ctrl.countFilesGpx = ctrl.dataGpx.length == 0 ? '' : ctrl.dataGpx.length + ' files selected';
         $scope.$apply();
         ctrl.formdata.append('countFiles', ctrl.countFilesGpx);
     };
 
     ctrl.uploadFiles = function (path) {
+        ctrl.pathFile = path;
         let fileName = path == '' ? $location.$$search.param.fileName : path;
         ctrl.uploading = true;
         GeneralService.executeAjax({
@@ -91,8 +93,10 @@ function touristSiteController($scope,  UserService, $rootScope, $window, $filte
                     ctrl.uploading = false;
                     ctrl.countFiles = '';
                     ctrl.data = [];
+                    ctrl.dataGpx = [];
+                    ctrl.countFilesGpx = '';
                     ctrl.formdata = new FormData();
-                    if (response.count > 0) {
+                    if (response.count > 0 && ctrl.pathFile != 'tmpGPX') {
                         ctrl.savePhotoGallery(response);
                     }
                 } else {
@@ -140,49 +144,6 @@ function touristSiteController($scope,  UserService, $rootScope, $window, $filte
         ctrl.newTimes.push(ctrl.defaultTime);
     }
 
-    ctrl.deleteTime = function (time, indx) {
-
-        if (time.IdHorario != undefined) {
-            if (!window.confirm("Esta seguro de eliminar el horario seleccionado?")) {
-                return;
-            }
-
-            let StoredObjectParams =
-            {
-                "StoredParams": [
-                    { "Name": "IdSitioTuristico ", "Value": time.IdSitioTuristico },
-                    { "Name": "IdHorario ", "Value": time.IdHorario },
-                    { "Name": "Usuario", "Value": $window.localStorage.getItem('userName') }
-                ],
-                "StoredProcedureName": "EliminarHorario"
-            }
-
-            GeneralService.executeAjax({
-                url: `${UserService.ApiUrl}/PostJWT`,
-                data: StoredObjectParams,
-                dataType: 'json',
-                contentType: 'application/json',
-                success: function (response) {
-                    if (response.exception == null) {
-                        ctrl.newTimes.splice(indx, 1);
-                        ctrl.response = response;
-                        ctrl.uploading = false;
-                    } else {
-                        ctrl.messageLoginInvalid = 'No se encontraron datos';
-                        ctrl.uploading = false;
-                    }
-                }
-            });
-        } else {
-            if (time.length == undefined && indx != 0) {
-                ctrl.newTimes.splice(indx, 1);
-            } else {
-                alert("Debe agregar un horario para ser eliminado"); //TODO organizar mensajes
-            }
-        }
-    }
-
-
     ctrl.onTagAdded = function ($tag) {
         let weekSelected = (JSON.stringify($tag));
     }
@@ -219,12 +180,10 @@ function touristSiteController($scope,  UserService, $rootScope, $window, $filte
     }
 
     ctrl.saveTouristSite = function () {
-
+        let objTouristSite = [];
         if (!isValidSaved()) {
             return;
         }
-        let objTimes = [];
-        let objTouristSite = [];
 
         objTouristSite = [
             {
@@ -244,22 +203,15 @@ function touristSiteController($scope,  UserService, $rootScope, $window, $filte
                 "RutaENG": ctrl.routeENG == undefined ? null : ctrl.routeENG,
                 "DireccionESP": ctrl.DireccionESP,
                 "DireccionENG": ctrl.DireccionENG == undefined ? null : ctrl.DireccionENG,
-                "Imperdible": ctrl.safetyPin == undefined ? null : ctrl.safetyPin
+                "Horario": ctrl.time == undefined ? null : ctrl.time
             }
         ];
-
-        angular.forEach(ctrl.selectedDays, function (times, inx) {
-            angular.forEach(times, function (days) {
-                objTimes.push({ "IdHorario": (days.IdHorario == undefined ? null : parseInt(days.IdHorario)), "IdSitioTuristico": (ctrl.IdSitioTuristico == '' ? null : parseInt(ctrl.IdSitioTuristico)), "IdDiaSemana": days.IdDiaSemana, "NombreDia": days.NombreDiaESP, "Horas": ctrl.selectedHours[inx] });
-            });
-        });
 
         let StoredObjectParams =
         {
             "StoredParams": [
                 { "Name": "jsonSitioTuristico", "Value": JSON.stringify(objTouristSite) },
-                { "Name": "jsonHorarios ", "Value": JSON.stringify(objTimes) },
-                { "Name": "CodigoTipoSitio", "Value": $location.$$search.param == undefined ? 'DEF' : $location.$$search.param.Code},
+                { "Name": "CodigoTipoSitio", "Value": $location.$$search.param == undefined ? 'DEF' : $location.$$search.param.Code },
                 { "Name": "Usuario", "Value": $window.localStorage.getItem('userName') },
                 { "Name": "IdSitioTuristico", "Value": ctrl.IdSitioTuristico == '' ? null : ctrl.IdSitioTuristico.toString() }
 
@@ -276,7 +228,6 @@ function touristSiteController($scope,  UserService, $rootScope, $window, $filte
                 if (response.exception == null) {
                     ctrl.turistSiteSaved = ctrl.transformRespond(response.value[0]);
                     ctrl.IdSitioTuristico = parseInt(ctrl.turistSiteSaved[0].IdSitioTuristico);
-                    fillLoadDataTime(ctrl.turistSiteSaved);
                 } else {
                     ctrl.messageLoginInvalid = 'No se encontraron datos';
                 }
@@ -306,54 +257,6 @@ function touristSiteController($scope,  UserService, $rootScope, $window, $filte
         });
     };
 
-    ctrl.getWeekDays = function () {
-        ctrl.weekdays = [];
-        let StoredObjectParams =
-        {
-            "StoredParams": [],
-            "StoredProcedureName": "ObtenerDiasSemana"
-        }
-
-        GeneralService.executeAjax({
-            url: `${UserService.ApiUrl}/PostJWT`,
-            data: StoredObjectParams,
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (response) {
-                if (response.exception == null) {
-                    ctrl.weekdays = ctrl.transformRespond(response.value[0]);
-                    ctrl.selectionWeekDays = ctrl.weekdays;
-                } else {
-                    ctrl.messageLoginInvalid = 'No se encontraron datos';
-                }
-            }
-        });
-    };
-
-    function fillLoadDataTime(modifiedTime) {
-
-        if (modifiedTime.length > 0) {
-            ctrl.newTimes = modifiedTime;
-            ctrl.selectedDays = [];
-            angular.forEach(ctrl.newTimes, function (time, inx) {
-                ctrl.selectedDays.push([{ NombreDiaESP: time.NombreDiaESP, IdDiaSemana: time.IdDiaSemana, IdHorario: time.IdHorario, horario: time.Horario }]);
-                ctrl.selectedHours.push(time.Horario);
-            });
-        }
-
-        //Construr arreglo dimencional para pintar en una sola casilla los que vienen agrupados
-        //ctrl.selectedDays =
-        //    [
-        //        [
-        //            { NombreDiaESP: 'Domingo', IdDiaSemana: '1', IdHorario: '115', horario: '08:30 AM\n03:00 PM' },
-        //            { NombreDiaESP: 'Martes', IdDiaSemana: '3', IdHorario: '115', horario: '08:30 AM\n03:00 PM' }
-        //        ],
-        //        [
-        //            { NombreDiaESP: 'Lunes', IdDiaSemana: '2', IdHorario: '114', horario: 'Salidas con Travesía Charcuzzi 7:00 a.m plaza de m…rardota. Se necesita reserva previa al 3007848944' }
-        //        ]
-        //    ];
-    }
-
     function fillLoadData() {
         if ($location.$$search.param.Code == null || $location.$$search.param.Code == undefined) {
             $location.path('/home');
@@ -375,12 +278,7 @@ function touristSiteController($scope,  UserService, $rootScope, $window, $filte
             ctrl.routeENG = modifiedSite.RutaENG;
             ctrl.DireccionESP = modifiedSite.DireccionESP;
             ctrl.DireccionENG = modifiedSite.DireccionENG;
-            ctrl.safetyPin = (modifiedSite.Imperdible === 'True');
-        }
-
-        if ($location.$$search.param.time != undefined) {
-            let modifiedTime = $location.$$search.param.time;
-            fillLoadDataTime(modifiedTime);
+            ctrl.time = modifiedSite.Horario;
         }
 
         if ($location.$$search.param.Code == 'SDM') {
@@ -390,7 +288,6 @@ function touristSiteController($scope,  UserService, $rootScope, $window, $filte
 
     angular.element(document).ready(function () {
         ctrl.getTowns();
-        ctrl.getWeekDays();
         fillLoadData();
     });
 }

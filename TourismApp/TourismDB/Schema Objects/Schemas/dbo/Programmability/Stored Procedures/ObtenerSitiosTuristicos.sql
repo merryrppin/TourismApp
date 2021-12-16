@@ -26,6 +26,7 @@ AS BEGIN
 				tipoSitio.Nombre,
 				tipoSitio.Codigo,
 				sitioT.Imperdible,
+				sitioT.Horario
 				(Select IdCalificacionST,Calificacion,Comentario,Usuario FROM tblCalificacionSitioTuristico AS CST WHERE CST.IdSitioTuristico = sitioT.IdSitioTuristico FOR JSON AUTO ) AS Comentarios,
 				(Select AVG(Calificacion) AS PromCalificacion FROM tblCalificacionSitioTuristico AS CST WHERE CST.IdSitioTuristico = sitioT.IdSitioTuristico) AS PromCalificacion
 			FROM tblSitioTuristico AS sitioT
@@ -43,16 +44,5 @@ AS BEGIN
 	END
 
 	EXEC sp_executesql @SQL, N'@CodigoTipoSitio VARCHAR(10), @IdMunicipio INT', @CodigoTipoSitio = @CodigoTipoSitio, @IdMunicipio = @IdMunicipio; 
-
-	IF  @CodigoTipoSitio IS NOT NULL
-	BEGIN
-		SELECT sitioT.IdSitioTuristico, tblHorarios.IdHorario,tblHorarios.Horario,tblDiaSemana.NombreDiaESP,diaHorario.IdDiaSemana
-		FROM tblDiaHorarioSitioTuristico diaHorario
-			INNER JOIN tblHorarios ON diaHorario.IdHorario = tblHorarios.IdHorario
-			INNER JOIN tblDiaSemana ON diaHorario.IdDiaSemana = tblDiaSemana.IdDiaSemana
-			INNER JOIN tblSitioTuristico AS sitioT ON tblHorarios.IdSitioTuristico = sitioT.IdSitioTuristico
-			INNER JOIN tblTipoSitioTuristico AS tipoSitio ON sitioT.IdTipoSitioTuristico = tipoSitio.IdTipoSitioTuristico
-		WHERE tipoSitio.Codigo = @CodigoTipoSitio
-	END
 
 END

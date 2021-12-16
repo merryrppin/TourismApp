@@ -11,5 +11,6 @@
 	[img2] VARCHAR(MAX),
 	[img2Aprobada] BIT DEFAULT(0), 
 	[DiaRegistro] DATETIME NOt NULL DEFAULT(GETDATE()),
+    [NombreCompleto] VARCHAR(250) NULL, 
     CONSTRAINT [FK_tblComentariosSitioTuristico_tblSitioTuristico] FOREIGN KEY ([IdSitioTuristico]) REFERENCES [tblSitioTuristico]([IdSitioTuristico])
 )

@@ -38,6 +38,10 @@ namespace TourismApp.Controllers
         [HttpPost]
         public StoredObjectResponse Post(StoredObjectParams StoredObjectParams)
         {
+            if(StoredObjectParams.StoredProcedureName == "GuardarComentariosSitioTuristico")
+            {
+                _AdministrationService.ConvertB64ToFile(StoredObjectParams);
+            }
             return _AdministrationService.ExecuteStoredProcedure(StoredObjectParams);
         }
 

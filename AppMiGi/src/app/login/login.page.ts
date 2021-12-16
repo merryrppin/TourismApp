@@ -27,6 +27,7 @@ export class LoginPage {
     private storage: StorageService) {
     this.loadUser();
     this.lang = this.generalService.getCurrentLanguage();
+    this.storage.setData("sitiosTuristicos", null);
     this.generalService.languageChangeSubject.subscribe((value) =>{
       this.lang = value;
     });
