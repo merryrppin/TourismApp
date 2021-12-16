@@ -1,7 +1,6 @@
 ﻿CREATE PROCEDURE dbo.[EliminarSitioTuristico] (@IdSitioTuristico INT,@Usuario VARCHAR(100))
 AS 
 BEGIN
-
 	 DECLARE @TempLog AS TABLE (NombreSitio VARCHAR(200),IdTipoSitioTuristico INT, Evento VARCHAR(100), Fecha DATETIME DEFAULT GETDATE(),Usuario VARCHAR(100))
 	 
 	 INSERT INTO @TempLog (NombreSitio ,IdTipoSitioTuristico, Evento, Usuario) 
@@ -23,17 +22,12 @@ BEGIN
 		INNER JOIN tblSitioTuristico ON PuntoSenderismo.IdSitioTuristico = tblSitioTuristico.IdSitioTuristico
 		WHERE tblSitioTuristico.IdSitioTuristico =@IdSitioTuristico;
 
-		DELETE
-		FROM tblGaleriaFotos 
+		DELETE 
+		FROM tblComentariosSitioTuristico
 		WHERE IdSitioTuristico =@IdSitioTuristico;
 
-		DELETE diaHorario
-		FROM tblDiaHorarioSitioTuristico diaHorario
-		INNER JOIN tblHorarios ON diaHorario.IdHorario = tblHorarios.IdHorario
-		WHERE tblHorarios.IdSitioTuristico =@IdSitioTuristico;
-
 		DELETE
-		FROM tblHorarios
+		FROM tblGaleriaFotos 
 		WHERE IdSitioTuristico =@IdSitioTuristico;
 
 		DELETE 

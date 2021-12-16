@@ -18,7 +18,6 @@
     <link href="Libs/tags/ng-tags-input.min.css" rel="stylesheet" />
     <link href="Libs/ag-grid/v17.1.1/ag-grid.css" rel="stylesheet" />
 
-
     <link href="Libs/ag-grid/ag-grid-style.css" rel="stylesheet" />
     <link href="Libs/ag-grid/v17.1.1/themes/ag-theme-balham.css" rel="stylesheet" />
 
@@ -29,10 +28,11 @@
 
 </head>
 <body ng-controller="loginController as ctrl">
+    <div ng-cloak>
+        <aside ng-include="ctrl.aside"></aside>
 
-    <aside ng-include="ctrl.aside"></aside>
-
-    <div class="contentView" ng-view></div>
+        <div class="contentView" ng-view></div>
+    </div>
 
 </body>
 

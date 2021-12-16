@@ -71,7 +71,6 @@ function hikingController($scope, UserService, $window, $filter, $timeout, $loca
                 if (response.exception == null) {
                     ctrl.hikingGrid.api.setRowData([]);
                     ctrl.hikingData = ctrl.transformRespond(response.value[0]);
-                    ctrl.hikingTime = ctrl.transformRespond(response.value[1]);
                     ctrl.hikingGrid.api.setRowData(ctrl.hikingData);
                     ctrl.resizeGrid();
                 } else {
@@ -98,7 +97,7 @@ function hikingController($scope, UserService, $window, $filter, $timeout, $loca
             headerName: "Nombre",
             field: "NombreSitioTuristicoESP",
             width: 110,
-            cellStyle: { 'text-align': 'center' },
+            cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             editable: false,
@@ -108,7 +107,7 @@ function hikingController($scope, UserService, $window, $filter, $timeout, $loca
             headerName: "Descripcion",
             field: "DescripcionESP",
             width: 120,
-            cellStyle: { 'text-align': 'center' },
+            cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             editable: false,
@@ -145,7 +144,7 @@ function hikingController($scope, UserService, $window, $filter, $timeout, $loca
             headerName: "Latitud",
             field: "Latitud",
             width: 100,
-            cellStyle: { 'text-align': 'center' },
+            cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             editable: false,
@@ -156,7 +155,7 @@ function hikingController($scope, UserService, $window, $filter, $timeout, $loca
             headerName: "Longitud",
             field: "Longitud",
             width: 100,
-            cellStyle: { 'text-align': 'center' },
+            cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             editable: false,
@@ -164,10 +163,10 @@ function hikingController($scope, UserService, $window, $filter, $timeout, $loca
         },
 
         {
-            headerName: "Icono marcador",
-            field: "IconoMarcador",
+            headerName: "Dirección",
+            field: "DireccionESP",
             width: 120,
-            cellStyle: { 'text-align': 'right' },
+            cellStyle: { 'text-align': 'left' },
             sortable: true,
             resizable: true,
             editable: false,
@@ -176,8 +175,8 @@ function hikingController($scope, UserService, $window, $filter, $timeout, $loca
         {
             headerName: "Edición",
             field: "Options",
-            width: 200,
-            cellStyle: { 'text-align': 'center' },
+            width: 150,
+            cellStyle: { 'text-align': 'left' },
             resizable: true,
             editable: false,
             sortable: false,
@@ -192,8 +191,7 @@ function hikingController($scope, UserService, $window, $filter, $timeout, $loca
     ]
 
     ctrl.modifiedSite = function (ev, data) {
-        let hikingTime = ctrl.hikingTime.filter(x => x.IdSitioTuristico == data.IdSitioTuristico);
-        let modifiedSite = { 'Code': ctrl.codeHiking, 'Name': 'Senderismo', 'fileName': 'hiking', 'data': data, 'time': hikingTime };
+        let modifiedSite = { 'Code': ctrl.codeHiking, 'Name': 'Senderismo', 'fileName': 'hiking', 'data': data};
         $location.path('/touristSite/SDM').search({ param: modifiedSite });
     }
 

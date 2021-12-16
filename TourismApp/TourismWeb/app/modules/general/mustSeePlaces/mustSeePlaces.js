@@ -4,9 +4,9 @@ angular
     .module('tourismApp.religiousController', [])
     .controller('religiousController', religiousController);
 
-religiousController.$inject = ['$scope', 'UserService','$rootScope', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
+religiousController.$inject = ['$scope', 'UserService', '$rootScope', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
 
-function religiousController($scope,UserService, $rootScope, $window, $filter, $timeout, $location, GeneralService) {
+function religiousController($scope, UserService, $rootScope, $window, $filter, $timeout, $location, GeneralService) {
     let ctrl = this;
     ctrl.religiousData = [];
     ctrl.CodeReligious = 'RGS';
@@ -56,7 +56,7 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
     }
 
     ctrl.modifiedSite = function (ev, data) {
-        let modifiedSite = { 'Code': ctrl.CodeReligious, 'Name': 'Religioso', 'fileName': 'religious', 'data': data};
+        let modifiedSite = { 'Code': ctrl.CodeReligious, 'Name': 'Religioso', 'fileName': 'religious', 'data': data };
         $location.path('/touristSite/RGS').search({ param: modifiedSite });
     }
 

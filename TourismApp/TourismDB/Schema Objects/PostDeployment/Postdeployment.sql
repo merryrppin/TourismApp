@@ -51,7 +51,10 @@ SET IDENTITY_INSERT [dbo].[tblTipoSitioTuristico] ON
 INSERT INTO [tblTipoSitioTuristico] (IdTipoSitioTuristico,Nombre,[Codigo]) VALUES
 (1,'Religioso','RGS'),
 (2,'Senderismo','SDM'),
-(3,'Gastronomia','GTM')
+(3,'Gastronomia','GTM'),
+(4,'Fiestas oficiales','FTS'),
+(5,'Lugares imperdibles','LIP'),
+(6,'Por Defecto','DEF')
 SET IDENTITY_INSERT [dbo].[tblTipoSitioTuristico] OFF
 
 --[tblUsuarioWeb] Password : 123456

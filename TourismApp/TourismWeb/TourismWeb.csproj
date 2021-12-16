@@ -84,6 +84,10 @@
     <Content Include="app\modules\general\home\homeCtrl.js" />
     <Content Include="app\modules\general\login\Login.html" />
     <Content Include="app\modules\general\login\loginCtrl.js" />
+    <Content Include="app\modules\general\mustSeePlaces\mustSeePlaces.html" />
+    <Content Include="app\modules\general\mustSeePlaces\mustSeePlaces.js" />
+    <Content Include="app\modules\general\officialHolidays\officialHolidays.html" />
+    <Content Include="app\modules\general\officialHolidays\officialHolidays.js" />
     <Content Include="app\modules\general\religious\religious.html" />
     <Content Include="app\modules\general\religious\religiousCtrl.js" />
     <Content Include="app\modules\general\sessionSvc.js" />

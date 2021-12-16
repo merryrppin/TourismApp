@@ -23,6 +23,7 @@
 	[DireccionESP] VARCHAR(MAX),
 	[DireccionENG] VARCHAR(MAX),
 	[Imperdible] BIT DEFAULT 0,
+	[Horario] VARCHAR (MAX),
     CONSTRAINT [FK_tblSitioTuristico_tblMunicipio] FOREIGN KEY ([IdMunicipio]) REFERENCES [tblMunicipio]([IdMunicipio]),
 	CONSTRAINT [FK_tblSitioTuristico_tblTipoSitioTuristico] FOREIGN KEY ([IdTipoSitioTuristico]) REFERENCES [tblTipoSitioTuristico]([IdTipoSitioTuristico])
 )
