@@ -28,22 +28,7 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
         return Result;
     };
 
-    //Extension de los tipo array para hacer sumatoria por alguna propiedad
-    Array.prototype.sum = function (prop) {
-        let total = 0
-        for (let i = 0, _len = this.length; i < _len; i++) {
-            total += this[i][prop]
-        }
-        return total
-    }
-
-    //Funcion para calcular el total del footer
-    ctrl.calculateTotal = function () {
-        ctrl.religiousGrid.pinnedBottomRowData[0].TotalValue = $scope.data.sum("TotalValue");
-        ctrl.religiousGrid.api.refreshCells();
-    }
-
-    //Funcion para auto ajustar el tamano de columnas
+   
     ctrl.resizeGrid = function () {
         $timeout(function () {
             ctrl.religiousGrid.api.sizeColumnsToFit();
@@ -91,12 +76,6 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
         document.getElementById("divData").style.height = (heightPage - offsetDivGrid.top - 15) + "px";
     }
 
-    //Funcion para dar formatos de fechas
-    function shortDateFormat(data) {
-        return $filter('date')(data.value, 'MM/dd/yyyy')
-    }
-
-    //Definicion de columnas
     ctrl.columns = [
 
         {
@@ -154,8 +133,7 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
             sortable: true,
             resizable: true,
             filter: true,
-            editable: false,
-            valueFormatter: shortDateFormat,
+            editable: false
         },
         {
             headerName: "Longitud",
@@ -229,47 +207,18 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
         });
     };
 
-    //Definicion del grid
     ctrl.religiousGrid = {
         columnDefs: ctrl.columns,
         rowData: [],
         onGridReady: function (params) { },
         animateRows: true,
         rowSelection: 'multiple',
-        onRowSelected: onRowSelected,
         defaultColDef: {
             editable: true,
         },
         stopEditingWhenGridLosesFocus: true,
         suppressRowClickSelection: true,
-        onColumnMoved: onColumnMoved,
-        onColumnVisible: columnVisible,
         angularCompileRows: true
-    }
-
-    Array.prototype.sum = function (prop) {
-        let total = 0
-        for (let i = 0, _len = this.length; i < _len; i++) {
-            total += this[i][prop]
-        }
-        return total
-    }
-
-    //Evento que se ejecuta cuando se selecciona una fila
-    function onRowSelected() {
-        $scope.totalSelected = ctrl.religiousGrid.api.getSelectedRows().sum('TotalValue');
-        $scope.$apply();
-    }
-
-    //Evento que se ejecuta cuando una columna cambia de posicion
-    function onColumnMoved(params) {
-        setStorage('columnState', JSON.stringify(params.columnApi.getColumnState()));
-    }
-
-    //Evento que se ejecuta cuando se cambia el estado visible de una columna
-    function columnVisible(params) {
-        setStorage('columnState', JSON.stringify(params.columnApi.getColumnState()));
-        $scope.resizeGrid();
     }
 
     angular.element(document).ready(function () {

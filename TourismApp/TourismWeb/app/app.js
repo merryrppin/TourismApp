@@ -8,22 +8,25 @@ angular
         'tourismApp.gastronomyController',
         'tourismApp.hikingController',
         'tourismApp.touristSiteController',
+        'tourismApp.mustSeePlaceController',
+        'tourismApp.officialHolidaysController',
+        'tourismApp.logoutController',
+        'tourismApp.changePasswordController',
         'ngTagsInput',
         'ngRoute',
         'angular-loading-bar',
         'agGrid'
     ])
+
     .directive('myDirectory', ['$parse', function ($parse) {
 
         function link(scope, element, attrs) {
             var model = $parse(attrs.myDirectory);
             element.on('change', function (event) {
-                scope.data = [];    //Clear shared scope in case user reqret on the selection
+                scope.data = [];   
                 model(scope, { file: event.target.files });
-
             });
         };
-
         return {
             link: link
         }
@@ -31,7 +34,7 @@ angular
 
     .factory('UserService', function () {
         return {
-            ApiUrl: 'http://testappservicewf.azurewebsites.net/api/tourism'  //'https://localhost:44355/api/tourism'
+            ApiUrl: 'http://testappservicewf.azurewebsites.net/api/tourism' 
         };
     })
 
@@ -68,6 +71,26 @@ angular
                 controller: "touristSiteController",
                 controllerAs: 'ctrl',
                 templateUrl: 'app/modules/general/touristSite/touristSite.html'
+            })
+            .when('/mustSeePlace', {
+                controller: "mustSeePlaceController",
+                controllerAs: 'ctrl',
+                templateUrl: 'app/modules/general/mustSeePlaces/mustSeePlaces.html'
+            })
+            .when('/officialHolidays', {
+                controller: "officialHolidaysController",
+                controllerAs: 'ctrl',
+                templateUrl: 'app/modules/general/officialHolidays/officialHolidays.html'
+            })
+            .when('/logout', {
+                controller: "logoutController",
+                controllerAs: 'ctrl',
+                templateUrl: 'app/modules/general/login/Login.html',
+            })
+            .when('/changePassword', {
+                controller: "changePasswordController",
+                controllerAs: 'ctrl',
+                templateUrl: 'app/modules/general/changePassword/changePassword.html',
             })
             .otherwise({
                 redirectTo: '/'
