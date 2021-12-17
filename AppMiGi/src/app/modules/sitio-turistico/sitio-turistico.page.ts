@@ -12,12 +12,13 @@ import { File } from '@ionic-native/file/ngx';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { ModalController } from '@ionic/angular';
 import {ModalPage} from  'src/app/shared/modal/modal.page'
-
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 
 @Component({
   selector: 'app-sitio-turistico',
   templateUrl: './sitio-turistico.page.html',
   styleUrls: ['./sitio-turistico.page.scss'],
+  
 })
 export class SitioTuristicoPage {
   mainPredictionArray: { header: string; predictionImageURL: string; subject: string; }[];
@@ -49,7 +50,8 @@ export class SitioTuristicoPage {
     private file: File,
     public actionSheetController: ActionSheetController,
     private storage: StorageService,
-    public modalController: ModalController ) {
+    public modalController: ModalController,
+    private screenOr: ScreenOrientation) {
     this.imgComentario1 = this.imageFileDefault;
     this.imgComentario2 = this.imageFileDefault;
     this.calificacionComentario = "5";
@@ -63,6 +65,7 @@ export class SitioTuristicoPage {
         this.itemData = this.sitiosTuristicos.find(x => x.IdSitioTuristico == this.IdSitioTuristico);
         this.itemData.Comentarios = this.itemData.Comentarios !== "" ? JSON.parse(this.itemData.Comentarios) : [];
         this.calValueInputGen = this.itemData.PromCalificacion.toString();
+        this.screenOr.lock(this.screenOr.ORIENTATIONS.PORTRAIT);
       });
     });
     this.showSlides();

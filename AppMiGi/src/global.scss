@@ -134,5 +134,24 @@
     font-family: Poppins-Bold !important;
     font-size: 17pt !important;
     --color :  white !important;
-
 }
+
+
+.swiper-wrapper{
+    height: auto;
+  }
+  .swiper-pagination-bullets {
+   margin-bottom: -10px !important;
+  }
+  .swiper-pagination-bullet{
+    margin:0 15px !important;
+    color:#000000;
+    opacity: inherit;
+    width: auto !important;
+  }
+  
+  .swiper-pagination-bullet-active{
+    height: 100%;
+    width: 22px !important;
+    background: #216CA7;
+  }

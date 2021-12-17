@@ -20,12 +20,26 @@ export class ModalPage implements OnInit   {
 
   }
 
+
+
   ngOnInit() {
 
     this.mySlideOptions = {
       initialSlide: this.index,
-      loop: false      
-    }
+      loop: false ,     
+      slidesPerView: 1,
+      slidesPerColumn: 1,
+      slidesPerGroup: 1,
+      spaceBetween: 0,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+        renderBullet: function (index, className) {
+          let buttonnext = "";
+          return '<span class="' + className + '">' + (index + 1) + '</span>' + buttonnext;
+        },
+      }
+    };
     
   }
 
@@ -36,6 +50,10 @@ export class ModalPage implements OnInit   {
 
   prev() {
     this.slides.slidePrev();
+  }
+
+  cancel(){
+    this.modalController.dismiss();
   }
 
 }

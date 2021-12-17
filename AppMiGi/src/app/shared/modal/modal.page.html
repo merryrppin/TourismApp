@@ -1,14 +1,26 @@
 <ion-header>
- 
+  
 </ion-header>
 
 <ion-content>
 
-  <ion-slides class="imageCenter" #slides effect="coverflow" [options]="mySlideOptions">
-    <ion-slide *ngFor="let item of images" >
-      <img class="card-img" src="{{item}}" />
-    </ion-slide>
-  </ion-slides>
+  <ion-row class="imageCenter">
 
+   
+    <ion-col sizeLg="12" sizeXs="12" sizeMd="12" style="text-align: center !important; padding-left: 13px !important;">
+
+      
+      <ion-slides  #slides effect="coverflow" [options]="mySlideOptions" pager="true">
+        <ion-slide *ngFor="let item of images" >
+          <img class="card-img" src="{{item}}" />
+        </ion-slide>
+      </ion-slides>    
+
+    </ion-col>
+
+ 
+
+
+  </ion-row>
 
 </ion-content>

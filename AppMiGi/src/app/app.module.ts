@@ -20,11 +20,14 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 
 import { Camera } from '@ionic-native/camera/ngx'
 import { File } from '@ionic-native/file/ngx'
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [HttpClientModule, BrowserModule, BrowserAnimationsModule, IonicModule.forRoot(), AppRoutingModule, IonicModule],
-  providers: [GooglePlus, Facebook, Geolocation, NativeGeocoder, LocationAccuracy, Camera, File, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, NavParams],
+  providers: [GooglePlus, Facebook, Geolocation, NativeGeocoder, LocationAccuracy, Camera, File, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, NavParams,ScreenOrientation],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
