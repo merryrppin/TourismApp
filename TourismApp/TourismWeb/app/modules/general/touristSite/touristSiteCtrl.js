@@ -8,11 +8,13 @@ touristSiteController.$inject = ['$scope', 'UserService', '$rootScope', '$window
 function touristSiteController($scope, UserService, $rootScope, $window, $filter, $timeout, $location, GeneralService) {
     let ctrl = this;
     ctrl.religiousData = [];
+    ctrl.DefaultCode = null;
 
     if ($location.$$path != '/touristSite/:DEF') {
         ctrl.nameSite = $location.$$search.param.Name == undefined ? '' : $location.$$search.param.Name;
     } else {
-        ctrl.nameSite = 'oficiales'
+        ctrl.nameSite = 'oficial'
+        ctrl.DefaultCode = 'DEF';
     }
 
     ctrl.title = `Sitio turistico ${ctrl.nameSite}`;
@@ -81,7 +83,14 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
 
     ctrl.uploadFiles = function (path) {
         ctrl.pathFile = path;
-        let fileName = path == '' ? $location.$$search.param.fileName : path;
+        let fileName = '';
+
+        if (ctrl.DefaultCode == null) {
+            fileName = path == '' ? $location.$$search.param.fileName : path;
+        } else {
+            fileName = 'Default'
+        }
+
         ctrl.uploading = true;
         GeneralService.executeAjax({
             url: `${UserService.ApiUrl}/OnPostUploadAsync?typeSite=${fileName}&turistSiteId=${ctrl.IdSitioTuristico}`,
@@ -257,29 +266,56 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
         });
     };
 
-    function fillLoadData() {
-        if ($location.$$search.param.Code == null || $location.$$search.param.Code == undefined) {
-            $location.path('/home');
+    ctrl.getDataTouristSite = function () {
+        let StoredObjectParams =
+        {
+            "StoredParams": [{ "Name": "IdMunicipio", "Value": "-1" }, { "Name": "CodigoTipoSitio ", "Value": ctrl.DefaultCode }],
+            "StoredProcedureName": "ObtenerSitiosTuristicos"
         }
 
-        if ($location.$$search.param.data != undefined) {
-            let modifiedSite = $location.$$search.param.data;
-            ctrl.IdSitioTuristico = modifiedSite.IdSitioTuristico;
-            ctrl.siteNameESP = modifiedSite.NombreSitioTuristicoESP;
-            ctrl.siteNameENG = modifiedSite.NombreSitioTuristicoENG;
-            ctrl.selectedOptionTown.IdMunicipio = modifiedSite.IdMunicipio;
-            ctrl.routeLatitude = modifiedSite.Latitud;
-            ctrl.RouteLength = modifiedSite.Longitud;
-            ctrl.descriptionESP = modifiedSite.DescripcionESP;
-            ctrl.descriptionENG = modifiedSite.DescripcionENG;
-            ctrl.presentationNameESP = modifiedSite.PresentacionESP;
-            ctrl.presentationNameENG = modifiedSite.PresentacionENG;
-            ctrl.routeESP = modifiedSite.RutaESP;
-            ctrl.routeENG = modifiedSite.RutaENG;
-            ctrl.DireccionESP = modifiedSite.DireccionESP;
-            ctrl.DireccionENG = modifiedSite.DireccionENG;
-            ctrl.time = modifiedSite.Horario;
+        GeneralService.executeAjax({
+            url: `${UserService.ApiUrl}/PostJWT`,
+            data: StoredObjectParams,
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.exception == null) {
+                    ctrl.touristSite = ctrl.transformRespond(response.value[0]);
+                    fillLoadData(ctrl.touristSite[0]);
+                } else {
+                    ctrl.messageLoginInvalid = 'No se encontraron datos';
+                }
+            }
+        });
+    };
+
+    function fillLoadData(modifiedSite) {
+
+        if (ctrl.DefaultCode == null) {
+            if ($location.$$search.param.Code == null || $location.$$search.param.Code == undefined) {
+                $location.path('/home');
+            }
         }
+
+        if ($location.$$search.param != undefined) {
+            modifiedSite = $location.$$search.param.data;
+        }
+
+        ctrl.IdSitioTuristico = modifiedSite.IdSitioTuristico;
+        ctrl.siteNameESP = modifiedSite.NombreSitioTuristicoESP;
+        ctrl.siteNameENG = modifiedSite.NombreSitioTuristicoENG;
+        ctrl.selectedOptionTown.IdMunicipio = modifiedSite.IdMunicipio;
+        ctrl.routeLatitude = modifiedSite.Latitud;
+        ctrl.RouteLength = modifiedSite.Longitud;
+        ctrl.descriptionESP = modifiedSite.DescripcionESP;
+        ctrl.descriptionENG = modifiedSite.DescripcionENG;
+        ctrl.presentationNameESP = modifiedSite.PresentacionESP;
+        ctrl.presentationNameENG = modifiedSite.PresentacionENG;
+        ctrl.routeESP = modifiedSite.RutaESP;
+        ctrl.routeENG = modifiedSite.RutaENG;
+        ctrl.DireccionESP = modifiedSite.DireccionESP;
+        ctrl.DireccionENG = modifiedSite.DireccionENG;
+        ctrl.time = modifiedSite.Horario;
 
         if ($location.$$search.param.Code == 'SDM') {
             ctrl.showHeking = true;
@@ -287,7 +323,11 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
     }
 
     angular.element(document).ready(function () {
+        if (ctrl.DefaultCode == null) {
+            fillLoadData();
+        } else {
+            ctrl.getDataTouristSite();
+        }
         ctrl.getTowns();
-        fillLoadData();
     });
 }

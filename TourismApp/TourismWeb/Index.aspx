@@ -36,6 +36,7 @@
 
 </body>
 
+
 <%--Angular reference  --%>
 <script src="Libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="Libs/bootstrap-5.1.0/js/bootstrap.min.js"></script>
@@ -53,11 +54,15 @@
 
 <%-- Script page --%>
 <script src="app/modules/general/login/loginCtrl.js"></script>
+<script src="app/modules/general/logout/logout.js"></script>
+<script src="app/modules/general/changePassword/changePassword.js"></script>
 <script src="app/modules/general/home/homeCtrl.js"></script>
 <script src="app/modules/general/generalSvc.js"></script>
 <script src="app/modules/general/religious/religiousCtrl.js"></script>
 <script src="app/modules/general/hiking/hikingCrtl.js"></script>
 <script src="app/modules/general/gastronomy/gastronomyCtrl.js"></script>
+<script src="app/modules/general/mustSeePlaces/mustSeePlaces.js"></script>
+<script src="app/modules/general/officialHolidays/officialHolidays.js"></script>
 <script src="app/modules/general/touristSite/touristSiteCtrl.js"></script>
 <script src="Libs/loading-bar.min.js"></script>
 

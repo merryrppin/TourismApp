@@ -107,12 +107,16 @@ namespace TourismApp.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files, string typeSite, int? turistSiteId)
         {
-
             try
             {
                 string myDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
                 string pathTourismWeb = System.IO.Path.Combine(myDir, "wwwroot/TourismWeb");
                 string pathTourismeApp = System.IO.Path.Combine(myDir, "wwwroot/TourismApp");
+
+                bool exists = Directory.Exists(Path.Combine(pathTourismWeb, $"files/{typeSite}/"));
+
+                if (!exists)
+                    Directory.CreateDirectory(Path.Combine(pathTourismWeb, $"files/{typeSite}/"));
 
                 long size = files.Sum(f => f.Length);
                 List<string> filePaths = new List<string>();
@@ -131,6 +135,9 @@ namespace TourismApp.Controllers
 
                 if (typeSite == "tmpGPX")
                 {
+                    exists = Directory.Exists(Path.Combine(pathTourismeApp, $"files/{typeSite}/"));
+                    if (!exists)
+                        Directory.CreateDirectory(Path.Combine(pathTourismeApp, $"files/{typeSite}/"));
                     _AdministrationService.procesar(turistSiteId);
                 }
 
