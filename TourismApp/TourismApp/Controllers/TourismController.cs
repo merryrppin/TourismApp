@@ -38,7 +38,7 @@ namespace TourismApp.Controllers
         [HttpPost]
         public StoredObjectResponse Post(StoredObjectParams StoredObjectParams)
         {
-            if (StoredObjectParams.StoredProcedureName == "GuardarComentariosSitioTuristico")
+            if(StoredObjectParams.StoredProcedureName == "GuardarComentariosSitioTuristico")
             {
                 _AdministrationService.ConvertB64ToFile(StoredObjectParams);
             }
@@ -109,9 +109,10 @@ namespace TourismApp.Controllers
         {
             try
             {
-                string myDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-                string pathTourismWeb = System.IO.Path.Combine(myDir, "wwwroot/TourismWeb");
-                string pathTourismeApp = System.IO.Path.Combine(myDir, "wwwroot/TourismApp");
+                bool exists = Directory.Exists(Path.Combine($"files/{typeSite}/"));
+
+                if (!exists)
+                    Directory.CreateDirectory(Path.Combine($"files/{typeSite}/"));
 
                 bool exists = Directory.Exists(Path.Combine(pathTourismWeb, $"files/{typeSite}/"));
 
@@ -125,11 +126,13 @@ namespace TourismApp.Controllers
                 {
                     if (formFile.Length > 0)
                     {
-                        string rootPath = typeSite == "tmpGPX" ? pathTourismeApp : pathTourismWeb;
-                        string filePath = Path.Combine($"{rootPath}/files/{typeSite}/", formFile.FileName);
+                        var filePath = Path.Combine($"files/{typeSite}/", formFile.FileName);
                         filePaths.Add(filePath);
-                        using var stream = System.IO.File.Create(filePath);
-                        await formFile.CopyToAsync(stream);
+
+                        using (var stream = System.IO.File.Create(filePath))
+                        {
+                            await formFile.CopyToAsync(stream);
+                        }
                     }
                 }
 
