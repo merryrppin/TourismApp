@@ -9,5 +9,4 @@ function homeController($scope, $rootScope, GeneralService) {
 
     ctrl.message = 'Home Girardota App';
 
-
-}
+};

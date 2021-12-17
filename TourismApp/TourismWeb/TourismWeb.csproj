@@ -71,6 +71,8 @@
     <Content Include="app\config.js" />
     <Content Include="app\directives.js" />
     <Content Include="app\interceptors.js" />
+    <Content Include="app\modules\general\changePassword\changePassword.html" />
+    <Content Include="app\modules\general\changePassword\changePassword.js" />
     <Content Include="app\modules\general\error\404.html" />
     <Content Include="app\modules\general\error\errorCtrl.js" />
     <Content Include="app\modules\general\gastronomy\gastronomy.html" />
@@ -84,6 +86,7 @@
     <Content Include="app\modules\general\home\homeCtrl.js" />
     <Content Include="app\modules\general\login\Login.html" />
     <Content Include="app\modules\general\login\loginCtrl.js" />
+    <Content Include="app\modules\general\logout\logout.js" />
     <Content Include="app\modules\general\mustSeePlaces\mustSeePlaces.html" />
     <Content Include="app\modules\general\mustSeePlaces\mustSeePlaces.js" />
     <Content Include="app\modules\general\officialHolidays\officialHolidays.html" />
