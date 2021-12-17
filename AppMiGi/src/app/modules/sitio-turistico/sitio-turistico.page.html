@@ -18,8 +18,8 @@
 
 <ion-content fullscreen class="genContent">
   <ion-slides #slides effect="coverflow">
-    <ion-slide *ngFor="let item of mainPredictionArray">
-      <img class="card-img" src="{{item.predictionImageURL}}" />
+    <ion-slide *ngFor="let item of itemData.Imagenes">
+      <img class="card-img" src="https://testappservicewf.azurewebsites.net/{{item.UrlFoto}}" />
     </ion-slide>
   </ion-slides>
   <ion-item lines="none">
