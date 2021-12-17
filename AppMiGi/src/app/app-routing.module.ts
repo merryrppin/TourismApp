@@ -30,7 +30,11 @@ const routes: Routes = [
   {
     path: 'menu-categorias',
     loadChildren: () => import('./modules/menu-categorias/menu-categorias.module').then(m => m.MenuCategoriasPageModule)
+  },  {
+    path: 'modal',
+    loadChildren: () => import('./shared/modal/modal.module').then( m => m.ModalPageModule)
   }
+
 
 
 

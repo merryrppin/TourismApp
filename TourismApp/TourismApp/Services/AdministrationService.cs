@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
+using TourismApp.Services.Entities.FilesEntities;
 using TourismApp.Services.Entities.GoogleDirectionsEntities;
 using TourismApp.Services.Entities.GPXEntities;
 using TourismApp.Services.Entities.StoredEntities;
@@ -102,7 +104,37 @@ namespace TourismApp.Services
             }
         }
         #endregion
+        #region IMG
+        public StoredObjectParams ConvertB64ToFile(StoredObjectParams StoredObjectParams)
+        {
+            EntidadComentarios entidadComentarios = JsonConvert.DeserializeObject<EntidadComentarios>(StoredObjectParams.StoredParams[0].Value);
+            entidadComentarios.img1 = GenerateFileIMG(entidadComentarios.img1, entidadComentarios.IdSitioTuristico);
+            entidadComentarios.img2 = GenerateFileIMG(entidadComentarios.img2, entidadComentarios.IdSitioTuristico);
+            StoredObjectParams.StoredParams[0].Value = JsonConvert.SerializeObject(entidadComentarios);
+            return StoredObjectParams;
+        }
 
+        private string GenerateFileIMG(string img1Base64, string IdSitioTuristico)
+        {
+            string filePath1 = "";
+            if (img1Base64 != "")
+            {
+                filePath1 = "files/commets/" + IdSitioTuristico + "_" + Guid.NewGuid() + ".png";
+                Base64ToImage(img1Base64, filePath1);
+            }
+            return filePath1;
+        }
+
+        private void Base64ToImage(string base64String, string filePath)
+        {
+            var bytes = Convert.FromBase64String(base64String);
+            using (var imageFile = new FileStream(filePath, FileMode.Create))
+            {
+                imageFile.Write(bytes, 0, bytes.Length);
+                imageFile.Flush();
+            }
+        }
+        #endregion
         #region GPX
         public StoredObjectResponse procesar(int? IdSitioTuristico)
         {

@@ -38,7 +38,7 @@ export class MenuCategoriasPage implements OnInit {
   async getMenu() {
     await this.openLoading();
     this.generalService.getDataPromise("sitiosTuristicos").then(async (resp) => {
-      if (resp.value == null) {
+      if (resp.value == null || resp.value == "null") {
         let data = '{"StoredParams":[{"Name":"IdMunicipio", "Value":"-1"}],"StoredProcedureName":"ObtenerSitiosTuristicos"}';
         let result = await this.syncService.obtenerInformacionSP(data);
         this.generalService.setDataPromise("sitiosTuristicos", JSON.stringify(result));

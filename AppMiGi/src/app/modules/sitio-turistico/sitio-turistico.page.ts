@@ -1,20 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx'
 
 import { ActivatedRoute } from "@angular/router";
 import { GeneralService } from '../../core/General/general.service';
 import { SyncService } from '../../core/sync/sync.service';
 import { NavigationExtras } from '@angular/router';
-import { ActionSheetController, NavController } from '@ionic/angular';
+import { ActionSheetController, IonSlides, NavController } from '@ionic/angular';
 
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
+import { ModalController } from '@ionic/angular';
+import {ModalPage} from  'src/app/shared/modal/modal.page'
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 
 @Component({
   selector: 'app-sitio-turistico',
   templateUrl: './sitio-turistico.page.html',
   styleUrls: ['./sitio-turistico.page.scss'],
+  
 })
 export class SitioTuristicoPage {
   mainPredictionArray: { header: string; predictionImageURL: string; subject: string; }[];
@@ -29,9 +33,13 @@ export class SitioTuristicoPage {
   imageFileDefault: string = "../../../assets/default-img.png"
   imgComentario1: string;
   imgComentario2: string;
+  imgComentario1ToSave: string;
+  imgComentario2ToSave: string;
   commentsST: string;
   calificacionComentario: string;
   user: any;
+  calValueInputGen: string = "";
+  items: string[] =  ["../../assets/img_catedral.jpg", "../../assets/img_senorcaido.jpg", "../../assets/img_procesion.jpg"]
 
   constructor(private geolocation: Geolocation,
     private syncService: SyncService,
@@ -41,7 +49,9 @@ export class SitioTuristicoPage {
     private camera: Camera,
     private file: File,
     public actionSheetController: ActionSheetController,
-    private storage: StorageService) {
+    private storage: StorageService,
+    public modalController: ModalController,
+    private screenOr: ScreenOrientation) {
     this.imgComentario1 = this.imageFileDefault;
     this.imgComentario2 = this.imageFileDefault;
     this.calificacionComentario = "5";
@@ -53,12 +63,17 @@ export class SitioTuristicoPage {
       this.generalService.getDataPromise("sitiosTuristicos").then((res) => {
         this.sitiosTuristicos = JSON.parse(res.value);
         this.itemData = this.sitiosTuristicos.find(x => x.IdSitioTuristico == this.IdSitioTuristico);
-        this.itemData.Comentarios = JSON.parse(this.itemData.Comentarios);
+        this.itemData.Comentarios = this.itemData.Comentarios !== "" ? JSON.parse(this.itemData.Comentarios) : [];
+        this.calValueInputGen = this.itemData.PromCalificacion.toString();
+        this.itemData.Imagenes = this.itemData.Imagenes !== "" ? JSON.parse(this.itemData.Imagenes) : [];
+        this.screenOr.lock(this.screenOr.ORIENTATIONS.PORTRAIT);
       });
     });
-    this.showSlides();
+
     this.loadUserInfo();
   }
+
+  @ViewChild(IonSlides) slides: IonSlides;
 
   async loadUserInfo() {
     await this.openLoading().then(async () => {
@@ -75,13 +90,7 @@ export class SitioTuristicoPage {
   }
 
   showSlides() {
-    this.mainPredictionArray = [
-      { "header": "Catedral nuestra señora del rosario", "predictionImageURL": "../../assets/img_catedral.jpg", "subject": "Un maravilloso lugar lleno de magia, paz y sobre todo de una devoción religiosa única. Con un estilo único e inigualable es uno de los lugares mas frecuentado en girardota" },
-
-      { "header": "Milan Marvadi", "predictionImageURL": "../../assets/img_senorcaido.jpg", "subject": " Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836. " },
-
-      { "header": "Shailesh Kotho", "predictionImageURL": "../../assets/img_procesion.jpg", "subject": " Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836. " }
-    ]
+    this.itemData.Imagenes;
   }
 
   mejorRuta(item: any, type: number) {
@@ -136,8 +145,10 @@ export class SitioTuristicoPage {
       let imgInfo = 'data:image/jpeg;base64,' + imageData;
       if (posImg === 1) {
         this.imgComentario1 = imgInfo;
+        this.imgComentario1ToSave = imageData;
       } else if (posImg === 2) {
         this.imgComentario2 = imgInfo;
+        this.imgComentario2ToSave = imageData;
       }
     }, (err) => {
       // Handle error
@@ -184,20 +195,58 @@ export class SitioTuristicoPage {
         IdSitioTuristico: this.IdSitioTuristico,
         Comentarios: this.commentsST,
         Calificacion: this.calificacionComentario,
-        img1: this.imgComentario1 == this.imageFileDefault ? "" : this.imgComentario1,
-        img2: this.imgComentario2 == this.imageFileDefault ? "" : this.imgComentario2
+        img1: this.imgComentario1ToSave == this.imageFileDefault ? "" : this.imgComentario1ToSave,
+        img2: this.imgComentario2ToSave == this.imageFileDefault ? "" : this.imgComentario2ToSave,
+        NombreCompleto: this.user.GivenName + this.user.FamilyName
       }
       let data = await this.syncService.GuardarComentarios(objComentarios)
-      .then()
-      .catch((e) => {
-        this.loading.dismiss();
-        this.generalService.showToastError(e.message, 3500);
-      });
+        .then(()=>{
+          this.generalService.showToastSuccess(this.lang === "ENG" ? "Thanks for your comments" : "Gracias por tus comentarios", 3500);
+        })
+        .catch((e) => {
+          this.loading.dismiss();
+          this.generalService.showToastError(e.message, 3500);
+        });
     } else {
       let message = this.lang === "ENG" ? "There was a problem obtaining the user information, please try again later." : "Hubo un problema al obtener la información del usuario. Vuelva a intentarlo más tarde.";
       this.generalService.showToastError(message, 3500);
     }
     this.loading.dismiss();
   }
+
+  async abrirModal( index : number){
+    const  modal = await this.modalController.create({
+      component: ModalPage,
+      componentProps: {
+        images:  this.itemData.Imagenes,
+        index : index
+      }
+    });
+
+    return await modal.present();
+    
+  }
+
+  next() {
+    this.slides.slideNext();
+  }
+
+  prev() {
+    this.slides.slidePrev();
+  }
+
+  // async openViewer(url :string) {
+  //   const modal = await this.modalController.create({
+  //     component: ViewerModalComponent,
+  //     componentProps: {
+  //       src: url
+  //     },
+  //     cssClass: 'ion-img-viewer',
+  //     keyboardClose: true,
+  //     showBackdrop: true
+  //   });
+ 
+  //   return await modal.present();
+  // }
 
 }

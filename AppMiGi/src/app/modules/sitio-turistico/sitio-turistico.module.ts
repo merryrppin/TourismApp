@@ -20,6 +20,7 @@ import { CalificacioninputModule } from '../../shared/calificacioninput/califica
     IonAccordionModule,
     CalificacionModule,
     CalificacioninputModule
+    
   ],
   declarations: [SitioTuristicoPage]
 })

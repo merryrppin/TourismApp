@@ -28,4 +28,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="img2Aprobada" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="c1700dab-eefb-4a11-806b-f5c78b121398" ChangeDateTime="12/16/2021 00:01:16">
+    <Property Name="ElementName" Value="[dbo].[tblComentariosSitioTuristico].[[NombreCompleto]]]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tblComentariosSitioTuristico]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NombreCompleto" />
+  </Operation>
 </Operations>
