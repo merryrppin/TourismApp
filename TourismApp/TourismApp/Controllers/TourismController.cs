@@ -114,7 +114,6 @@ namespace TourismApp.Controllers
                 string pathTourismeApp = System.IO.Path.Combine(myDir, "wwwroot/TourismApp");
 
                 bool exists = Directory.Exists(Path.Combine(pathTourismWeb, $"files/{typeSite}/"));
-
                 if (!exists)
                     Directory.CreateDirectory(Path.Combine(pathTourismWeb, $"files/{typeSite}/"));
 
