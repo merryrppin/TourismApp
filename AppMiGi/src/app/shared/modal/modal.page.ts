@@ -10,7 +10,7 @@ import { IonSlides, ModalController } from '@ionic/angular';
 export class ModalPage implements OnInit   {
 
   @ViewChild(IonSlides) slides: IonSlides;
-  @Input() images: string[];
+  @Input() images: any[];
   @Input() index: number;
 
   mySlideOptions : any;

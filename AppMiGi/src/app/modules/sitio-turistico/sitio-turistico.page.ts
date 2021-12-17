@@ -218,7 +218,7 @@ export class SitioTuristicoPage {
     const  modal = await this.modalController.create({
       component: ModalPage,
       componentProps: {
-        images: this.items,
+        images:  this.itemData.Imagenes,
         index : index
       }
     });

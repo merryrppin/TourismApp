@@ -53,10 +53,10 @@
     <div class="accordionContent">
       <ion-row > 
 
-        <ion-col *ngFor="let item of items; let i = index"  size-lg="4" size-md="4" size-sm="4" size-xs="4">
+        <ion-col *ngFor="let item of itemData.Imagenes; let i = index"  size-lg="4" size-md="4" size-sm="4" size-xs="4">
          
          <ion-thumbnail (click)="abrirModal(i)">
-            <ion-img   src="../../assets/img_catedral.jpg"  ></ion-img>
+            <ion-img   src="https://testappservicewf.azurewebsites.net/{{item.UrlFoto}}" ></ion-img>
           </ion-thumbnail> 
         </ion-col>
       </ion-row>
