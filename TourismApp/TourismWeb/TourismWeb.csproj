@@ -141,6 +141,7 @@
     <Content Include="Libs\jquery-3.6.0\jquery-3.6.0.min.js" />
     <Content Include="Libs\loading-bar.min.css" />
     <Content Include="Libs\loading-bar.min.js" />
+    <Content Include="Libs\MaterialIcons.css" />
     <Content Include="Libs\tags\ng-tags-input.min.css" />
     <Content Include="Libs\tags\ng-tags-input.min.js" />
     <Content Include="Libs\toaster\toaster.css" />

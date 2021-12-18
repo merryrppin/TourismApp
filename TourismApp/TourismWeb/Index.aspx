@@ -2,14 +2,13 @@
 
 <!DOCTYPE html>
 <html data-ng-app="tourismApp">
+</script>
+
 <head runat="server">
     <title></title>
 
     <%-- style fonts --%>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,700;1,300&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="Libs/MaterialIcons.css" rel="stylesheet" />
 
     <%-- Style --%>
     <link href="Libs/bootstrap-5.1.0/css/bootstrap.min.css" rel="stylesheet" />
@@ -29,12 +28,13 @@
 </head>
 <body ng-controller="loginController as ctrl">
     <div ng-cloak>
-        <aside ng-include="ctrl.aside"></aside>
-
+        <aside id="asideMenu" ng-include="ctrl.aside"></aside>
+        <script> document.getElementById("asideMenu").style.display = 'none'; </script>
         <div class="contentView" ng-view></div>
     </div>
 
 </body>
+
 
 
 <%--Angular reference  --%>

@@ -81,7 +81,7 @@ function GeneralService($http, $rootScope, $window) {
             }
             options.success(response.data);
         }).catch(function onError(response) {
-            toastr.error(response.data);
+            toastr.error(`Error ${response.data}` );
 
         });
     };

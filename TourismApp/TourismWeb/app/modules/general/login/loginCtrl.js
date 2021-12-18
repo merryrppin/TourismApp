@@ -5,6 +5,7 @@
 loginController.$inject = ['$scope','UserService', '$window', '$location', '$rootScope', 'GeneralService'];
 
 function loginController($scope, UserService, $window, $location, $rootScope, GeneralService) {
+    $location.path("/");
     $("aside").hide();
     let ctrl = this;
     ctrl.IsValidMenu = false;
@@ -52,6 +53,7 @@ function loginController($scope, UserService, $window, $location, $rootScope, Ge
                     ctrl.IsValid = false;
                     $location.path(response.redirecTo);
                     $("aside").show();
+                    document.getElementById("asideMenu").style.display = 'block';
                     $window.localStorage.removeItem('token');
                     $window.localStorage.setItem('token', response.token);
                     ctrl.user = ctrl.transformRespond(response.userInfoResponse.value[0]);
