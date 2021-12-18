@@ -103,6 +103,7 @@
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\EliminarHorario.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Tables\tblComentariosSitioTuristico.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\GuardarComentariosSitioTuristico.sql" />
+    <Build Include="Schema Objects\Schemas\dbo\Programmability\Stored Procedures\CambiarCredenciales.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Objects\PostDeployment\Postdeployment.sql" />
