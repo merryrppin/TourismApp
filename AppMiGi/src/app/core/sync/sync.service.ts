@@ -43,7 +43,7 @@ export interface IPrinpalResponse {
   providedIn: 'root'
 })
 export class SyncService {
-  protected urlApi: string = "https://testappservicewf.azurewebsites.net/api/tourism";
+  protected urlApi: string = "https://girardotaturistica.azurewebsites.net/TourismApp/api/tourism";
   constructor(private http: WebapiService, private general: GeneralService, private zone: NgZone) { }
 
   private errorHandler = <T>(
