@@ -56,8 +56,10 @@ function loginController($scope, UserService, $window, $location, $rootScope, Ge
                     $window.localStorage.setItem('token', response.token);
                     ctrl.user = ctrl.transformRespond(response.userInfoResponse.value[0]);
                     $window.localStorage.setItem('userName', ctrl.user[0].NombreUsuario);
+                    toastr.success(`Bienvenido ${$window.localStorage.getItem('userName')}`);
                 } else {
                     ctrl.IsValid = true;
+                    toastr.warning("Revise las credenciales ingresadas");
                     ctrl.messageLoginInvalid = 'Usuario y/o contraseña no válidas';
                 }
             }

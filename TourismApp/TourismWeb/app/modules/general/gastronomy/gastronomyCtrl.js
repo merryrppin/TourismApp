@@ -35,12 +35,12 @@ function gastronomyController($scope, UserService,$window, $filter, $timeout, $l
     }
 
     ctrl.addNewSite = function () {
-        let newSite = { 'Code': ctrl.CodeGastronomy, 'Name': 'Gastronomicos', 'fileName': 'gastronomy' };
+        let newSite = { 'Code': ctrl.CodeGastronomy, 'Name': 'Gastronómicos', 'fileName': 'gastronomy' };
         $location.path('/touristSite/GTM').search({ param: newSite });
     }
 
     ctrl.modifiedSite = function (ev, data) {
-        let modifiedSite = { 'Code': ctrl.CodeGastronomy, 'Name': 'Gastronomicos', 'fileName': 'gastronomy', 'data': data};
+        let modifiedSite = { 'Code': ctrl.CodeGastronomy, 'Name': 'Gastronómicos', 'fileName': 'gastronomy', 'data': data};
         $location.path('/touristSite/GTM').search({ param: modifiedSite });
     }
 
@@ -86,7 +86,7 @@ function gastronomyController($scope, UserService,$window, $filter, $timeout, $l
             filter: true
         },
         {
-            headerName: "Descripcion",
+            headerName: "Descripción",
             field: "DescripcionESP",
             width: 120,
             cellStyle: { 'text-align': 'left' },
@@ -95,7 +95,7 @@ function gastronomyController($scope, UserService,$window, $filter, $timeout, $l
             filter: true
         },
         {
-            headerName: "Presentacion",
+            headerName: "Presentación",
             field: "PresentacionESP",
             width: 120,
             cellStyle: { 'text-align': 'left' },
@@ -167,6 +167,7 @@ function gastronomyController($scope, UserService,$window, $filter, $timeout, $l
 
 
     ctrl.delete = function (ev, data) {
+        toastr.warning("Las imagenes e información asociada a este sitio turistico sera eliminada");
         if (!window.confirm("Esta seguro de eliminar el sitio turistico seleccionado?")) {
             return;
         }
@@ -191,6 +192,7 @@ function gastronomyController($scope, UserService,$window, $filter, $timeout, $l
                     ctrl.response = response;
                     ctrl.getDatastronomy();
                     ctrl.uploading = false;
+                    toastr.success("Sitio eliminado correctamente");
                 } else {
                     ctrl.messageLoginInvalid = 'No se encontraron datos';
                     ctrl.uploading = false;

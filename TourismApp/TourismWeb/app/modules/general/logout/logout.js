@@ -7,6 +7,7 @@ logoutController.$inject = ['$scope', 'UserService', '$window', '$location', '$r
 function logoutController($scope, UserService, $window, $location, $rootScope, GeneralService) {
 
     angular.element(document).ready(function () {
+        toastr.success(`Cerrando sesión`);
         $("aside").hide();
         $window.localStorage.removeItem('token');
         $window.localStorage.removeItem('userName');

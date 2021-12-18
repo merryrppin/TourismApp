@@ -89,7 +89,7 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
             filter: true
         },
         {
-            headerName: "Descripcion",
+            headerName: "Descripción",
             field: "DescripcionESP",
             width: 120,
             cellStyle: { 'text-align': 'left' },
@@ -99,7 +99,7 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
             filter: true
         },
         {
-            headerName: "Presentacion",
+            headerName: "Presentación",
             field: "PresentacionESP",
             width: 120,
             cellStyle: { 'text-align': 'left' },
@@ -175,6 +175,7 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
     ]
 
     ctrl.delete = function (ev, data) {
+        toastr.warning("Las imagenes e información asociada a este sitio turistico sera eliminada");
         if (!window.confirm("Esta seguro de eliminar el sitio turistico seleccionado?")) {
             return;
         }
@@ -199,6 +200,7 @@ function religiousController($scope,UserService, $rootScope, $window, $filter, $
                     ctrl.response = response;
                     ctrl.getDataReligious();
                     ctrl.uploading = false;
+                    toastr.success("Sitio eliminado correctamente");
                 } else {
                     ctrl.messageLoginInvalid = 'No se encontraron datos';
                     ctrl.uploading = false;

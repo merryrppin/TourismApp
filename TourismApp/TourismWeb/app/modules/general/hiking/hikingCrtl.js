@@ -82,7 +82,7 @@ function hikingController($scope, UserService, $window, $filter, $timeout, $loca
             filter: true
         },
         {
-            headerName: "Descripcion",
+            headerName: "Descripción",
             field: "DescripcionESP",
             width: 120,
             cellStyle: { 'text-align': 'left' },
@@ -92,7 +92,7 @@ function hikingController($scope, UserService, $window, $filter, $timeout, $loca
             filter: true
         },
         {
-            headerName: "Presentacion",
+            headerName: "Presentación",
             field: "PresentacionESP",
             width: 120,
             cellStyle: { 'text-align': 'left' },
@@ -173,6 +173,7 @@ function hikingController($scope, UserService, $window, $filter, $timeout, $loca
     }
 
     ctrl.delete = function (ev, data) {
+        toastr.warning("Las imagenes e información asociada a este sitio turistico sera eliminada");
         if (!window.confirm("Esta seguro de eliminar el sitio turistico seleccionado?")) {
             return;
         }
@@ -195,8 +196,9 @@ function hikingController($scope, UserService, $window, $filter, $timeout, $loca
             success: function (response) {
                 if (response.exception == null) {
                     ctrl.response = response;
-                    ctrl.getDataHiking();
+                    ctrl.getDatastronomy();
                     ctrl.uploading = false;
+                    toastr.success("Sitio eliminado correctamente");
                 } else {
                     ctrl.messageLoginInvalid = 'No se encontraron datos';
                     ctrl.uploading = false;

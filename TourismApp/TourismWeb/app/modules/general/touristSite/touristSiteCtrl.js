@@ -5,7 +5,7 @@ angular
 
 touristSiteController.$inject = ['$scope', 'UserService', '$rootScope', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
 
-function touristSiteController($scope, UserService,  $rootScope, $window, $filter, $timeout, $location, GeneralService) {
+function touristSiteController($scope, UserService, $rootScope, $window, $filter, $timeout, $location, GeneralService) {
     let ctrl = this;
     ctrl.religiousData = [];
     ctrl.DefaultCode = null;
@@ -43,23 +43,23 @@ function touristSiteController($scope, UserService,  $rootScope, $window, $filte
             $scope.$apply();
             ctrl.formdata.append('countFiles', ctrl.countFiles);
         } else {
-            alert("Debe guardar cambios para subir la imagen"); //TODO organizar mensajes
+            toastr.warning("Debe guardar cambios para subir la imagen");
         }
     };
 
     function isValidFileGpx(file) {
         if (ctrl.IdSitioTuristico == null || ctrl.IdSitioTuristico == '' || ctrl.IdSitioTuristico == undefined) {
-            alert("Debe guardar cambios para subir la imagen"); //TODO organizar mensajes
+            toastr.warning("Debe guardar cambios para subir la imagen");
             return false;
         }
 
         if (file.length > 1) {
-            alert("Solo esta permitido subir una única imagen"); //TODO organizar mensajes
+            toastr.warning("Solo esta permitido subir una única imagen");
             return false;
         }
 
         if (file[0].name.split('.').pop() != 'gpx') {
-            alert("Solo esta permitido subir una imagen con extensión .gpx"); //TODO organizar mensajes
+            toastr.warning("Solo esta permitido subir una imagen con extensión .gpx");
             return false;
         }
         return true;
@@ -108,9 +108,6 @@ function touristSiteController($scope, UserService,  $rootScope, $window, $filte
                     if (response.count > 0 && ctrl.pathFile != 'tmpGPX') {
                         ctrl.savePhotoGallery(response);
                     }
-                } else {
-                    ctrl.messageLoginInvalid = 'No se encontraron datos';
-                    ctrl.uploading = false;
                 }
             }
         });
@@ -140,9 +137,7 @@ function touristSiteController($scope, UserService,  $rootScope, $window, $filte
             success: function (response) {
                 if (response.exception == null) {
                     ctrl.response = response;
-                    ctrl.uploading = false;
-                } else {
-                    ctrl.messageLoginInvalid = 'No se encontraron datos';
+                    toastr.success("Cambios guardados correctamente");
                     ctrl.uploading = false;
                 }
             }
@@ -183,23 +178,27 @@ function touristSiteController($scope, UserService,  $rootScope, $window, $filte
 
     function isValidSaved() {
 
+        if (ctrl.siteNameESP == null || ctrl.descriptionESP == null || ctrl.routeESP == null || ctrl.DireccionESP == null || ctrl.presentationNameESP == null) {
+            toastr.warning("Falta información por digitar, los campos marcados con * son  obligatorios");
+            return false;
+        }
+
+        if (ctrl.siteNameESP == '' || ctrl.descriptionESP == '' || ctrl.routeESP == '' || ctrl.DireccionESP == '' || ctrl.presentationNameESP == '') {
+            return false;
+        }
+
         if (!IsNumeric(ctrl.routeLatitude)) {
-            alert("La latitud debe ser un campo númertico");
+            toastr.warning("La latitud debe ser un campo númerico");
             return false;
         }
 
         if (!IsNumeric(ctrl.RouteLength)) {
-            alert("La longitud debe ser un campo númerico");
+            toastr.warning("La longitud debe ser un campo númerico");
             return false;
         }
 
-        if (ctrl.siteNameESP == null || ctrl.descriptionESP == null || ctrl.routeESP == null || ctrl.DireccionESP == null || ctrl.selectedOptionTown.IdMunicipio == null || ctrl.presentationNameESP == null) {
-            alert("Falta información por digitar, los sitios marcados con * son campos obligatorios");
-            return false;
-        }
-
-        if (ctrl.siteNameESP == '' || ctrl.descriptionESP == '' || ctrl.routeESP == '' || ctrl.DireccionESP == '' || ctrl.selectedOptionTown.IdMunicipio == '' || ctrl.presentationNameESP == '') {
-            alert("Falta información por digitar, los sitios marcados con * son campos obligatorios");
+        if (ctrl.selectedOptionTown.IdMunicipio == undefined || ctrl.selectedOptionTown.IdMunicipio == null) {
+            toastr.warning("Debe ingresar un municipio");
             return false;
         }
 
@@ -255,8 +254,7 @@ function touristSiteController($scope, UserService,  $rootScope, $window, $filte
                 if (response.exception == null) {
                     ctrl.turistSiteSaved = ctrl.transformRespond(response.value[0]);
                     ctrl.IdSitioTuristico = parseInt(ctrl.turistSiteSaved[0].IdSitioTuristico);
-                } else {
-                    ctrl.messageLoginInvalid = 'No se encontraron datos';
+                    toastr.success("Cambios guardados correctamente");
                 }
             }
         });
@@ -277,8 +275,6 @@ function touristSiteController($scope, UserService,  $rootScope, $window, $filte
             success: function (response) {
                 if (response.exception == null) {
                     ctrl.towns = ctrl.transformRespond(response.value[0]);
-                } else {
-                    ctrl.messageLoginInvalid = 'No se encontraron datos';
                 }
             }
         });
@@ -300,8 +296,6 @@ function touristSiteController($scope, UserService,  $rootScope, $window, $filte
                 if (response.exception == null) {
                     ctrl.touristSite = ctrl.transformRespond(response.value[0]);
                     fillLoadData(ctrl.touristSite[0]);
-                } else {
-                    ctrl.messageLoginInvalid = 'No se encontraron datos';
                 }
             }
         });
@@ -342,8 +336,6 @@ function touristSiteController($scope, UserService,  $rootScope, $window, $filte
                 ctrl.showHeking = true;
             }
         }
-
-    
     }
 
     angular.element(document).ready(function () {

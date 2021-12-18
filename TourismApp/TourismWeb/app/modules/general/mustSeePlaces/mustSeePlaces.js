@@ -88,7 +88,7 @@ function mustSeePlaceController($scope, UserService, $rootScope, $window, $filte
             filter: true
         },
         {
-            headerName: "Descripcion",
+            headerName: "Descripción",
             field: "DescripcionESP",
             width: 120,
             cellStyle: { 'text-align': 'left' },
@@ -98,7 +98,7 @@ function mustSeePlaceController($scope, UserService, $rootScope, $window, $filte
             filter: true
         },
         {
-            headerName: "Presentacion",
+            headerName: "Presentación",
             field: "PresentacionESP",
             width: 120,
             cellStyle: { 'text-align': 'left' },
@@ -174,6 +174,7 @@ function mustSeePlaceController($scope, UserService, $rootScope, $window, $filte
     ]
 
     ctrl.delete = function (ev, data) {
+        toastr.warning("Las imagenes e información asociada a este sitio turistico sera eliminada");
         if (!window.confirm("Esta seguro de eliminar el sitio turistico seleccionado?")) {
             return;
         }

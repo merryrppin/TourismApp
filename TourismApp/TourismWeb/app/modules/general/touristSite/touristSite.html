@@ -14,9 +14,9 @@
                     <div class="card-body">
                         <h2 class="card-title">{{ctrl.title}}</h2>
                         <p class="card-text">
-                            En la primera sección del lado izquierdo se agrega la información del sitio turistico en español, en la parte derecha se llenara esta misma en lenguaje ingles,
-                            Los campos marcados con el signo "*" son campos obligatorios y será necesario digitarlos.
-                            Para cargar la sección de imagenes primero debe guardar cambios mediante el botón "Guardar Cambios"
+                            En la primera sección del lado izquierdo se agregá la información del sitio turistico en español, en la parte derecha se llenara esta misma en lenguaje ingles,
+                            Los campos marcados con el signo " * " son obligatorios y será necesario digitarlos.
+                            Para cargar la sección de imagenes primero debe guardar cambios mediante el botón "Guardar Cambios".
                         </p>
                     </div>
                 </div>
@@ -30,41 +30,41 @@
 
                 <div class="mb-2">
                     <label for="correo" class="form-floating form-label">Nombre</label>
-                    <input ng-model="ctrl.siteNameESP" type="text" class="form-control" id="correo" aria-describedby="ayuda-correo">
-                    <div id="ayuda-correo" class="form-text">
-                        *Digite el nombre en lenguaje español.
+                    <input ng-model="ctrl.siteNameESP" type="text" class="form-control" id="correo" aria-describedby="ayuda">
+                    <div id="ayuda" class="form-text">
+                        *Digité el nombre en lenguaje español.
                     </div>
                 </div>
 
                 <div class="mb-2">
                     <label for="mensaje" class="form-label">Presentación</label>
                     <textarea ng-model="ctrl.presentationNameESP" class="form-control" name="mensaje" id="mensaje"></textarea>
-                    <div id="ayuda-correo" class="form-text">
-                        *Digite la presentación en lenguaje español.
+                    <div id="ayuda" class="form-text">
+                        *Digité la presentación en lenguaje español.
                     </div>
                 </div>
 
                 <div class="mb-2">
                     <label for="mensaje" class="form-label">Descripción</label>
                     <textarea ng-model="ctrl.descriptionESP" class="form-control" name="mensaje" id="mensaje"></textarea>
-                    <div id="ayuda-correo" class="form-text">
-                        *Digite la descripción en lenguaje español.
+                    <div id="ayuda" class="form-text">
+                        *Digité la descripción en lenguaje español.
                     </div>
                 </div>
 
                 <div class="mb-2">
                     <label for="mensaje" class="form-label">Como llegar</label>
                     <textarea ng-model="ctrl.routeESP" class="form-control" name="mensaje" id="mensaje"></textarea>
-                    <div id="ayuda-correo" class="form-text">
-                        *Digite como llegar en lenguaje español.
+                    <div id="ayuda" class="form-text">
+                        *Digité como llegar en lenguaje español.
                     </div>
                 </div>
 
                 <div class="mb-2">
                     <label for="mensaje" class="form-label">Dirección</label>
                     <input ng-model="ctrl.DireccionESP" class="form-control" name="mensaje" id="mensaje">
-                    <div id="ayuda-correo" class="form-text">
-                        *Digite la Dirección en lenguaje español.
+                    <div id="ayuda" class="form-text">
+                        *Digité la Dirección en lenguaje español.
                     </div>
                 </div>
 
@@ -74,8 +74,8 @@
 
                     <span class="input-group-text">Longitud</span>
                     <input ng-model="ctrl.RouteLength" type="text" class="form-control" aria-label="Longitud">
-                    <div id="ayuda-correo" class="form-text">
-                        *Digite la la longitud y latitud, solo se permiten valores númericos.
+                    <div id="ayuda" class="form-text">
+                        *Digité la la longitud y latitud, solo se permiten valores númericos.
                     </div>
                 </div>
 
@@ -84,8 +84,8 @@
                     <select name="mySelect" id="mySelect" class="form-select"
                             ng-options="option.NombreMunicipio for option in  ctrl.towns track by option.IdMunicipio"
                             ng-model="ctrl.selectedOptionTown"></select>
-                    <div id="ayuda-correo" class="form-text">
-                        *Expande el menu para seleccionar un municipio.
+                    <div id="ayuda" class="form-text">
+                        *Expande el menú para seleccionar un municipio.
                     </div>
                 </div>
 
@@ -101,42 +101,41 @@
                 <h3>Ingles</h3>
                 <div class="mb-2">
                     <label for="correo" class="form-label">Nombre</label>
-                    <input ng-model="ctrl.siteNameENG" type="text" class="form-control" id="correo" aria-describedby="ayuda-correo">
-                    <div id="ayuda-correo" class="form-text">
-                        Digite el nombre en lenguaje ingles.
+                    <input ng-model="ctrl.siteNameENG" type="text" class="form-control" id="correo" aria-describedby="ayuda">
+                    <div id="ayuda" class="form-text">
+                        Digité el nombre en lenguaje ingles.
                     </div>
                 </div>
 
                 <div class="mb-2">
                     <label for="mensaje" class="form-label">Presentación</label>
                     <textarea ng-model="ctrl.presentationNameENG" class="form-control" name="mensaje" id="mensaje"></textarea>
-                    <div id="ayuda-correo" class="form-text">
-                        Digite la presentación en lenguaje ingles.
+                    <div id="ayuda" class="form-text">
+                        Digité la presentación en lenguaje ingles.
                     </div>
                 </div>
 
                 <div class="mb-2">
                     <label for="mensaje" class="form-label">Descripción</label>
                     <textarea ng-model="ctrl.descriptionENG" class="form-control" name="mensaje" id="mensaje"></textarea>
-                    <div id="ayuda-correo" class="form-text">
-                        *Digite la descripción en lenguaje ingles.
+                    <div id="ayuda" class="form-text">
+                        *Digité la descripción en lenguaje ingles.
                     </div>
                 </div>
 
                 <div class="mb-2">
                     <label for="mensaje" class="form-label">Como llegar</label>
                     <textarea ng-model="ctrl.routeENG" class="form-control" name="mensaje" id="mensaje"></textarea>
-                    <div id="ayuda-correo" class="form-text">
-                        Digite  como llegar en lenguaje ingles.
+                    <div id="ayuda" class="form-text">
+                        Digité  como llegar en lenguaje ingles.
                     </div>
                 </div>
-
 
                 <div class="mb-2">
                     <label for="mensaje" class="form-label">Dirección</label>
                     <input ng-model="ctrl.DireccionENG" class="form-control" name="mensaje" id="mensaje">
-                    <div id="ayuda-correo" class="form-text">
-                        Digite la Dirección en lenguaje ingles.
+                    <div id="ayuda" class="form-text">
+                        Digité la Dirección en lenguaje ingles.
                     </div>
                 </div>
 
@@ -149,13 +148,13 @@
                     <div class="input-group">
                         <span class="input-group-btn">
                             <span class="btn btn-primary btn-file">
-                                Buscar imagenes...<input title="Debe tener los cambios guardados para subir las imagenes" type="file" multiple my-directory="ctrl.getFiles(file)" ng-disabled="ctrl.IdSitioTuristico == ''" />
+                                Buscar imagenes...<input  ng-disabled="ctrl.IdSitioTuristico == ''" title="Debe tener los cambios guardados para subir las imagenes" type="file" multiple my-directory="ctrl.getFiles(file)" />
                             </span>
                         </span>
                         <input type="text" ng-model="ctrl.countFiles" class="form-control" readonly>
 
                     </div>
-                    <div id="ayuda-correo" class="form-text">
+                    <div id="ayuda" class="form-text">
                         Seleccione las imagenes a cargar.
                     </div>
                     <input style="margin-top: 10px;" type="button" class="btn btn-default  btn-primary" ng-click="ctrl.uploadFiles('')" value="Cargar imagenes" ng-disabled="ctrl.uploading || ctrl.countFiles==='' ||  ctrl.IdSitioTuristico == ''" />
@@ -170,13 +169,13 @@
                     <div class="input-group">
                         <span class="input-group-btn">
                             <span class="btn btn-primary btn-file">
-                                Buscar archivo .gpx...<input type="file" multiple my-directory="ctrl.getFileGpx(file)" ng-disabled="ctrl.uploading" />
+                                Buscar archivo .gpx...<input ng-disabled="ctrl.IdSitioTuristico == ''" title="Debe tener los cambios guardados para subir las imagenes" type="file" multiple my-directory="ctrl.getFileGpx(file)" ng-disabled="ctrl.uploading" />
                             </span>
                         </span>
                         <input type="text" ng-model="ctrl.countFilesGpx" class="form-control" readonly>
 
                     </div>
-                    <div id="ayuda-correo" class="form-text">
+                    <div id="ayuda" class="form-text">
                         Seleccione archivo gpx a cargar.
                     </div>
                     <input style="margin-top: 10px;" type="button" class="btn btn-default  btn-primary" ng-click="ctrl.uploadFiles('tmpGPX')" value="Cargar archivo .gpx" ng-disabled="ctrl.uploading || ctrl.countFilesGpx==='' ||  ctrl.IdSitioTuristico == ''" />
@@ -189,6 +188,4 @@
 
             </div>
         </div>
-
-
     </div>

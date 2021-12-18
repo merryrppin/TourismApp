@@ -10,29 +10,29 @@ function changePasswordController($scope, UserService, $window, $location, $root
     function isValidNewPassword() {
 
         if (ctrl.newPassword_1 == undefined || ctrl.newPassword_2 == undefined || ctrl.realPassword == undefined) {
-            alert("Todos los campos son obligatorios!");
+            toastr.warning("Todos los campos son obligatorios!");
             return false;
         }
 
         if (ctrl.newPassword_1.length === 0 || ctrl.newPassword_2.length === 0 || ctrl.realPassword.length === 0) {
-            alert("Todos los campos son obligatorios!");
+            toastr.warning("Todos los campos son obligatorios!");
             return false;
         }
 
         if (ctrl.newPassword_1 != ctrl.newPassword_2) {
-            alert("La nueva clave es diferente en ambos ingresos!");
+            toastr.warning("La nueva clave es diferente en ambos ingresos");
             return false;
         }
 
 
 
         if (ctrl.newPassword_2.length <= 5) {
-            alert("La nueva contraseña debe tener mas de cinco caracteres");
+            toastr.warning("La nueva contraseña debe tener mas de cinco caracteres");
             return false;
         }
 
         if (ctrl.newPassword_2 == ctrl.realPassword) {
-            alert("La nueva contraseña debe ser diferente a la anterior");
+            toastr.warning("La nueva contraseña debe ser diferente a la anterior");
             return false;
         }
         return true;
@@ -65,7 +65,11 @@ function changePasswordController($scope, UserService, $window, $location, $root
             success: function (response) {
                 ctrl.IsLoad = false;
                 if (response !== null && response !== '') {
-                    alert(response.value[0].rows[0]);
+                    if (response.value[0].rows[0] == 'Clave actualizada correctamente') {
+                        toastr.success(response.value[0].rows[0]);
+                    } else {
+                        toastr.error(response.value[0].rows[0]);
+                    }
                 }
             }
         });

@@ -66,6 +66,10 @@
 <script src="app/modules/general/touristSite/touristSiteCtrl.js"></script>
 <script src="Libs/loading-bar.min.js"></script>
 
+<!-- Toastr -->
+<script src="Libs/toaster/toaster.js"></script>
+<link href="Libs/toaster/toaster.css" rel="stylesheet" />
+
 </html>
 
 

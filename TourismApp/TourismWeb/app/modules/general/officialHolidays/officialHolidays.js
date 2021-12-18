@@ -88,7 +88,7 @@ function officialHolidaysController($scope, UserService, $rootScope, $window, $f
             filter: true
         },
         {
-            headerName: "Descripcion",
+            headerName: "Descripción",
             field: "DescripcionESP",
             width: 120,
             cellStyle: { 'text-align': 'left' },
@@ -98,7 +98,7 @@ function officialHolidaysController($scope, UserService, $rootScope, $window, $f
             filter: true
         },
         {
-            headerName: "Presentacion",
+            headerName: "Presentación",
             field: "PresentacionESP",
             width: 120,
             cellStyle: { 'text-align': 'left' },
@@ -174,6 +174,7 @@ function officialHolidaysController($scope, UserService, $rootScope, $window, $f
     ]
 
     ctrl.delete = function (ev, data) {
+        toastr.warning("Las imagenes e información asociada a este sitio turistico sera eliminada");
         if (!window.confirm("Esta seguro de eliminar el sitio turistico seleccionado?")) {
             return;
         }
@@ -196,8 +197,9 @@ function officialHolidaysController($scope, UserService, $rootScope, $window, $f
             success: function (response) {
                 if (response.exception == null) {
                     ctrl.response = response;
-                    ctrl.getDataofficialHolidays();
+                    ctrl.getDatastronomy();
                     ctrl.uploading = false;
+                    toastr.success("Sitio eliminado correctamente");
                 } else {
                     ctrl.messageLoginInvalid = 'No se encontraron datos';
                     ctrl.uploading = false;
