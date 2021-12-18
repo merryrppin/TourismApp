@@ -50,7 +50,7 @@ export class SitioTuristicoPage {
     private file: File,
     public actionSheetController: ActionSheetController,
     private storage: StorageService,
-    public modalController: ModalController,
+    public modalController: ModalController ,
     private screenOr: ScreenOrientation) {
     this.imgComentario1 = this.imageFileDefault;
     this.imgComentario2 = this.imageFileDefault;
@@ -66,7 +66,7 @@ export class SitioTuristicoPage {
         this.itemData.Comentarios = this.itemData.Comentarios !== "" ? JSON.parse(this.itemData.Comentarios) : [];
         this.calValueInputGen = this.itemData.PromCalificacion.toString();
         this.itemData.Imagenes = this.itemData.Imagenes !== "" ? JSON.parse(this.itemData.Imagenes) : [];
-        this.screenOr.lock(this.screenOr.ORIENTATIONS.PORTRAIT);
+         this.screenOr.lock(this.screenOr.ORIENTATIONS.PORTRAIT);
       });
     });
 
