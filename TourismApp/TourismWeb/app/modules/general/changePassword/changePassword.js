@@ -8,8 +8,9 @@ function changePasswordController($scope, UserService, $window, $location, $root
     let ctrl = this;
 
     function isValidNewPassword() {
-        if (ctrl.newPassword_1 != ctrl.newPassword_2) {
-            alert("La nueva clave es diferente en ambos ingresos!");
+
+        if (ctrl.newPassword_1 == undefined || ctrl.newPassword_2 == undefined || ctrl.realPassword == undefined) {
+            alert("Todos los campos son obligatorios!");
             return false;
         }
 
@@ -17,6 +18,13 @@ function changePasswordController($scope, UserService, $window, $location, $root
             alert("Todos los campos son obligatorios!");
             return false;
         }
+
+        if (ctrl.newPassword_1 != ctrl.newPassword_2) {
+            alert("La nueva clave es diferente en ambos ingresos!");
+            return false;
+        }
+
+
 
         if (ctrl.newPassword_2.length <= 5) {
             alert("La nueva contraseña debe tener mas de cinco caracteres");
@@ -43,20 +51,21 @@ function changePasswordController($scope, UserService, $window, $location, $root
         {
             "StoredParams": [
                 { "Name": "realPassword", "Value": ctrl.realPassword },
-                { "Name": "newPassword", "Value": ctrl.newPassword_2 }
+                { "Name": "newPassword", "Value": ctrl.newPassword_2 },
+                { "Name": "Usuario", "Value": $window.localStorage.getItem('userName') }
             ],
-            "StoredProcedureName": "ActualizarPassword"
+            "StoredProcedureName": "CambiarCredenciales"
         }
 
         GeneralService.executeAjax({
-            url: 'https://localhost:44355/api/tourism/ChangePassword',
+            url: `${UserService.ApiUrl}/ChangePassword`,
             data: StoredObjectParams,
             dataType: 'json',
             contentType: 'application/json',
             success: function (response) {
                 ctrl.IsLoad = false;
-                if (response !== null && response !== '' && response.token !== null) {
-                    alert("Contraseña cambiada correctamente!");
+                if (response !== null && response !== '') {
+                    alert(response.value[0].rows[0]);
                 }
             }
         });

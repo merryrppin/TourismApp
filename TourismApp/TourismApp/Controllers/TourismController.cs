@@ -147,5 +147,26 @@ namespace TourismApp.Controllers
                 throw new Exception(ex.Message);
             }
         }
+
+        [HttpPost("ChangePassword")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public StoredObjectResponse ChangePassword(StoredObjectParams StoredObjectParams)
+        {
+            try
+            {
+                string newPassword = StoredObjectParams.StoredParams.Where(x => x.Name == "newPassword").Select(x => x.Value).ToList().FirstOrDefault();
+                string realPassword = StoredObjectParams.StoredParams.Where(x => x.Name == "realPassword").Select(x => x.Value).ToList().FirstOrDefault();
+                var encryptNewPassword = EncryptDecryptPassword.EncryptPlainText(newPassword);
+                var encryptRealPassword = EncryptDecryptPassword.EncryptPlainText(realPassword);
+                StoredObjectParams.StoredParams.Where(x => x.Name == "newPassword").ToList().ForEach(p => p.Value = encryptNewPassword);
+                StoredObjectParams.StoredParams.Where(x => x.Name == "realPassword").ToList().ForEach(p => p.Value = encryptRealPassword);
+                StoredObjectResponse response = _AdministrationService.ExecuteStoredProcedure(StoredObjectParams);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
