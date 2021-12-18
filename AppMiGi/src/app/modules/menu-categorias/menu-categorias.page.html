@@ -15,7 +15,7 @@
     <ion-list (click)="sitioTuristico(item)">
       <ion-icon slot="end" class="icon-share" name="share-social-outline"></ion-icon>
       <ion-icon slot="end" class="icon-heart" name="heart-outline"></ion-icon>
-      <img class="card-img" src="{{item.IconoMarcador}}" />
+      <img class="card-img" src="http://girardotaturistica.azurewebsites.net/{{item.ImagenPrincipal}}" />
       <ion-item lines="none">
         <h1>{{lang == 'ENG' ? item.NombreSitioTuristicoENG : item.NombreSitioTuristicoESP}}</h1>
         <ion-icon slot="end" name="star-outline"></ion-icon>
