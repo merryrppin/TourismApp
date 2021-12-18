@@ -73,7 +73,7 @@ namespace TourismApp.Services
                     }
                     catch (Exception ex)
                     {
-                        StoredObjectResponse.Exception = ex;
+                        throw new Exception(ex.Message);
                     }
                     finally
                     {

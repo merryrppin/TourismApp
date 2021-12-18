@@ -80,12 +80,10 @@ function GeneralService($http, $rootScope, $window) {
                     response.data.Value = angular.copy(dataResponseMapped);
             }
             options.success(response.data);
-        }), function (response) {
-            generalService.showToastR({
-                body: aLanguage.fatalError,
-                type: 'error'
-            });
-        };
+        }).catch(function onError(response) {
+            toastr.error(response.data);
+
+        });
     };
 
     generalService.showToastR = function (data) {

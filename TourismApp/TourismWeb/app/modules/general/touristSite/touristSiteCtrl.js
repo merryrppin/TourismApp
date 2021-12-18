@@ -184,6 +184,7 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
         }
 
         if (ctrl.siteNameESP == '' || ctrl.descriptionESP == '' || ctrl.routeESP == '' || ctrl.DireccionESP == '' || ctrl.presentationNameESP == '') {
+            toastr.warning("Falta información por digitar, los campos marcados con * son  obligatorios");
             return false;
         }
 
