@@ -2,6 +2,7 @@
 
 angular
     .module('tourismApp', [
+
         'tourismApp.loginController',
         'tourismApp.homeController',
         'tourismApp.religiousController',
@@ -23,7 +24,7 @@ angular
         function link(scope, element, attrs) {
             var model = $parse(attrs.myDirectory);
             element.on('change', function (event) {
-                scope.data = [];   
+                scope.data = [];
                 model(scope, { file: event.target.files });
             });
         };
@@ -34,7 +35,7 @@ angular
 
     .factory('UserService', function () {
         return {
-            ApiUrl: 'http://testappservicewf.azurewebsites.net/api/tourism' 
+            ApiUrl: 'http://girardotaturistica.azurewebsites.net/TourismApp/api/tourism'
         };
     })
 

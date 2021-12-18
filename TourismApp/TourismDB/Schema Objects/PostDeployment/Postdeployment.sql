@@ -57,9 +57,11 @@ INSERT INTO [tblTipoSitioTuristico] (IdTipoSitioTuristico,Nombre,[Codigo]) VALUE
 (6,'Por Defecto','DEF')
 SET IDENTITY_INSERT [dbo].[tblTipoSitioTuristico] OFF
 
---[tblUsuarioWeb] Password : 123456
-insert into tblUsuarioWeb (UserName,Email,[Password])
-select 'admin','admin@correo.com','wEW6Tok99ik='
+--[tblUsuarioWeb]
+--Password : Girardota2021*
+--User : girardota.turismoapp@hotmail.com
+insert into tblUsuarioWeb (NombreUsuario,Email,[Password])
+select 'admin','girardota.turismoapp@hotmail.com','gosgzg/xai+gFU7Sp4j26g=='
 
 --[dbo].[tblMunicipio]
 SET IDENTITY_INSERT [dbo].[tblMunicipio] ON

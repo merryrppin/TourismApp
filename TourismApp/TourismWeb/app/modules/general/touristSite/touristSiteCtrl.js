@@ -5,7 +5,7 @@ angular
 
 touristSiteController.$inject = ['$scope', 'UserService', '$rootScope', '$window', '$filter', '$timeout', '$location', 'GeneralService'];
 
-function touristSiteController($scope, UserService, $rootScope, $window, $filter, $timeout, $location, GeneralService) {
+function touristSiteController($scope, UserService,  $rootScope, $window, $filter, $timeout, $location, GeneralService) {
     let ctrl = this;
     ctrl.religiousData = [];
     ctrl.DefaultCode = null;
@@ -175,7 +175,24 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
         return Result;
     };
 
+
+    function IsNumeric(input) {
+        var RE = /^-{0,1}\d*\.{0,1}\d+$/;
+        return (RE.test(input));
+    }
+
     function isValidSaved() {
+
+        if (!IsNumeric(ctrl.routeLatitude)) {
+            alert("La latitud debe ser un campo númertico");
+            return false;
+        }
+
+        if (!IsNumeric(ctrl.RouteLength)) {
+            alert("La longitud debe ser un campo númerico");
+            return false;
+        }
+
         if (ctrl.siteNameESP == null || ctrl.descriptionESP == null || ctrl.routeESP == null || ctrl.DireccionESP == null || ctrl.selectedOptionTown.IdMunicipio == null || ctrl.presentationNameESP == null) {
             alert("Falta información por digitar, los sitios marcados con * son campos obligatorios");
             return false;
@@ -185,6 +202,7 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
             alert("Falta información por digitar, los sitios marcados con * son campos obligatorios");
             return false;
         }
+
         return true;
     }
 
@@ -301,25 +319,31 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
             modifiedSite = $location.$$search.param.data;
         }
 
-        ctrl.IdSitioTuristico = modifiedSite.IdSitioTuristico;
-        ctrl.siteNameESP = modifiedSite.NombreSitioTuristicoESP;
-        ctrl.siteNameENG = modifiedSite.NombreSitioTuristicoENG;
-        ctrl.selectedOptionTown.IdMunicipio = modifiedSite.IdMunicipio;
-        ctrl.routeLatitude = modifiedSite.Latitud;
-        ctrl.RouteLength = modifiedSite.Longitud;
-        ctrl.descriptionESP = modifiedSite.DescripcionESP;
-        ctrl.descriptionENG = modifiedSite.DescripcionENG;
-        ctrl.presentationNameESP = modifiedSite.PresentacionESP;
-        ctrl.presentationNameENG = modifiedSite.PresentacionENG;
-        ctrl.routeESP = modifiedSite.RutaESP;
-        ctrl.routeENG = modifiedSite.RutaENG;
-        ctrl.DireccionESP = modifiedSite.DireccionESP;
-        ctrl.DireccionENG = modifiedSite.DireccionENG;
-        ctrl.time = modifiedSite.Horario;
-
-        if ($location.$$search.param.Code == 'SDM') {
-            ctrl.showHeking = true;
+        if (modifiedSite != undefined) {
+            ctrl.IdSitioTuristico = modifiedSite.IdSitioTuristico;
+            ctrl.siteNameESP = modifiedSite.NombreSitioTuristicoESP;
+            ctrl.siteNameENG = modifiedSite.NombreSitioTuristicoENG;
+            ctrl.selectedOptionTown.IdMunicipio = modifiedSite.IdMunicipio;
+            ctrl.routeLatitude = modifiedSite.Latitud;
+            ctrl.RouteLength = modifiedSite.Longitud;
+            ctrl.descriptionESP = modifiedSite.DescripcionESP;
+            ctrl.descriptionENG = modifiedSite.DescripcionENG;
+            ctrl.presentationNameESP = modifiedSite.PresentacionESP;
+            ctrl.presentationNameENG = modifiedSite.PresentacionENG;
+            ctrl.routeESP = modifiedSite.RutaESP;
+            ctrl.routeENG = modifiedSite.RutaENG;
+            ctrl.DireccionESP = modifiedSite.DireccionESP;
+            ctrl.DireccionENG = modifiedSite.DireccionENG;
+            ctrl.time = modifiedSite.Horario;
         }
+
+        if ($location.$$search.param != undefined) {
+            if ($location.$$search.param.Code == 'SDM') {
+                ctrl.showHeking = true;
+            }
+        }
+
+    
     }
 
     angular.element(document).ready(function () {
