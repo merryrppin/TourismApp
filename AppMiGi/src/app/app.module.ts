@@ -23,6 +23,7 @@ import { File } from '@ionic-native/file/ngx'
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 
 
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

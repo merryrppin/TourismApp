@@ -20,8 +20,6 @@ export class ModalPage implements OnInit   {
 
   }
 
-
-
   ngOnInit() {
 
     this.mySlideOptions = {

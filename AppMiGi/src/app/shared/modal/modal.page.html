@@ -11,8 +11,8 @@
 
       
       <ion-slides  #slides effect="coverflow" [options]="mySlideOptions" pager="true">
-        <ion-slide *ngFor="let item of images.Imagenes" >
-          <img class="card-img" src="{{item}}" />
+        <ion-slide *ngFor="let item of images" >
+          <img class="card-img" src="http://girardotaturistica.azurewebsites.net/{{item.UrlFoto}}" />
         </ion-slide>
       </ion-slides>    
 
