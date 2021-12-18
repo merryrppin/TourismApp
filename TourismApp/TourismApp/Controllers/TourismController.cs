@@ -126,7 +126,7 @@ namespace TourismApp.Controllers
                     {
                         string rootPath = typeSite == "tmpGPX" ? pathTourismeApp : pathTourismWeb;
                         string filePath = Path.Combine($"{rootPath}/files/{typeSite}/", formFile.FileName);
-                        filePaths.Add(filePath);
+                        filePaths.Add($"TourismWeb/files/{typeSite}/{formFile.FileName}");
                         using var stream = System.IO.File.Create(filePath);
                         await formFile.CopyToAsync(stream);
                     }
