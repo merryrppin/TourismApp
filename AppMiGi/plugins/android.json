@@ -10,6 +10,10 @@
     "cordova-plugin-androidx-adapter": {
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
+    "cordova-plugin-camera": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+      "PACKAGE_NAME": "io.ionic.appmigi"
+    },
     "cordova-plugin-device": {
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
@@ -24,6 +28,9 @@
       "FACEBOOK_ANDROID_SDK_VERSION": "11.3.0",
       "FACEBOOK_IOS_SDK_VERSION": "11.1.0",
       "FACEBOOK_BROWSER_SDK_VERSION": "v11.0",
+      "PACKAGE_NAME": "io.ionic.appmigi"
+    },
+    "cordova-plugin-file": {
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
     "cordova-plugin-geolocation": {
@@ -48,6 +55,9 @@
       "PLAY_SERVICES_LOCATION_VERSION": "16.+",
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
+    "cordova-plugin-screen-orientation": {
+      "PACKAGE_NAME": "io.ionic.appmigi"
+    },
     "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
@@ -56,17 +66,13 @@
     },
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "io.ionic.appmigi"
-    },
-    "cordova-plugin-camera": {
-      "ANDROID_SUPPORT_V4_VERSION": "27.+",
-      "PACKAGE_NAME": "io.ionic.appmigi"
-    },
-    "cordova-plugin-file": {
-      "PACKAGE_NAME": "io.ionic.appmigi"
     }
   },
   "dependent_plugins": {
     "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "io.ionic.appmigi"
+    },
+    "es6-promise-plugin": {
       "PACKAGE_NAME": "io.ionic.appmigi"
     }
   }

@@ -3,6 +3,7 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
         <domain includeSubdomains="true">192.135.1.4</domain>
+        <domain includeSubdomains="true">https://girardotaturistica.azurewebsites.net</domain>
         <domain includeSubdomains="true">https://testappservicewf.azurewebsites.net</domain>
     </domain-config>
 </network-security-config>

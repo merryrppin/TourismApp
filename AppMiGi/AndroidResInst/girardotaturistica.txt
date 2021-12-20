@@ -1,0 +1,2 @@
+alias: girardota
+pwd: girardota

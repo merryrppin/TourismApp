@@ -64,7 +64,8 @@ export class LoginPage {
         this.saveLogin(usuarioApp);
       })
       .catch((err) => {
-        console.error(err);
+        this.generalService.showToastError(err, 3500);
+        this.loading.dismiss();
       });
   }
 
@@ -98,11 +99,13 @@ export class LoginPage {
             objThis.saveLogin(usuarioApp);
           })
           .catch(function (err) {
-            console.log('Error getting data Facebook', err);
+            this.generalService.showToastError(err, 3500);
+            this.loading.dismiss();
           });
       })
       .catch(e => {
-        console.log('Error logging into Facebook', e);
+        this.generalService.showToastError(e, 3500);
+        this.loading.dismiss();
       });
     this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
   }
