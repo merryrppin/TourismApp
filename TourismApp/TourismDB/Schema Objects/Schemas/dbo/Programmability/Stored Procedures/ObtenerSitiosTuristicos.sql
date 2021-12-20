@@ -30,7 +30,8 @@ AS BEGIN
 				(Select IdComentariosSitioTuristico,Calificacion,Comentarios,Email,img1,img2,NombreCompleto,DiaRegistro FROM tblComentariosSitioTuristico AS CST WHERE CST.IdSitioTuristico = sitioT.IdSitioTuristico FOR JSON AUTO ) AS Comentarios,
 				(Select AVG(Calificacion) AS PromCalificacion FROM tblComentariosSitioTuristico AS CST WHERE CST.IdSitioTuristico = sitioT.IdSitioTuristico) AS PromCalificacion,
 				(Select COUNT(Calificacion) AS Total FROM tblComentariosSitioTuristico AS CST WHERE CST.IdSitioTuristico = sitioT.IdSitioTuristico) As TotalComentarios,
-				(Select UrlFoto From tblGaleriaFotos FOR JSON AUTO) AS Imagenes
+				(Select UrlFoto From tblGaleriaFotos WHERE IdSitioTuristico = sitioT.IdSitioTuristico FOR JSON AUTO) AS Imagenes,
+				(Select Top 1 UrlFoto From tblGaleriaFotos WHERE IdSitioTuristico = sitioT.IdSitioTuristico) AS ImagenPrincipal
 			FROM tblSitioTuristico AS sitioT
 				INNER JOIN tblTipoSitioTuristico AS tipoSitio ON sitioT.IdTipoSitioTuristico = tipoSitio.IdTipoSitioTuristico
 			WHERE 1 = 1 '
