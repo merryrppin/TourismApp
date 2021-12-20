@@ -35,12 +35,12 @@ function officialHolidaysController($scope, UserService, $rootScope, $window, $f
     }
 
     ctrl.addNewSite = function () {
-        let newSite = { 'Code': ctrl.CodeofficialHolidays, 'Name': 'Religioso', 'fileName': 'officialHolidays' };
+        let newSite = { 'Code': ctrl.CodeofficialHolidays, 'Name': 'oficiales', 'fileName': 'officialHolidays' };
         $location.path('/touristSite/FTS').search({ param: newSite });
     }
 
     ctrl.modifiedSite = function (ev, data) {
-        let modifiedSite = { 'Code': ctrl.CodeofficialHolidays, 'Name': 'Religioso', 'fileName': 'officialHolidays', 'data': data };
+        let modifiedSite = { 'Code': ctrl.CodeofficialHolidays, 'Name': 'oficiales', 'fileName': 'officialHolidays', 'data': data };
         $location.path('/touristSite/FTS').search({ param: modifiedSite });
     }
 
@@ -197,7 +197,7 @@ function officialHolidaysController($scope, UserService, $rootScope, $window, $f
             success: function (response) {
                 if (response.exception == null) {
                     ctrl.response = response;
-                    ctrl.getDatastronomy();
+                    ctrl.getDataofficialHolidays();
                     ctrl.uploading = false;
                     toastr.success("Sitio eliminado correctamente");
                 } else {
