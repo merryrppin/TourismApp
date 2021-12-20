@@ -108,6 +108,9 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
                     if (response.count > 0 && ctrl.pathFile != 'tmpGPX') {
                         ctrl.savePhotoGallery(response);
                     }
+                    if (ctrl.pathFile == 'tmpGPX') {
+                        toastr.success("Archivo gpx cargado correctamente");
+                    }
                 }
             }
         });
@@ -137,7 +140,7 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
             success: function (response) {
                 if (response.exception == null) {
                     ctrl.response = response;
-                    toastr.success("Cambios guardados correctamente");
+                    toastr.success("Imagenes guardadas correctamente");
                     ctrl.uploading = false;
                 }
             }

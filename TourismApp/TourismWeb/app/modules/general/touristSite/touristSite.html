@@ -68,7 +68,7 @@
                     </div>
                 </div>
 
-                <div class="input-group mb-2">
+                <div class="input-group">
                     <span class="input-group-text">Latitud</span>
                     <input ng-model="ctrl.routeLatitude" type="text" class="form-control" aria-label="Latitud">
 
@@ -169,7 +169,7 @@
                     <div class="input-group">
                         <span class="input-group-btn">
                             <span class="btn btn-primary btn-file">
-                                Buscar archivo .gpx...<input ng-disabled="ctrl.IdSitioTuristico == ''" title="Debe tener los cambios guardados para subir las imagenes" type="file" multiple my-directory="ctrl.getFileGpx(file)" ng-disabled="ctrl.uploading" />
+                                Buscar archivo .gpx...<input ng-disabled="ctrl.IdSitioTuristico == ''" title="Debe tener los cambios guardados para subir el archivo gpx" type="file" multiple my-directory="ctrl.getFileGpx(file)" ng-disabled="ctrl.uploading" />
                             </span>
                         </span>
                         <input type="text" ng-model="ctrl.countFilesGpx" class="form-control" readonly>

@@ -168,13 +168,13 @@ function officialHolidaysController($scope, UserService, $rootScope, $window, $f
                 if (params.node.rowPinned) {
                     return '';
                 }
-                return "<span title='actualizar' class='material-icons' ng-click='ctrl.modifiedSite($event, this.data)'>update</span> <span  title='Eliminar' ng-click='ctrl.delete($event, this.data)' class='material-icons'>delete</span>"
+                return "<span title='actualizar' class='material-icons' ng-click='ctrl.modifiedSite($event, this.data)'>edit</span> <span style='margin-left: 15px;'  title='Eliminar' ng-click='ctrl.delete($event, this.data)' class='material-icons'>delete</span>"
             }
         }
     ]
 
     ctrl.delete = function (ev, data) {
-        toastr.warning("Las imagenes e información asociada a este sitio turistico sera eliminada");
+        toastr.warning("Las imagenes e información asociada a este sitio turistico sera eliminada al precionar el botón ok");
         if (!window.confirm("Esta seguro de eliminar el sitio turistico seleccionado?")) {
             return;
         }
