@@ -2,7 +2,6 @@
 
 <!DOCTYPE html>
 <html data-ng-app="tourismApp">
-</script>
 
 <head runat="server">
     <title></title>
