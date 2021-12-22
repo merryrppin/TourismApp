@@ -116,10 +116,15 @@ namespace TourismApp.Services
 
         private string GenerateFileIMG(string img1Base64, string IdSitioTuristico)
         {
+            string myDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            string pathTourismWeb = System.IO.Path.Combine(myDir, "wwwroot/TourismWeb");
+            bool exists = Directory.Exists(Path.Combine(pathTourismWeb, $"files/commets/"));
+            if (!exists)
+                Directory.CreateDirectory(Path.Combine(pathTourismWeb, $"files/commets/"));
             string filePath1 = "";
             if (img1Base64 != "")
             {
-                filePath1 = "files/commets/" + IdSitioTuristico + "_" + Guid.NewGuid() + ".png";
+                filePath1 = "TourismWeb/files/commets/" + IdSitioTuristico + "_" + Guid.NewGuid() + ".png";
                 Base64ToImage(img1Base64, filePath1);
             }
             return filePath1;
