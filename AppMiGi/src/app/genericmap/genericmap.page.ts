@@ -21,6 +21,8 @@ export class GenericmapPage implements OnInit {
   @ViewChild('map', { static: false }) mapElement: ElementRef;
   map: any;
   address: string;
+  userMarker: any;
+  iconUserLoc: any;
 
   latitude: number;
   longitude: number;
@@ -66,13 +68,7 @@ export class GenericmapPage implements OnInit {
       this.mapType = params["mapType"];
     });
     this.infoWindow = new google.maps.InfoWindow();
-    objThis.currentPosition = new google.maps.LatLng(6.378543, -75.4464299); //Girardota
 
-    let watchPosition = this.geolocation.watchPosition();
-    var objThis = this;
-    watchPosition.subscribe((data: any) => {
-      objThis.currentPosition = new google.maps.LatLng(data.coords.latitude, data.coords.longitude);
-    });
     this.platform.ready().then(() => {
       this.validateIfGPSIsEnabled();
     });
@@ -237,11 +233,33 @@ export class GenericmapPage implements OnInit {
       mapToolbar: true
     };
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    if (this.mapType === "1") {
-      this.ObtenerPuntosSenderismo(this.itemData.IdSitioTuristico);
-    } else {
-      this.ObtenerRuta(this.itemData);
+
+    let watchPosition = this.geolocation.watchPosition();
+    var objThis = this;
+    this.iconUserLoc = {
+      url: "../../assets/map/icon_user.png"
     }
+    watchPosition.subscribe((data: any) => {
+      if (typeof data.coords !== 'undefined') {
+        objThis.currentPosition = new google.maps.LatLng(data.coords.latitude, data.coords.longitude);
+        if (typeof objThis.userMarker === 'undefined') {
+          objThis.userMarker = new google.maps.Marker({
+            position: objThis.currentPosition,
+            map: objThis.map,
+            icon: objThis.iconUserLoc
+          });
+
+          if (objThis.mapType === "1") {
+            objThis.ObtenerPuntosSenderismo(this.itemData.IdSitioTuristico);
+          } else {
+            objThis.ObtenerRuta(this.itemData);
+          }
+        } else {
+          objThis.userMarker.setPosition(objThis.currentPosition);
+        }
+      }
+    });
+    this.loading.dismiss();
   }
 
   cambiarIdioma() {
@@ -259,7 +277,7 @@ export class GenericmapPage implements OnInit {
     this.navController.navigateBack(["/sitio-turistico"], navigationExtras);
   }
 
-  centerUserPosition(){
+  centerUserPosition() {
     this.map.setCenter(this.currentPosition);
   }
 }
