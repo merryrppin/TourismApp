@@ -123,7 +123,7 @@ namespace TourismApp.Services
             if (!exists)
                 Directory.CreateDirectory(Path.Combine(pathTourismWeb, pathComments));
             string filePath1 = "";
-            if (img1Base64 != "")
+            if (img1Base64 != "" && img1Base64 != null)
             {
                 filePath1 = pathComments + IdSitioTuristico + "_" + Guid.NewGuid() + ".png";
                 Base64ToImage(img1Base64, filePath1);
