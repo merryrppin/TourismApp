@@ -161,13 +161,13 @@
   <div *ngIf="categoria=='SDM'">
     <ion-row>
       <ion-col md-6>
-        <ion-button class="textButton" expand="block" color="primary" (click)="mejorRuta(itemData, 2)" icon-start>
+        <ion-button class="textButton colorButton" expand="block"  (click)="mejorRuta(itemData, 2)" icon-start>
           <ion-icon src="../../assets/icon_imperdibles.svg"></ion-icon>
           {{lang == "ENG" ? "Best route" : "Mejor ruta"}}
         </ion-button>
       </ion-col>
       <ion-col md-6>
-        <ion-button class="textButton" expand="block" color="primary" (click)="mejorRuta(itemData, 1)" icon-start>
+        <ion-button class="textButton colorButton" expand="block"  (click)="mejorRuta(itemData, 1)" icon-start>
           <ion-icon name="star"></ion-icon>
           {{lang == "ENG" ? "Hiking route" : "Ruta senderismo"}}
         </ion-button>
@@ -175,7 +175,7 @@
     </ion-row>
   </div>
   <div *ngIf="categoria !=='SDM'">
-    <ion-button class="textButton" expand="block" color="primary" (click)="mejorRuta(itemData, 2)" icon-start>
+    <ion-button class="textButton colorButton" expand="block"  (click)="mejorRuta(itemData, 2)" icon-start>
       <ion-icon src="../../assets/icon_imperdibles.svg"></ion-icon>
       {{lang == "ENG" ? "Best route" : "Mejor ruta"}}
     </ion-button>

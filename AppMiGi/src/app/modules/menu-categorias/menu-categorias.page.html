@@ -13,8 +13,6 @@
 <div>
   <ion-list *ngFor="let item of menu">
     <ion-list (click)="sitioTuristico(item)">
-      <ion-icon slot="end" class="icon-share" name="share-social-outline"></ion-icon>
-      <ion-icon slot="end" class="icon-heart" name="heart-outline"></ion-icon>
       <img class="card-img" src="https://girardotaturistica.azurewebsites.net/{{item.ImagenPrincipal}}" />
       <ion-item lines="none">
         <h1>{{lang == 'ENG' ? item.NombreSitioTuristicoENG : item.NombreSitioTuristicoESP}}</h1>
