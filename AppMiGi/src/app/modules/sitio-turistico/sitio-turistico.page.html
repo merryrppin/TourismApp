@@ -114,7 +114,7 @@
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <h5>{{lang == 'ENG' ? "Visited this place on " : "Visitó este lugar el "}} {{cal.DiaRegistro}}</h5>
+                  <h5>{{lang == 'ENG' ? "Visited this place on " : "Visitó este lugar el "}} {{cal.DiaRegistro | date: 'dd/MM/yyyy'}}</h5>
                 </ion-col>
               </ion-row>
             </ion-card-content>

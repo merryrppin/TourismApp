@@ -88,18 +88,17 @@
 }
 
 .logosAlcaldiaHeader{
-    height: 30px;
+    height: 100%;
 }
 
 .btnLang {
     font-family: Poppins-Light;
     font-size: 12pt;
-    height: 22px;
     width: 100%;
+    height: 80%;
     --background: rgba(255, 255, 255, 0);
     --color: white;
     --box-shadow: 0;
-    padding-top: 5px;
 }
 
 .btnAtras{
@@ -154,4 +153,8 @@
     height: 100%;
     width: 22px !important;
     background: #216CA7;
+  }
+
+  .colLang{
+      padding: 0px;
   }

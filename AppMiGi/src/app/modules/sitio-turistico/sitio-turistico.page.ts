@@ -197,7 +197,7 @@ export class SitioTuristicoPage {
         Calificacion: this.calificacionComentario,
         img1: this.imgComentario1ToSave == this.imageFileDefault ? "" : this.imgComentario1ToSave,
         img2: this.imgComentario2ToSave == this.imageFileDefault ? "" : this.imgComentario2ToSave,
-        NombreCompleto: this.user.GivenName + this.user.FamilyName
+        NombreCompleto: this.user.GivenName + " " + this.user.FamilyName
       }
       let data = await this.syncService.GuardarComentarios(objComentarios)
         .then(()=>{
