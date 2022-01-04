@@ -43,7 +43,7 @@ export class GeneralService {
     private alertController: AlertController,
     private storage: StorageService) {
     this.storage.getIdioma("lang").then((obj) => {
-      this.currentLanguage = obj.value;
+      this.currentLanguage = obj.value == null ? "ESP" : obj.value;
     });
     this.storage.getIdioma("categoria").then((obj) => {
       this.categoriaActual = obj.value;
