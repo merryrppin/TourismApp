@@ -12,7 +12,6 @@ import { File } from '@ionic-native/file/ngx';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { ModalController } from '@ionic/angular';
 import { ModalPage } from 'src/app/shared/modal/modal.page'
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 
 @Component({
   selector: 'app-sitio-turistico',
@@ -50,8 +49,7 @@ export class SitioTuristicoPage {
     private file: File,
     public actionSheetController: ActionSheetController,
     private storage: StorageService,
-    public modalController: ModalController,
-    private screenOr: ScreenOrientation) {
+    public modalController: ModalController) {
     this.imgComentario1 = this.imageFileDefault;
     this.imgComentario2 = this.imageFileDefault;
     this.calificacionComentario = "5";
@@ -72,8 +70,8 @@ export class SitioTuristicoPage {
       this.itemData.Comentarios = this.itemData.Comentarios !== "" ? JSON.parse(this.itemData.Comentarios) : [];
       this.calValueInputGen = this.itemData.PromCalificacion.toString();
       this.itemData.Imagenes = this.itemData.Imagenes !== "" ? JSON.parse(this.itemData.Imagenes) : [];
-      this.screenOr.lock(this.screenOr.ORIENTATIONS.PORTRAIT);
-      this.loading.dismiss();
+      if(typeof this.loading !== 'undefined')
+        this.loading.dismiss();
     });
   }
 
@@ -250,19 +248,4 @@ export class SitioTuristicoPage {
   prev() {
     this.slides.slidePrev();
   }
-
-  // async openViewer(url :string) {
-  //   const modal = await this.modalController.create({
-  //     component: ViewerModalComponent,
-  //     componentProps: {
-  //       src: url
-  //     },
-  //     cssClass: 'ion-img-viewer',
-  //     keyboardClose: true,
-  //     showBackdrop: true
-  //   });
-
-  //   return await modal.present();
-  // }
-
 }
