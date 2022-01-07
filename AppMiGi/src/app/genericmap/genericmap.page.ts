@@ -183,6 +183,7 @@ export class GenericmapPage implements OnInit {
   }
 
   async ObtenerPuntosSenderismo(IdSitioTuristico: number) {
+    await this.openLoading();
     let objPuntosSenderismo = await this.syncService.ObtenerPuntosSenderismo(IdSitioTuristico);
     this.drawRouteHiking(objPuntosSenderismo);
     this.loading.dismiss();
@@ -207,7 +208,8 @@ export class GenericmapPage implements OnInit {
     this.loading.dismiss();
   }
 
-  ObtenerRuta(itemData: any) {
+  async ObtenerRuta(itemData: any) {
+    await this.openLoading();
     let destinationDirection: string = itemData.Latitud + ', ' + itemData.Longitud;
     let originDirection: string = this.currentPosition.lat() + ', ' + this.currentPosition.lng();
     this.calculateAndDisplayRoute(originDirection, destinationDirection);
