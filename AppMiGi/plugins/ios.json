@@ -7,11 +7,13 @@
     "files": {}
   },
   "installed_plugins": {
+    "cordova-plugin-androidx": {
+      "PACKAGE_NAME": "io.ionic.appmigi"
+    },
     "cordova-plugin-androidx-adapter": {
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
     "cordova-plugin-camera": {
-      "ANDROID_SUPPORT_V4_VERSION": "27.+",
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
     "cordova-plugin-device": {
@@ -38,21 +40,20 @@
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
     "cordova-plugin-googleplus": {
-      "PLAY_SERVICES_VERSION": "15.0.1",
+      "REVERSED_CLIENT_ID": "193003617596-1nm994b44qiso0h1e6i1m7anmap40j72.apps.googleusercontent.com",
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
     "cordova-plugin-ionic-keyboard": {
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
     "cordova-plugin-ionic-webview": {
-      "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+",
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
     "cordova-plugin-nativegeocoder": {
+      "LOCATION_WHEN_IN_USE_DESCRIPTION": "Use geocoder service",
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
     "cordova-plugin-request-location-accuracy": {
-      "PLAY_SERVICES_LOCATION_VERSION": "16.+",
       "PACKAGE_NAME": "io.ionic.appmigi"
     },
     "cordova-plugin-screen-orientation": {
