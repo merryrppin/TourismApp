@@ -34,7 +34,7 @@ export class ModalPage implements OnInit   {
         clickable: true,
         renderBullet: function (index, className) {
           let buttonnext = "";
-          return '<span class="' + className + '">' + (index + 1) + '</span>' + buttonnext;
+          return '<span class="' + className + '"></span>' + buttonnext;
         },
       }
     };

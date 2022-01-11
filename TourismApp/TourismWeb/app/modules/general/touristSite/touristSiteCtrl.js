@@ -33,6 +33,12 @@ function touristSiteController($scope, UserService, $rootScope, $window, $filter
     ctrl.showHeking = false;
 
     ctrl.getFiles = function (file) {
+
+        if (file.length > 50) {
+            toastr.warning("Solo esta permitido subir 50 imagenes al tiempo!");
+            return;
+        }
+
         if (ctrl.IdSitioTuristico != null && ctrl.IdSitioTuristico != '' && ctrl.IdSitioTuristico != undefined) {
             angular.forEach(file, function (value, key) {
                 const renamedFile = new File([value], `${ctrl.IdSitioTuristico}_${value.name}`);

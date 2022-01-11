@@ -11,14 +11,13 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { StorageService } from 'src/app/core/services/storage/storage.service';
 import { ModalController } from '@ionic/angular';
-import {ModalPage} from  'src/app/shared/modal/modal.page'
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { ModalPage } from 'src/app/shared/modal/modal.page'
 
 @Component({
   selector: 'app-sitio-turistico',
   templateUrl: './sitio-turistico.page.html',
   styleUrls: ['./sitio-turistico.page.scss'],
-  
+
 })
 export class SitioTuristicoPage {
   mainPredictionArray: { header: string; predictionImageURL: string; subject: string; }[];
@@ -39,7 +38,7 @@ export class SitioTuristicoPage {
   calificacionComentario: string;
   user: any;
   calValueInputGen: string = "";
-  items: string[] =  ["../../assets/img_catedral.jpg", "../../assets/img_senorcaido.jpg", "../../assets/img_procesion.jpg"]
+  items: string[] = ["../../assets/img_catedral.jpg", "../../assets/img_senorcaido.jpg", "../../assets/img_procesion.jpg"]
 
   constructor(private geolocation: Geolocation,
     private syncService: SyncService,
@@ -50,8 +49,7 @@ export class SitioTuristicoPage {
     private file: File,
     public actionSheetController: ActionSheetController,
     private storage: StorageService,
-    public modalController: ModalController ,
-    private screenOr: ScreenOrientation) {
+    public modalController: ModalController) {
     this.imgComentario1 = this.imageFileDefault;
     this.imgComentario2 = this.imageFileDefault;
     this.calificacionComentario = "5";
@@ -60,17 +58,21 @@ export class SitioTuristicoPage {
       this.IdSitioTuristico = params["IdSitioTuristico"];
       this.categoria = params["categoria"];
       this.itemData = generalService.getSitioTuristicoEmpty();
-      this.generalService.getDataPromise("sitiosTuristicos").then((res) => {
-        this.sitiosTuristicos = JSON.parse(res.value);
-        this.itemData = this.sitiosTuristicos.find(x => x.IdSitioTuristico == this.IdSitioTuristico);
-        this.itemData.Comentarios = this.itemData.Comentarios !== "" ? JSON.parse(this.itemData.Comentarios) : [];
-        this.calValueInputGen = this.itemData.PromCalificacion.toString();
-        this.itemData.Imagenes = this.itemData.Imagenes !== "" ? JSON.parse(this.itemData.Imagenes) : [];
-         this.screenOr.lock(this.screenOr.ORIENTATIONS.PORTRAIT);
-      });
+      this.loadSitioTuristico();
     });
-
     this.loadUserInfo();
+  }
+
+  loadSitioTuristico() {
+    this.generalService.getDataPromise("sitiosTuristicos").then((res) => {
+      this.sitiosTuristicos = JSON.parse(res.value);
+      this.itemData = this.sitiosTuristicos.find(x => x.IdSitioTuristico == this.IdSitioTuristico);
+      this.itemData.Comentarios = this.itemData.Comentarios !== "" ? JSON.parse(this.itemData.Comentarios) : [];
+      this.calValueInputGen = this.itemData.PromCalificacion.toString();
+      this.itemData.Imagenes = this.itemData.Imagenes !== "" ? JSON.parse(this.itemData.Imagenes) : [];
+      if(typeof this.loading !== 'undefined')
+        this.loading.dismiss();
+    });
   }
 
   @ViewChild(IonSlides) slides: IonSlides;
@@ -186,6 +188,16 @@ export class SitioTuristicoPage {
     }
   }
 
+  async reloadSitiosTuristicos() {
+    await this.openLoading();
+    this.generalService.getDataPromise("sitiosTuristicos").then(async (resp) => {
+      let data = '{"StoredParams":[{"Name":"IdMunicipio", "Value":"-1"}],"StoredProcedureName":"ObtenerSitiosTuristicos"}';
+      let result = await this.syncService.obtenerInformacionSP(data);
+      this.generalService.setDataPromise("sitiosTuristicos", JSON.stringify(result));
+      this.loadSitioTuristico();
+    });
+  }
+
   async enviarComentarios() {
     await this.openLoading();
     if (typeof this.user !== 'undefined' && this.user !== null) {
@@ -197,11 +209,13 @@ export class SitioTuristicoPage {
         Calificacion: this.calificacionComentario,
         img1: this.imgComentario1ToSave == this.imageFileDefault ? "" : this.imgComentario1ToSave,
         img2: this.imgComentario2ToSave == this.imageFileDefault ? "" : this.imgComentario2ToSave,
-        NombreCompleto: this.user.GivenName + this.user.FamilyName
+        NombreCompleto: this.user.GivenName + " " + this.user.FamilyName
       }
       let data = await this.syncService.GuardarComentarios(objComentarios)
-        .then(()=>{
+        .then(() => {
           this.generalService.showToastSuccess(this.lang === "ENG" ? "Thanks for your comments" : "Gracias por tus comentarios", 3500);
+          this.setHabilitarOpinion(false);
+          this.reloadSitiosTuristicos();
         })
         .catch((e) => {
           this.loading.dismiss();
@@ -214,17 +228,17 @@ export class SitioTuristicoPage {
     this.loading.dismiss();
   }
 
-  async abrirModal( index : number){
-    const  modal = await this.modalController.create({
+  async abrirModal(index: number) {
+    const modal = await this.modalController.create({
       component: ModalPage,
       componentProps: {
-        images:  this.itemData.Imagenes,
-        index : index
+        images: this.itemData.Imagenes,
+        index: index
       }
     });
 
     return await modal.present();
-    
+
   }
 
   next() {
@@ -234,19 +248,4 @@ export class SitioTuristicoPage {
   prev() {
     this.slides.slidePrev();
   }
-
-  // async openViewer(url :string) {
-  //   const modal = await this.modalController.create({
-  //     component: ViewerModalComponent,
-  //     componentProps: {
-  //       src: url
-  //     },
-  //     cssClass: 'ion-img-viewer',
-  //     keyboardClose: true,
-  //     showBackdrop: true
-  //   });
- 
-  //   return await modal.present();
-  // }
-
 }

@@ -109,6 +109,11 @@ namespace TourismApp.Controllers
         {
             try
             {
+                if (files.Count > 50)
+                {
+                    throw new Exception("Solo esta permitido subir 50 imagenes al tiempo");
+                }
+
                 string myDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
                 string pathTourismWeb = System.IO.Path.Combine(myDir, "wwwroot/TourismWeb");
                 string pathTourismeApp = System.IO.Path.Combine(myDir, "wwwroot/TourismApp");

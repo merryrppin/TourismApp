@@ -93,8 +93,10 @@ export class PerfilPage implements OnInit {
         objThis.goToLoginPage();
       })
       .catch(function (err) {
+        // objThis.showErrorMessage(err);
+        objThis.storage.setUser("User", null);
         objThis.loading.dismiss();
-        objThis.showErrorMessage(err);
+        objThis.goToLoginPage();
       })
   }
 
@@ -111,8 +113,10 @@ export class PerfilPage implements OnInit {
         objThis.goToLoginPage();
       })
       .catch(function (err) {
+        // objThis.showErrorMessage(err);
+        objThis.storage.setUser("User", null);
         objThis.loading.dismiss();
-        objThis.showErrorMessage(err);
+        objThis.goToLoginPage();
       })
   }
 

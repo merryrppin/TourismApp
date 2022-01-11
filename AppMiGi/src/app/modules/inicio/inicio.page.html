@@ -2,8 +2,8 @@
   <ion-toolbar>
     <ion-grid>
       <ion-row>
-        <ion-col size="6"><img class="logosAlcaldiaHeader" src="../../../assets/splashscreen/logoapp.svg" /></ion-col>
-        <ion-col size="4"><img class="logosAlcaldiaHeader" src="../../../assets/splashscreen/LogosAlcaldia.svg" /></ion-col>
+        <ion-col size="5"><img class="logosAlcaldiaHeader" src="../../../assets/splashscreen/logoapp.svg" /></ion-col>
+        <ion-col size="5"><img class="logosAlcaldiaHeader" src="../../../assets/splashscreen/LogosAlcaldia.svg" /></ion-col>
         <ion-col size="2"><ion-button (click)="cambiarIdioma()" class="btnLang btnLangHome">{{lang}}</ion-button></ion-col>      </ion-row>
     </ion-grid>    
   </ion-toolbar>
@@ -41,14 +41,10 @@
 
 
   <ion-toolbar *ngIf="visible" >
-   
     <ion-row style="background:  rgba(255, 0, 0, 0); ">
-
       <ion-col sizeLg="4">
         <ion-card class="cardMenu"  (click)="getMenu('DEF')">
-         
           <ion-card-content class="homeSubtitle">
-            
            <ion-icon src="../../assets/icon_informacion.svg"></ion-icon>                
            <p class="homeSubtitle pMargins">
             <ion-label>{{lang==="ENG" ? "General" : "Información"}} </ion-label>         
@@ -56,11 +52,8 @@
            <p class="homeSubtitle pMargins">
             <ion-label>{{lang==="ENG" ? "Information" : "General"}} </ion-label>  
            </p>   
-            
           </ion-card-content>
-        
         </ion-card>
-
       </ion-col>
 
       
