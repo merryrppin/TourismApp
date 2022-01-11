@@ -60,7 +60,8 @@ export class LoginPage {
       'offline': true
     })
       .then((user) => {
-        let usuarioApp: UsuarioApp = this.createUserObject(user.idToken, user.givenName, user.familyName, user.imageUrl, user.email, 'google');
+        let imageUrlResized : string = user.imageUrl.toString().replace("=s96-c", "=s450-c");
+        let usuarioApp: UsuarioApp = this.createUserObject(user.idToken, user.givenName, user.familyName, imageUrlResized, user.email, 'google');
         this.saveLogin(usuarioApp);
       })
       .catch((err) => {
