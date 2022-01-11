@@ -59,9 +59,10 @@ export class LoginPage {
       'webClientId': CONSTANTS.webClientId,
       'offline': true
     }).then((user) => {
-        let usuarioApp: UsuarioApp = this.createUserObject(user.idToken, user.givenName, user.familyName, user.imageUrl, user.email, 'google');
-        this.saveLogin(usuarioApp);
-      })
+      let imageUrlResized: string = user.imageUrl.toString().replace("=s96-c", "=s450-c");
+      let usuarioApp: UsuarioApp = this.createUserObject(user.idToken, user.givenName, user.familyName, imageUrlResized, user.email, 'google');
+      this.saveLogin(usuarioApp);
+    })
       .catch((err) => {
         this.generalService.showToastError(err, 3500);
         this.loading.dismiss();
@@ -93,15 +94,15 @@ export class LoginPage {
       var objThis = this;
       if (res.status === 'connected') {
         this.fb.api("me?fields=id,name,email,picture.width(500).height(500)", ["public_profile", "email"])
-              .then(function (user) {
-                let usuarioApp: UsuarioApp = objThis.createUserObject(user.id, user.name, "", user.picture.data.url, user.email, 'facebook');
-                objThis.saveLogin(usuarioApp);
-              })
-              .catch(function (err) {
-                objThis.generalService.showToastError(err, 3500);
-                if (typeof objThis.loading !== 'undefined')
-                objThis.loading.dismiss();
-              });
+          .then(function (user) {
+            let usuarioApp: UsuarioApp = objThis.createUserObject(user.id, user.name, "", user.picture.data.url, user.email, 'facebook');
+            objThis.saveLogin(usuarioApp);
+          })
+          .catch(function (err) {
+            objThis.generalService.showToastError(err, 3500);
+            if (typeof objThis.loading !== 'undefined')
+              objThis.loading.dismiss();
+          });
       } else {
         this.fb.login(['public_profile', 'user_friends', 'email'])
           .then((res: FacebookLoginResponse) => {
