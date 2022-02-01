@@ -7,6 +7,7 @@ import { NavController } from '@ionic/angular';
 import { SyncService } from '../core/sync/sync.service';
 import { GeneralService } from '../core/General/general.service';
 import { CONSTANTS } from '../core/services/constants';
+import { SignInWithApple, ASAuthorizationAppleIDRequest, AppleSignInResponse, AppleSignInErrorResponse } from "@ionic-native/sign-in-with-apple/ngx";
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,8 @@ export class LoginPage {
     private navController: NavController,
     private googlePlus: GooglePlus,
     private fb: Facebook,
-    private storage: StorageService) {
+    private storage: StorageService,
+    private signInWithApple: SignInWithApple) {
     this.loadUser("");
     this.lang = this.generalService.getCurrentLanguage();
     this.storage.setData("sitiosTuristicos", null);
@@ -127,6 +129,25 @@ export class LoginPage {
       }
     });
 
+  }
+
+  loginApple() {
+    this.signInWithApple
+      .signin({
+        requestedScopes: [
+          ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
+          ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail,
+        ]
+      })
+      .then((res: AppleSignInResponse) => {
+
+        let usuarioApp: UsuarioApp = this.createUserObject(res.identityToken, res.fullName.givenName, res.fullName.familyName, "", res.email, 'apple');
+        this.saveLogin(usuarioApp);
+      })
+      .catch((error: AppleSignInErrorResponse) => {
+        this.generalService.showToastError(error.code + ": " + error.error, 3500);
+        this.loading.dismiss();
+      });
   }
 
   goToHomePage() {

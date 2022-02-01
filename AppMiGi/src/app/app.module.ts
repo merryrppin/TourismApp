@@ -21,6 +21,7 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { Camera } from '@ionic-native/camera/ngx'
 import { File } from '@ionic-native/file/ngx'
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { SignInWithApple } from "@ionic-native/sign-in-with-apple/ngx";
 
 
 
@@ -28,7 +29,7 @@ import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/n
   declarations: [AppComponent],
   entryComponents: [],
   imports: [HttpClientModule, BrowserModule, BrowserAnimationsModule, IonicModule.forRoot(), AppRoutingModule, IonicModule],
-  providers: [GooglePlus, Facebook, Geolocation, NativeGeocoder, LocationAccuracy, Camera, File, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, NavParams,ScreenOrientation],
+  providers: [GooglePlus, Facebook, Geolocation, NativeGeocoder, LocationAccuracy, Camera, File, SignInWithApple, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, NavParams,ScreenOrientation],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
