@@ -222,7 +222,7 @@ export class SitioTuristicoPage {
           this.generalService.showToastError(e.message, 3500);
         });
     } else {
-      let message = this.lang === "ENG" ? "There was a problem obtaining the user information, please try again later." : "Hubo un problema al obtener la información del usuario. Vuelva a intentarlo más tarde.";
+      let message = this.lang === "ENG" ? "To send comments you need to be loged." : "Para enviar comentarios necesitas estar registrado.";
       this.generalService.showToastError(message, 3500);
     }
     this.loading.dismiss();

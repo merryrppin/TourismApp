@@ -6,6 +6,7 @@ import { StorageService } from '../../core/services/storage/storage.service';
 import { GeneralService } from 'src/app/core/General/general.service';
 import { NavController } from '@ionic/angular';
 import { SyncService } from '../../core/sync/sync.service';
+import { SignInWithApple, ASAuthorizationAppleIDRequest, AppleSignInResponse, AppleSignInErrorResponse } from "@ionic-native/sign-in-with-apple/ngx";
 
 @Component({
   selector: 'app-perfil',
@@ -23,7 +24,8 @@ export class PerfilPage implements OnInit {
     private googlePlus: GooglePlus,
     private fb: Facebook,
     private navController: NavController,
-    private storage: StorageService) { }
+    private storage: StorageService,
+    private signInWithApple: SignInWithApple) { }
 
   ngOnInit() {
     this.emptyUser();    
@@ -50,7 +52,7 @@ export class PerfilPage implements OnInit {
       }
     } else {
       this.emptyUser();
-      this.goToLoginPage();
+      //this.goToLoginPage();
     }
   }
 
@@ -60,12 +62,15 @@ export class PerfilPage implements OnInit {
   }
 
   async cerrarSesion() {
-    await this.openLoading();
     if (typeof this.user !== 'undefined' && this.user !== null) {
       if (this.user.LoginType == "google") {
+        await this.openLoading();
         this.logoutGoogle();
       } else if (this.user.LoginType == "facebook") {
+        await this.openLoading();
         this.logoutFacebook();
+      } else if (this.user.LoginType == "apple") {
+        this.logoutApple();
       } else {
         this.storage.setUser("User", null);
         this.goToLoginPage();
@@ -118,6 +123,13 @@ export class PerfilPage implements OnInit {
         objThis.loading.dismiss();
         objThis.goToLoginPage();
       })
+  }
+
+
+  logoutApple() {
+    this.storage.setUser("User", null);
+    this.loading.dismiss();
+    this.goToLoginPage();
   }
 
   goToLoginPage() {

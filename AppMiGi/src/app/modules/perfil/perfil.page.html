@@ -22,6 +22,8 @@
       <h3 class="name">{{user.GivenName}} {{user.FamilyName}}</h3>
       <h5 class="email">{{user.Email}}</h5>
     </div>
-    <ion-button (click)="cerrarSesion()" expand="block" color="danger">{{this.lang == 'ENG' ? "LOGOUT" : "CERRAR SESIÓN"}}</ion-button>
+    
+    <ion-button *ngIf="user.LoginType == ''" (click)="cerrarSesion()" expand="block" color="danger">{{this.lang == 'ENG' ? "Back to login to log in" : "Volver al login para iniciar sesión"}}</ion-button>
+    <ion-button *ngIf="user.LoginType != ''" (click)="cerrarSesion()" expand="block" color="danger">{{this.lang == 'ENG' ? "LOGOUT" : "CERRAR SESIÓN"}}</ion-button>
   </div>
 <ion-content>
