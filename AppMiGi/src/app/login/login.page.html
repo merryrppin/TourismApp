@@ -10,10 +10,10 @@
         <ion-button (click)="loginGoogle()" expand="block" color="danger">Google</ion-button>
         <ion-button (click)="loginFacebook()" expand="block" color="primary">Facebook</ion-button>
 
-        <!-- <ion-button (click)="loginApple()" color="light" expand="full" class="apple-login">
+        <ion-button (click)="loginApple()" color="light" expand="full" class="apple-login">
           <ion-icon expand="full" name="logo-apple" slot="start"></ion-icon>
-          Apple
-        </ion-button> -->
+          {{lang == 'ENG' ? 'Continue with Apple' : 'Continuar con Apple'}}
+        </ion-button>
 
         <!-- <ion-button (click)="goToHomePage()" color="warning">):< Obligame prro</ion-button> -->
       </ion-col>
